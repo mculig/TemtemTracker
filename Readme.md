@@ -16,15 +16,21 @@ For the application to work you **MUST** be running Temtem in fullscreen mode an
 ## Controls
 
 * Exit: X on application window
-* Reset timer: F8 
+* Reset table and timer: F8 
 
 ## Releases
 
-[TemtemTracker V1](https://github.com/mculig/TemtemTracker/releases/download/v1.0/TemtemTracker_v1.rar)
+[TemtemTracker V1.1](https://github.com/mculig/TemtemTracker/releases/download/v1.1/TemtemTracker_v1.1.rar)
+
+## Update notes
+
+# V1.1
+
+- Added support for different resolutions with different detection spots in the config file
 
 ## How it works
 
-The application relies on several dots to identify in-combat and out-of-combat situations, and 2 frames to identify Temtem names using OCR. These dots and frames can be seen on the following 2 images:
+The application relies on several dots to identify in-combat and out-of-combat situations, and 2 Frames to identify Temtem names using OCR. These dots and frames can be seen on the following 2 images:
 
 ![OCR Frames and Sampling dots](https://github.com/mculig/TemtemTracker/blob/master/Images/OCR%20Frames%20and%20Sampling%20Dots.png)
 
