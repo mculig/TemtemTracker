@@ -24,7 +24,7 @@ For the application to work you **MUST** be running Temtem in fullscreen mode an
 
 ## Update notes
 
-# V1.1
+### V1.1
 
 - Added support for different resolutions with different detection spots in the config file
 
