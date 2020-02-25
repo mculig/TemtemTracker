@@ -9,6 +9,10 @@ The tracker:
 * **DOES NOT** automate any part of gameplay
 * **DOES NOT** do anything a player couldn't do themselves using pen and paper
 
+## Important notes
+
+For the application to work you **MUST** be running Temtem in fullscreen mode and you **MUST NOT** obstruct any of the interface elements used for detection (Spots 1-6 in images below) OR OCR (Frames 1 and 2 in images below)
+
 ## Controls
 
 * Exit: X on application window
