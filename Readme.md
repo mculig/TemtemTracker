@@ -6,6 +6,19 @@ The tracker:
 * **DOES NOT** read Temtem memory. 
 * **DOES NOT** intercept any Client-Server communication. 
 * **DOES NOT** send any requests of its own to any server.
+* **DOES NOT** automate any part of gameplay
+* **DOES NOT** do anything a player couldn't do themselves using pen and paper
+
+## Controls
+
+* Exit: X on application window
+* Reset timer: F8 
+
+## Releases
+
+[TemtemTracker V1](https://github.com/mculig/TemtemTracker/releases/download/v1.0/TemtemTracker_v1.rar)
+
+## How it works
 
 The application relies on several dots to identify in-combat and out-of-combat situations, and 2 Frames to identify Temtem names using OCR. These dots and frames can be seen on the following 2 images:
 
@@ -44,10 +57,5 @@ The Luma chance is based on the lumaChance value in TemtemTracker/config/config.
 The Window dimensions are saved upon exiting the application and can be found in TemtemTracker/config/userSettings.json
 
 Finally, in order to clean up any artifacts in the OCR output, a string comparison operation is executed using the Temtem names found in TemtemTracker/config/temtemSpecies.json. This will need to be updated with new species when their names are released in order to keep the application reliable.
-
-** Controls
-
-To exit the application simply press X on the Window
-To reset the timer and table press F8 
 
 
