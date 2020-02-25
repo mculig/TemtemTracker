@@ -24,7 +24,7 @@ For the application to work you **MUST** be running Temtem in fullscreen mode an
 
 ## How it works
 
-The application relies on several dots to identify in-combat and out-of-combat situations, and 2 Frames to identify Temtem names using OCR. These dots and frames can be seen on the following 2 images:
+The application relies on several dots to identify in-combat and out-of-combat situations, and 2 frames to identify Temtem names using OCR. These dots and frames can be seen on the following 2 images:
 
 ![OCR Frames and Sampling dots](https://github.com/mculig/TemtemTracker/blob/master/Images/OCR%20Frames%20and%20Sampling%20Dots.png)
 
