@@ -4,6 +4,7 @@ import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TimerTask;
@@ -11,6 +12,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import OCR.OCR;
 import config.Config;
+import config.ConfigLoader;
+import config.ScreenConfig;
 import temtemTable.TemtemTable;
 
 public class DetectorLoop extends TimerTask{
@@ -75,28 +78,32 @@ public class DetectorLoop extends TimerTask{
 		
 		this.config = config;
 		
-		this.spot1WidthPercentage = config.spot1WidthPercentage;
-		this.spot1HeightPercentage = config.spot1HeightPercentage;
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		ScreenConfig screenConfig = ConfigLoader.getConfigForScreenResolution(config.aspectRatios, screenSize);
+		
+		this.spot1WidthPercentage = screenConfig.spot1WidthPercentage;
+		this.spot1HeightPercentage = screenConfig.spot1HeightPercentage;
 		this.spot1RGB = Long.decode(config.spot1RGB);
 		
-		this.spot2WidthPercentage = config.spot2WidthPercentage;
-		this.spot2HeightPercentage = config.spot2HeightPercentage;
+		this.spot2WidthPercentage = screenConfig.spot2WidthPercentage;
+		this.spot2HeightPercentage = screenConfig.spot2HeightPercentage;
 		this.spot2RGB = Long.decode(config.spot2RGB);
 		
-		this.spot3WidthPercentage = config.spot3WidthPercentage;
-		this.spot3HeightPercentage = config.spot3HeightPercentage;
+		this.spot3WidthPercentage = screenConfig.spot3WidthPercentage;
+		this.spot3HeightPercentage = screenConfig.spot3HeightPercentage;
 		this.spot3RGB = Long.decode(config.spot3RGB);
 		
-		this.spot4WidthPercentage = config.spot4WidthPercentage;
-		this.spot4HeightPercentage = config.spot4HeightPercentage;
+		this.spot4WidthPercentage = screenConfig.spot4WidthPercentage;
+		this.spot4HeightPercentage = screenConfig.spot4HeightPercentage;
 		this.spot4RGB = Long.decode(config.spot4RGB);
 		
-		this.spot5WidthPercentage = config.spot5WidthPercentage;
-		this.spot5HeightPercentage = config.spot5HeightPercentage;
+		this.spot5WidthPercentage = screenConfig.spot5WidthPercentage;
+		this.spot5HeightPercentage = screenConfig.spot5HeightPercentage;
 		this.spot5RGB = Long.decode(config.spot5RGB);
 		
-		this.spot6WidthPercentage = config.spot6WidthPercentage;
-		this.spot6HeightPercentage = config.spot6HeightPercentage;
+		this.spot6WidthPercentage = screenConfig.spot6WidthPercentage;
+		this.spot6HeightPercentage = screenConfig.spot6HeightPercentage;
 		this.spot6RGB = Long.decode(config.spot6RGB);
 		
 		this.maxAllowedColorDistance = config.maxAllowedColorDistance;

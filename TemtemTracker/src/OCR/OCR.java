@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import config.Config;
+import config.ConfigLoader;
+import config.ScreenConfig;
 import config.Species;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -38,14 +40,17 @@ public class OCR{
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
-		this.frame1PercentageLeft = config.frame1PercentageLeft;
-		this.frame1PercentageTop = config.frame1PercentageTop;
+		ScreenConfig screenConfig = ConfigLoader.getConfigForScreenResolution(config.aspectRatios, screenSize);
 		
-		this.frame2PercentageLeft = config.frame2PercentageLeft;
-		this.frame2PercentageTop = config.frame2PercentageTop;
 		
-		this.frameWidthPercentage = config.frameWidthPercentage;
-		this.frameHeightPercentage = config.frameHeightPercentage;
+		this.frame1PercentageLeft = screenConfig.frame1PercentageLeft;
+		this.frame1PercentageTop = screenConfig.frame1PercentageTop;
+		
+		this.frame2PercentageLeft = screenConfig.frame2PercentageLeft;
+		this.frame2PercentageTop = screenConfig.frame2PercentageTop;
+		
+		this.frameWidthPercentage = screenConfig.frameWidthPercentage;
+		this.frameHeightPercentage = screenConfig.frameHeightPercentage;
 		
 		Dimension frameSize = new Dimension((int) Math.ceil(screenSize.getWidth() * frameWidthPercentage), (int) Math.ceil(screenSize.getHeight() * frameHeightPercentage));
 		Point frame1Location = new Point((int) Math.ceil(screenSize.getWidth() * frame1PercentageLeft), (int) Math.ceil(screenSize.getHeight() * frame1PercentageTop));

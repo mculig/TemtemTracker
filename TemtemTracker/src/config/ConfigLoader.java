@@ -1,8 +1,10 @@
 package config;
 
+import java.awt.Dimension;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -68,6 +70,22 @@ public class ConfigLoader {
 	
 	public UserSettings getUserSettings() {
 		return this.userSettings;
+	}
+	
+	public static ScreenConfig getConfigForScreenResolution(ArrayList<ScreenConfig> screenConfigs, Dimension screenSize) {
+		double aspectRatio = screenSize.getWidth()/(double)screenSize.getHeight();
+		//Default to 1st config if none is found
+		ScreenConfig result = screenConfigs.get(0);
+		for(ScreenConfig conf : screenConfigs) {
+			String[] dimensionsString = conf.aspectRatio.split(":");
+			double confRatio = Integer.parseInt(dimensionsString[0]) / (double)Integer.parseInt(dimensionsString[1]);
+			if(aspectRatio==confRatio) {
+				result = conf;
+				break;
+			}
+		}
+		
+		return result;
 	}
 
 }
