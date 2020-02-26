@@ -20,13 +20,18 @@ For the application to work you **MUST** be running Temtem in fullscreen mode an
 
 ## Releases
 
-[TemtemTracker V1.1](https://github.com/mculig/TemtemTracker/releases/download/v1.1/TemtemTracker_v1.1.rar)
+[TemtemTracker V1.1](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
 
 ## Update notes
 
 ### V1.1
 
 - Added support for different resolutions with different detection spots in the config file
+
+### V1.2
+
+- Modifications to pre-OCR image cleanup code to take into account alpha channel on colors
+- This should fix the high false-detection rate in Omninesia
 
 ## How it works
 
