@@ -20,7 +20,7 @@ For the application to work you **MUST** be running Temtem in fullscreen mode an
 
 ## Releases
 
-[TemtemTracker V1.1](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
+[TemtemTracker V1.2](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
 
 ## Update notes
 
