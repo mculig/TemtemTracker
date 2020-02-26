@@ -21,9 +21,6 @@ public class OCR{
 	private Tesseract tesseract;
 	private String language = "eng";
 	
-	//Used for the purposes of cleaning up the screen capture image for OCR.
-	private int colorSimilarityTreshold=15;
-	
 	private ArrayList<Rectangle> OCRViewports;
 	Species speciesList;
 	
@@ -79,15 +76,16 @@ public class OCR{
 			for(BufferedImage textCap : textCaps) {
 				String text;
 				try {
-					//File outputFile = new File("screenCap" + System.currentTimeMillis() + ".jpg");
+					//File outputFile = new File("screenCap" + textCaps.indexOf(textCap) + ".jpg");
 					//ImageIO.write(textCap, "jpg", outputFile);
 					
 					processImage(textCap);
 					
-					//outputFile = new File("screenCap_postProc" + System.currentTimeMillis() + ".jpg");
+					//outputFile = new File("screenCap_postProc" + textCaps.indexOf(textCap) + ".jpg");
 					//ImageIO.write(textCap, "jpg", outputFile);
 					
 					text = tesseract.doOCR(textCap);
+					text = text.replaceAll("[^a-zA-Z]", ""); //Remove all characters not a-z or A-Z
 					if(text.length()<=3) {
 						//Don't do string comparison if the output is empty
 						continue;
@@ -97,7 +95,7 @@ public class OCR{
 					results.add(text);
 				} catch (TesseractException e) {
 					e.printStackTrace();
-				} 
+				}
 			}
 		} catch (AWTException e) {
 			e.printStackTrace();
@@ -112,19 +110,12 @@ public class OCR{
 		for(int i=0;i<imageWidth;i++) {
 			for(int j=0;j<imageHeight;j++) {
 				int pixel = inputImage.getRGB(i, j);
-				int red = (0xFF & (pixel>>16));
-				int green = (0xFF & (pixel>>8));
-				int blue = (0xFF & pixel);
 				
-				if(Math.abs(red-green)<=colorSimilarityTreshold 
-						&& Math.abs(green-blue)<=colorSimilarityTreshold
-						&& Math.abs(red-blue)<=colorSimilarityTreshold) {
-					//Invert color
-					inputImage.setRGB(i,j, (255-red)<<16 | (255-green)<<8 | (255-blue));
+				if(pixel!=0xFFFFFFFF) {
+					inputImage.setRGB(i, j, 0xFFFFFFFF);
 				}
 				else {
-					//Set color to white
-					inputImage.setRGB(i, j, 0xffffffff);
+					inputImage.setRGB(i, j, 0xff000000);
 				}
 			}
 		}
