@@ -72,7 +72,7 @@ public class ConfigLoader {
 		return this.userSettings;
 	}
 	
-	public static ScreenConfig getConfigForScreenResolution(ArrayList<ScreenConfig> screenConfigs, Dimension screenSize) {
+	public static ScreenConfig getConfigForAspectRatio(ArrayList<ScreenConfig> screenConfigs, Dimension screenSize) {
 		double aspectRatio = screenSize.getWidth()/(double)screenSize.getHeight();
 		//Default to 1st config if none is found
 		ScreenConfig result = screenConfigs.get(0);

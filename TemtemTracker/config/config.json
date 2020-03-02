@@ -1,5 +1,6 @@
 {
 	"lumaChance":0.000125,
+	"useJNAWindowCapture":true,
 	"spot1RGB":"0xFFFFA732",
 	"spot2RGB":"0xFF1BD1D4",
 	"spot3RGB":"0xFFFFA732",

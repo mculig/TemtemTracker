@@ -4,17 +4,19 @@ import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Robot;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 
 import OCR.OCR;
 import config.Config;
 import config.ConfigLoader;
 import config.ScreenConfig;
 import temtemTable.TemtemTable;
+import windowFinder.WindowFinder;
+
 
 public class DetectorLoop extends TimerTask{
 	
@@ -58,17 +60,15 @@ public class DetectorLoop extends TimerTask{
 	private double spot6HeightPercentage;
 	private long spot6RGB;
 	
+	//Used to check if the window size changed
+	Dimension gameWindowSize = new Dimension(0,0);
 	
 	//Maximum distance between the color I'm expecting and color from the screen
 	private int maxAllowedColorDistance ;
 	
-	public Rectangle detector1, detector2, detector3, detector4, detector5, detector6;
-	
 	Config config;
 	
 	private AtomicBoolean detectedBattle;
-	
-	private Robot robot;
 	
 	private TemtemTable table;
 	
@@ -78,45 +78,15 @@ public class DetectorLoop extends TimerTask{
 		
 		this.config = config;
 		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		
-		ScreenConfig screenConfig = ConfigLoader.getConfigForScreenResolution(config.aspectRatios, screenSize);
-		
-		this.spot1WidthPercentage = screenConfig.spot1WidthPercentage;
-		this.spot1HeightPercentage = screenConfig.spot1HeightPercentage;
 		this.spot1RGB = Long.decode(config.spot1RGB);
-		
-		this.spot2WidthPercentage = screenConfig.spot2WidthPercentage;
-		this.spot2HeightPercentage = screenConfig.spot2HeightPercentage;
 		this.spot2RGB = Long.decode(config.spot2RGB);
-		
-		this.spot3WidthPercentage = screenConfig.spot3WidthPercentage;
-		this.spot3HeightPercentage = screenConfig.spot3HeightPercentage;
 		this.spot3RGB = Long.decode(config.spot3RGB);
-		
-		this.spot4WidthPercentage = screenConfig.spot4WidthPercentage;
-		this.spot4HeightPercentage = screenConfig.spot4HeightPercentage;
 		this.spot4RGB = Long.decode(config.spot4RGB);
-		
-		this.spot5WidthPercentage = screenConfig.spot5WidthPercentage;
-		this.spot5HeightPercentage = screenConfig.spot5HeightPercentage;
 		this.spot5RGB = Long.decode(config.spot5RGB);
-		
-		this.spot6WidthPercentage = screenConfig.spot6WidthPercentage;
-		this.spot6HeightPercentage = screenConfig.spot6HeightPercentage;
 		this.spot6RGB = Long.decode(config.spot6RGB);
 		
 		this.maxAllowedColorDistance = config.maxAllowedColorDistance;
 		
-		//In-battle detection
-		detector1 = new Rectangle((int)Math.ceil(spot1WidthPercentage*size.width),(int)Math.ceil(spot1HeightPercentage*size.height),1,1);
-		detector2 = new Rectangle((int)Math.ceil(spot2WidthPercentage*size.width),(int)Math.ceil(spot2HeightPercentage*size.height),1,1);
-		detector3 = new Rectangle((int)Math.ceil(spot3WidthPercentage*size.width),(int)Math.ceil(spot3HeightPercentage*size.height),1,1);
-		detector4 = new Rectangle((int)Math.ceil(spot4WidthPercentage*size.width),(int)Math.ceil(spot4HeightPercentage*size.height),1,1);
-		
-		//Out-of-battle detection
-		detector5 = new Rectangle((int)Math.ceil(spot5WidthPercentage*size.width),(int)Math.ceil(spot5HeightPercentage*size.height),1,1);
-		detector6 = new Rectangle((int)Math.ceil(spot6WidthPercentage*size.width),(int)Math.ceil(spot6HeightPercentage*size.height),1,1);
 		
 		detectedBattle = new AtomicBoolean(false);
 		
@@ -125,21 +95,66 @@ public class DetectorLoop extends TimerTask{
 		this.table = table;
 	}
 
-
 	@Override
 	public void run() {
 		try {
-			robot = new Robot();
 			
+			Robot robot = new Robot();
+			Rectangle gameWindow = new Rectangle();
+			
+			//For loading the detection spots
+			ScreenConfig screenConfig;
+			
+			//Local game window size. Is compared to the one stored in the class instance to verify if the size changed
+			Dimension gameWindowSize;
+			
+			//The actual screenshot
+			BufferedImage screenShot;
+			
+			gameWindow = WindowFinder.findTemtemWindow(config);
+			if(gameWindow == null) {
+				//Failed to find window, return
+				return;
+			}
+			
+			gameWindowSize = new Dimension(gameWindow.width, gameWindow.height);
+			
+			if(gameWindowSize != this.gameWindowSize) {
+				this.gameWindowSize = gameWindowSize;
+				//We haven't found an aspect ratio yet, or the window aspect ratio changed
+				screenConfig = ConfigLoader.getConfigForAspectRatio(config.aspectRatios, gameWindowSize);
+				
+				this.spot1WidthPercentage = screenConfig.spot1WidthPercentage;
+				this.spot1HeightPercentage = screenConfig.spot1HeightPercentage;
+				
+				this.spot2WidthPercentage = screenConfig.spot2WidthPercentage;
+				this.spot2HeightPercentage = screenConfig.spot2HeightPercentage;
+				
+				this.spot3WidthPercentage = screenConfig.spot3WidthPercentage;
+				this.spot3HeightPercentage = screenConfig.spot3HeightPercentage;
+				
+				this.spot4WidthPercentage = screenConfig.spot4WidthPercentage;
+				this.spot4HeightPercentage = screenConfig.spot4HeightPercentage;
+				
+				this.spot5WidthPercentage = screenConfig.spot5WidthPercentage;
+				this.spot5HeightPercentage = screenConfig.spot5HeightPercentage;
+				
+				this.spot6WidthPercentage = screenConfig.spot6WidthPercentage;
+				this.spot6HeightPercentage = screenConfig.spot6HeightPercentage;
+			}
+			
+			//Take a screenshot of the actual window region
+			screenShot = robot.createScreenCapture(gameWindow);	
+		
 			//In-battle detection
-			BufferedImage pixel1 = robot.createScreenCapture(detector1);
-			BufferedImage pixel2 = robot.createScreenCapture(detector2);
-			BufferedImage pixel3 = robot.createScreenCapture(detector3);
-			BufferedImage pixel4 = robot.createScreenCapture(detector4);
+			BufferedImage pixel1 = screenShot.getSubimage((int)Math.ceil(spot1WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot1HeightPercentage*screenShot.getHeight()), 1, 1);
+			BufferedImage pixel2 = screenShot.getSubimage((int)Math.ceil(spot2WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot2HeightPercentage*screenShot.getHeight()), 1, 1);
+			BufferedImage pixel3 = screenShot.getSubimage((int)Math.ceil(spot3WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot3HeightPercentage*screenShot.getHeight()), 1, 1);
+			BufferedImage pixel4 = screenShot.getSubimage((int)Math.ceil(spot4WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot4HeightPercentage*screenShot.getHeight()), 1, 1);
 			
 			//Out-of-battle detection
-			BufferedImage pixel5 = robot.createScreenCapture(detector5);
-			BufferedImage pixel6 = robot.createScreenCapture(detector6);
+			BufferedImage pixel5 = screenShot.getSubimage((int)Math.ceil(spot5WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot5HeightPercentage*screenShot.getHeight()), 1, 1);
+			BufferedImage pixel6 = screenShot.getSubimage((int)Math.ceil(spot6WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot6HeightPercentage*screenShot.getHeight()), 1, 1);
 			
 			if(detectedBattle.get() == false &&
 			   colorDistance(pixel1.getRGB(0, 0), spot1RGB)<maxAllowedColorDistance &&
@@ -148,8 +163,8 @@ public class DetectorLoop extends TimerTask{
 			   colorDistance(pixel4.getRGB(0, 0), spot4RGB)<maxAllowedColorDistance) {
 					
 					detectedBattle.set(true);
-					//System.out.println("Detected battle!");
-					ArrayList<String> results = ocr.doOCR();
+					System.out.println("Detected battle!");
+					ArrayList<String> results = ocr.doOCR(config);
 					if(results.size()>0) {
 						results.forEach(result->{
 							table.addTemtem(result);
@@ -162,12 +177,12 @@ public class DetectorLoop extends TimerTask{
 					colorDistance(pixel6.getRGB(0, 0), spot6RGB)<maxAllowedColorDistance)
 			{
 				detectedBattle.set(false);
-				//System.out.println("Detected out-of-battle!");
+				System.out.println("Detected out-of-battle!");
 			}
 			
 		} catch (AWTException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	private int colorDistance(int rgb1, long rgb2) {
