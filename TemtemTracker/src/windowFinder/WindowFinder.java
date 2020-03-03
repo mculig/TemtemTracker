@@ -85,7 +85,6 @@ public class WindowFinder {
 		}
 		
 		if(gameWindow.x<0 || gameWindow.y<0) {
-			System.out.println("Game window outside of screen area!");
 			return null;
 		}
 		return gameWindow;

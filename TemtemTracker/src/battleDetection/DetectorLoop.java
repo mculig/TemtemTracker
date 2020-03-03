@@ -172,22 +172,23 @@ public class DetectorLoop extends TimerTask{
 			screenShot = screenShot.getSubimage(gameWindow.x, gameWindow.y, gameWindow.width, gameWindow.height);
 			
 			//In-battle detection
-			BufferedImage pixel1 = screenShot.getSubimage((int)Math.ceil(spot1WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot1HeightPercentage*screenShot.getHeight()), 1, 1);
-			BufferedImage pixel2 = screenShot.getSubimage((int)Math.ceil(spot2WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot2HeightPercentage*screenShot.getHeight()), 1, 1);
-			BufferedImage pixel3 = screenShot.getSubimage((int)Math.ceil(spot3WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot3HeightPercentage*screenShot.getHeight()), 1, 1);
-			BufferedImage pixel4 = screenShot.getSubimage((int)Math.ceil(spot4WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot4HeightPercentage*screenShot.getHeight()), 1, 1);
+			int pixel1RGB = screenShot.getRGB((int)Math.ceil(spot1WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot1HeightPercentage*screenShot.getHeight()));
+			int pixel2RGB = screenShot.getRGB((int)Math.ceil(spot2WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot2HeightPercentage*screenShot.getHeight()));
+			int pixel3RGB = screenShot.getRGB((int)Math.ceil(spot3WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot3HeightPercentage*screenShot.getHeight()));
+			int pixel4RGB = screenShot.getRGB((int)Math.ceil(spot4WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot4HeightPercentage*screenShot.getHeight()));
 			
 			//Out-of-battle detection
-			BufferedImage pixel5 = screenShot.getSubimage((int)Math.ceil(spot5WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot5HeightPercentage*screenShot.getHeight()), 1, 1);
-			BufferedImage pixel6 = screenShot.getSubimage((int)Math.ceil(spot6WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot6HeightPercentage*screenShot.getHeight()), 1, 1);
+			int pixel5RGB = screenShot.getRGB((int)Math.ceil(spot5WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot5HeightPercentage*screenShot.getHeight()));
+			int pixel6RGB = screenShot.getRGB((int)Math.ceil(spot6WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot6HeightPercentage*screenShot.getHeight()));
 			
 			if(detectedBattle.get() == false &&
-			   colorDistance(pixel1.getRGB(0, 0), spot1RGB)<maxAllowedColorDistance &&
-			   colorDistance(pixel2.getRGB(0, 0), spot2RGB)<maxAllowedColorDistance &&
-			   colorDistance(pixel3.getRGB(0, 0), spot3RGB)<maxAllowedColorDistance &&
-			   colorDistance(pixel4.getRGB(0, 0), spot4RGB)<maxAllowedColorDistance) {
+			   ((colorDistance(pixel1RGB, spot1RGB)<maxAllowedColorDistance &&
+			   colorDistance(pixel2RGB, spot2RGB)<maxAllowedColorDistance) ||
+			   (colorDistance(pixel3RGB, spot3RGB)<maxAllowedColorDistance &&
+			   colorDistance(pixel4RGB, spot4RGB)<maxAllowedColorDistance))) {
 					
 					detectedBattle.set(true);
+					System.out.println("Detected battle!");
 					ArrayList<String> results = ocr.doOCR(config);
 					if(results.size()>0) {
 						results.forEach(result->{
@@ -197,10 +198,11 @@ public class DetectorLoop extends TimerTask{
 					
 			}
 			else if(detectedBattle.get() == true &&
-					colorDistance(pixel5.getRGB(0, 0), spot5RGB)<maxAllowedColorDistance &&
-					colorDistance(pixel6.getRGB(0, 0), spot6RGB)<maxAllowedColorDistance)
+					colorDistance(pixel5RGB, spot5RGB)<maxAllowedColorDistance &&
+					colorDistance(pixel6RGB, spot6RGB)<maxAllowedColorDistance)
 			{
 				detectedBattle.set(false);
+				System.out.println("Detected out-of-battle!");
 			}
 			
 		} catch (AWTException e) {

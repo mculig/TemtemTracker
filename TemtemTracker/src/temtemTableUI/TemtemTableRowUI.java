@@ -60,7 +60,7 @@ public class TemtemTableRowUI extends JPanel{
 
 	
 	private String doublePercentageString(double percentage) {
-		return String.format("%.2f%%", percentage*100);
+		return String.format("%.2f%%", percentage);
 	}
 	
 	public void update() {
