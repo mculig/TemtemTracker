@@ -6,17 +6,14 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
-import huntingTimeTable.HuntingTable;
-import temtemTable.TemtemTable;
+import temtemTableUI.TemtemTableUI;
 
 public class GlobalKeyListener implements NativeKeyListener {
 	
-	TemtemTable table;
-	HuntingTable hTable;
+	TemtemTableUI table;
 	
-	public GlobalKeyListener(TemtemTable table, HuntingTable hTable){
+	public GlobalKeyListener(TemtemTableUI table){
 		this.table = table;
-		this.hTable = hTable;
 		Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
 		logger.setLevel(Level.WARNING);
 	}
@@ -25,9 +22,11 @@ public class GlobalKeyListener implements NativeKeyListener {
 	public void nativeKeyPressed(NativeKeyEvent e) {
 		int key = e.getKeyCode();
 		switch(key) {
-			case NativeKeyEvent.VC_F8:
+			case NativeKeyEvent.VC_F5:
 				table.resetTable();
-				hTable.restart();
+				break;
+			case NativeKeyEvent.VC_F8:
+				table.pauseTimer();
 				break;
 			default:
 				//Do nothing

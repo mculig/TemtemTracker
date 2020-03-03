@@ -129,7 +129,6 @@ public class OCR{
 						//Don't do string comparison if the output is empty
 						continue;
 					}
-					System.out.println("OCR reading: " + text);
 					text = StringSimilarityComparer.compare(text, speciesList.species);
 					results.add(text);
 				} catch (TesseractException e) {

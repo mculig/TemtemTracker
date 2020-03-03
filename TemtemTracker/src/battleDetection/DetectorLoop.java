@@ -19,7 +19,7 @@ import OCR.OCR;
 import config.Config;
 import config.ConfigLoader;
 import config.ScreenConfig;
-import temtemTable.TemtemTable;
+import temtemTableUI.TemtemTableUI;
 import windowFinder.WindowFinder;
 
 
@@ -75,11 +75,11 @@ public class DetectorLoop extends TimerTask{
 	
 	private AtomicBoolean detectedBattle;
 	
-	private TemtemTable table;
+	private TemtemTableUI table;
 	
 	OCR ocr;
 	
-	public DetectorLoop(Config config, Dimension size, OCR ocr, TemtemTable table) {
+	public DetectorLoop(Config config, Dimension size, OCR ocr, TemtemTableUI table) {
 		
 		this.config = config;
 		
