@@ -40,7 +40,7 @@ public class CounterWindow extends JFrame{
 		
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
-		Font tableFont = new Font("Serif", Font.BOLD, 30);
+		Font tableFont = new Font("Serif", Font.BOLD, 18);
 
 		
 		//Generate a table that shows our temtemTable

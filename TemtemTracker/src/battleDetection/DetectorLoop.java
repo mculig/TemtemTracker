@@ -2,13 +2,18 @@ package battleDetection;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.image.MultiResolutionImage;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 
 import OCR.OCR;
 import config.Config;
@@ -143,9 +148,29 @@ public class DetectorLoop extends TimerTask{
 				this.spot6HeightPercentage = screenConfig.spot6HeightPercentage;
 			}
 			
+			//Fullscreen screenshot as workaround for createMultiResolutionScreenCapture scaling the image wrong
+			Dimension fullScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			Rectangle fullScreen = new Rectangle(0,0,fullScreenSize.width,fullScreenSize.height);
+			
 			//Take a screenshot of the actual window region
-			screenShot = robot.createScreenCapture(gameWindow);	
-		
+			MultiResolutionImage mrScreenCap = robot.createMultiResolutionScreenCapture(fullScreen);
+			Image nativeResImage;
+			List<Image> resVariants = mrScreenCap.getResolutionVariants();
+			if(resVariants.size()>1) {
+				nativeResImage = resVariants.get(1);
+			}
+			else {
+				nativeResImage = resVariants.get(0);
+			}
+			//Convert the Image to a BufferedImage
+			screenShot = new BufferedImage(nativeResImage.getWidth(null), nativeResImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D bGr = screenShot.createGraphics();
+			bGr.drawImage(nativeResImage, 0, 0, null);
+			bGr.dispose();
+			
+			//Get the actual screenShot as a subimage
+			screenShot = screenShot.getSubimage(gameWindow.x, gameWindow.y, gameWindow.width, gameWindow.height);
+			
 			//In-battle detection
 			BufferedImage pixel1 = screenShot.getSubimage((int)Math.ceil(spot1WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot1HeightPercentage*screenShot.getHeight()), 1, 1);
 			BufferedImage pixel2 = screenShot.getSubimage((int)Math.ceil(spot2WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot2HeightPercentage*screenShot.getHeight()), 1, 1);
@@ -163,7 +188,6 @@ public class DetectorLoop extends TimerTask{
 			   colorDistance(pixel4.getRGB(0, 0), spot4RGB)<maxAllowedColorDistance) {
 					
 					detectedBattle.set(true);
-					System.out.println("Detected battle!");
 					ArrayList<String> results = ocr.doOCR(config);
 					if(results.size()>0) {
 						results.forEach(result->{
@@ -177,12 +201,11 @@ public class DetectorLoop extends TimerTask{
 					colorDistance(pixel6.getRGB(0, 0), spot6RGB)<maxAllowedColorDistance)
 			{
 				detectedBattle.set(false);
-				System.out.println("Detected out-of-battle!");
 			}
 			
 		} catch (AWTException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 	
 	private int colorDistance(int rgb1, long rgb2) {
@@ -200,7 +223,6 @@ public class DetectorLoop extends TimerTask{
 			   Math.max((int) Math.pow((g1-g2), 2), (int) Math.pow((g1-g2 - a1+a2),2)) +
 			   Math.max((int) Math.pow((b1-b2), 2), (int) Math.pow((b1-b2 - a1+a2),2));
 		
-		//System.out.println("Color distance: " + distance);
 		return distance;
 	}
 

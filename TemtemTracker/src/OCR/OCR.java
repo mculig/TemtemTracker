@@ -2,15 +2,16 @@ package OCR;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.MultiResolutionImage;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
+import java.util.List;
 
 import config.Config;
 import config.ConfigLoader;
@@ -92,19 +93,35 @@ public class OCR{
 		try {
 			Robot robot = new Robot();
 			ArrayList<BufferedImage> textCaps = new ArrayList<BufferedImage>();
+			
+			//Fullscreen screenshot as workaround for createMultiResolutionScreenCapture scaling the image wrong
+			Dimension fullScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			Rectangle fullScreen = new Rectangle(0,0,fullScreenSize.width,fullScreenSize.height);
+			
+			MultiResolutionImage mrScreenCap = robot.createMultiResolutionScreenCapture(fullScreen);
+			Image nativeResImage;
+			List<Image> resVariants = mrScreenCap.getResolutionVariants();
+			if(resVariants.size()>1) {
+				nativeResImage = resVariants.get(1);
+			}
+			else {
+				nativeResImage = resVariants.get(0);
+			}
+			
+			//Convert the Image to a BufferedImage
+			BufferedImage bImage = new BufferedImage(nativeResImage.getWidth(null), nativeResImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D bGr = bImage.createGraphics();
+			bGr.drawImage(nativeResImage, 0, 0, null);
+			bGr.dispose();
+			
 			for(Rectangle viewport: OCRViewports) {
-				textCaps.add(robot.createScreenCapture(viewport));
+				textCaps.add(bImage.getSubimage(viewport.x, viewport.y, viewport.width, viewport.height));			
 			}
 			for(BufferedImage textCap : textCaps) {
 				String text;
 				try {
-					File outputFile = new File("screenCap" + textCaps.indexOf(textCap) + ".jpg");
-					ImageIO.write(textCap, "jpg", outputFile);
 					
 					processImage(textCap);
-					
-					outputFile = new File("screenCap_postProc" + textCaps.indexOf(textCap) + ".jpg");
-					ImageIO.write(textCap, "jpg", outputFile);
 					
 					text = tesseract.doOCR(textCap);
 					text = text.replaceAll("[^a-zA-Z]", ""); //Remove all characters not a-z or A-Z
@@ -116,9 +133,6 @@ public class OCR{
 					text = StringSimilarityComparer.compare(text, speciesList.species);
 					results.add(text);
 				} catch (TesseractException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
