@@ -168,18 +168,21 @@ public class DetectorLoop extends TimerTask{
 			bGr.drawImage(nativeResImage, 0, 0, null);
 			bGr.dispose();
 			
-			//Get the actual screenShot as a subimage
-			screenShot = screenShot.getSubimage(gameWindow.x, gameWindow.y, gameWindow.width, gameWindow.height);
-			
 			//In-battle detection
-			int pixel1RGB = screenShot.getRGB((int)Math.ceil(spot1WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot1HeightPercentage*screenShot.getHeight()));
-			int pixel2RGB = screenShot.getRGB((int)Math.ceil(spot2WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot2HeightPercentage*screenShot.getHeight()));
-			int pixel3RGB = screenShot.getRGB((int)Math.ceil(spot3WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot3HeightPercentage*screenShot.getHeight()));
-			int pixel4RGB = screenShot.getRGB((int)Math.ceil(spot4WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot4HeightPercentage*screenShot.getHeight()));
+			int pixel1RGB = screenShot.getRGB(gameWindow.x + (int)Math.ceil(spot1WidthPercentage*gameWindow.width),
+					gameWindow.y + (int)Math.ceil(spot1HeightPercentage*gameWindow.height));
+			int pixel2RGB = screenShot.getRGB(gameWindow.x + (int)Math.ceil(spot2WidthPercentage*gameWindow.width), 
+					gameWindow.y + (int)Math.ceil(spot2HeightPercentage*gameWindow.height));
+			int pixel3RGB = screenShot.getRGB(gameWindow.x + (int)Math.ceil(spot3WidthPercentage*gameWindow.width), 
+					gameWindow.y + (int)Math.ceil(spot3HeightPercentage*gameWindow.height));
+			int pixel4RGB = screenShot.getRGB(gameWindow.x + (int)Math.ceil(spot4WidthPercentage*gameWindow.width), 
+					gameWindow.y + (int)Math.ceil(spot4HeightPercentage*gameWindow.height));
 			
 			//Out-of-battle detection
-			int pixel5RGB = screenShot.getRGB((int)Math.ceil(spot5WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot5HeightPercentage*screenShot.getHeight()));
-			int pixel6RGB = screenShot.getRGB((int)Math.ceil(spot6WidthPercentage*screenShot.getWidth()), (int)Math.ceil(spot6HeightPercentage*screenShot.getHeight()));
+			int pixel5RGB = screenShot.getRGB(gameWindow.x + (int)Math.ceil(spot5WidthPercentage*gameWindow.width), 
+					gameWindow.y + (int)Math.ceil(spot5HeightPercentage*gameWindow.height));
+			int pixel6RGB = screenShot.getRGB(gameWindow.x + (int)Math.ceil(spot6WidthPercentage*gameWindow.width), 
+					gameWindow.y + (int)Math.ceil(spot6HeightPercentage*gameWindow.height));
 			
 			if(detectedBattle.get() == false &&
 			   ((colorDistance(pixel1RGB, spot1RGB)<maxAllowedColorDistance &&
