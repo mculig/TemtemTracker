@@ -25,7 +25,7 @@ public class Main {
 		
 		ConfigLoader loader = new ConfigLoader();
 		
-		LumaChanceCalculator calculator = new LumaChanceCalculator(loader.getConfig().lumaChance);
+		LumaChanceCalculator calculator = new LumaChanceCalculator(loader.getUserSettings(), loader.getConfig().lumaChance);
 		
 		TableReader tableReader = new TableReader();
 		TemtemDataTable dataTable = tableReader.getTable();

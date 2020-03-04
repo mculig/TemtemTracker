@@ -48,7 +48,7 @@ public class HuntingTimerUI extends JPanel{
 		this.setMaximumSize(new Dimension(Integer.MAX_VALUE, maxHeight));
 		
 		JPanel titlePanel = new JPanel();
-		titlePanel.setLayout(new GridLayout(1,5));
+		titlePanel.setLayout(new GridLayout(1,6));
 		
 		titlePanel.add(timeTitleLabel);
 		titlePanel.add(temtemHTitleLabel);
@@ -56,12 +56,14 @@ public class HuntingTimerUI extends JPanel{
 		titlePanel.add(new JPanel());
 		titlePanel.add(new JPanel());
 		titlePanel.add(new JPanel());
+		titlePanel.add(new JPanel());
 		
 		JPanel dataPanel = new JPanel();
-		dataPanel.setLayout(new GridLayout(1,5));
+		dataPanel.setLayout(new GridLayout(1,6));
 		dataPanel.add(timeLabel);
 		dataPanel.add(temtemHLabel);
 		//Empty placeholder panels
+		dataPanel.add(new JPanel());
 		dataPanel.add(new JPanel());
 		dataPanel.add(new JPanel());
 		dataPanel.add(new JPanel());

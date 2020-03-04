@@ -8,6 +8,7 @@
 	"spot5RGB":"0xFF3CE8EA",
 	"spot6RGB":"0xFF3CE8EA",
 	"maxAllowedColorDistance":500,
+	"maxOCRSubpixelFFDistance":15,
 	"aspectRatios":[{
 		"aspectRatio":"16:9",
 		"spot1WidthPercentage":0.42,

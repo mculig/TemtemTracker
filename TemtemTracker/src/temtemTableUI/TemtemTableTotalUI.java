@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 import temtemTableData.TotalData;
 
 public class TemtemTableTotalUI extends JPanel {
@@ -22,6 +24,7 @@ public class TemtemTableTotalUI extends JPanel {
 	private JLabel encounters;
 	private JLabel chanceLuma;
 	private JLabel encounteredPercent;
+	private JLabel timeToLuma;
 
 	public TemtemTableTotalUI(TotalData total) {
 		
@@ -33,23 +36,26 @@ public class TemtemTableTotalUI extends JPanel {
 		encounters = new JLabel(total.encountered.toString(), JLabel.CENTER);
 		chanceLuma = new JLabel(doublePercentageString(total.lumaChance), JLabel.CENTER);
 		encounteredPercent = new JLabel(doublePercentageString(total.encounteredPercent), JLabel.CENTER);
-
-		this.setLayout(new GridLayout(1, 5));
+		timeToLuma = new JLabel(DurationFormatUtils.formatDuration(total.timeToLuma, "HH:mm:ss"),JLabel.CENTER);
+		
+		this.setLayout(new GridLayout(1, 6));
 
 		this.add(temtemName);
 		this.add(encounters);
 		this.add(chanceLuma);
 		this.add(encounteredPercent);
+		this.add(timeToLuma);
 		this.add(new JLabel());
 	}
 
 	private String doublePercentageString(double percentage) {
-		return String.format("%.2f%%", percentage*100);
+		return String.format("%.2f%%", percentage);
 	}
 	
 	public void update() {
 		encounters.setText(total.encountered.toString());
 		chanceLuma.setText(doublePercentageString(total.lumaChance));
+		timeToLuma.setText(DurationFormatUtils.formatDuration(total.timeToLuma, "HH:mm:ss"));
 		this.revalidate();
 		this.repaint();
 	}

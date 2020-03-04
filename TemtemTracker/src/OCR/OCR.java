@@ -1,17 +1,10 @@
 package OCR;
 
-import java.awt.AWTException;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.awt.image.MultiResolutionImage;
 import java.util.ArrayList;
-import java.util.List;
 
 import config.Config;
 import config.ConfigLoader;
@@ -19,7 +12,6 @@ import config.ScreenConfig;
 import config.Species;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
-import windowFinder.WindowFinder;
 
 public class OCR{
 
@@ -43,6 +35,9 @@ public class OCR{
 	//Used to check if the window size changed
 	Dimension gameWindowSize = new Dimension(0,0);
 	
+	//Maximum distance an R, G or B subpixel max be from FF, used to determine what is white for pre-OCR image cleanup
+	int maxOCRSubpixelFFDistance;
+	
 	public OCR(Config config, Species speciesList){
 				
 		
@@ -50,12 +45,12 @@ public class OCR{
 		tesseract = new Tesseract();
 		tesseract.setDatapath("./");
 		tesseract.setLanguage(language);
+		
+		this.maxOCRSubpixelFFDistance = config.maxOCRSubpixelFFDistance;
 	}
 	
 	//Does the actual OCR operation and puts the generated text in the label
-	public ArrayList<String> doOCR(Config config) {
-		
-		Rectangle gameWindow = WindowFinder.findTemtemWindow(config);
+	public ArrayList<String> doOCR(Config config, BufferedImage screenShot, Rectangle gameWindow) {
 		
 		Dimension gameWindowSize = new Dimension(gameWindow.width, gameWindow.height);
 		
@@ -90,53 +85,28 @@ public class OCR{
 		OCRViewports.add(new Rectangle(frame2Location, frameSize));
 		
 		ArrayList<String> results = new ArrayList<String>();
-		try {
-			Robot robot = new Robot();
-			ArrayList<BufferedImage> textCaps = new ArrayList<BufferedImage>();
-			
-			//Fullscreen screenshot as workaround for createMultiResolutionScreenCapture scaling the image wrong
-			Dimension fullScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			Rectangle fullScreen = new Rectangle(0,0,fullScreenSize.width,fullScreenSize.height);
-			
-			MultiResolutionImage mrScreenCap = robot.createMultiResolutionScreenCapture(fullScreen);
-			Image nativeResImage;
-			List<Image> resVariants = mrScreenCap.getResolutionVariants();
-			if(resVariants.size()>1) {
-				nativeResImage = resVariants.get(1);
-			}
-			else {
-				nativeResImage = resVariants.get(0);
-			}
-			
-			//Convert the Image to a BufferedImage
-			BufferedImage bImage = new BufferedImage(nativeResImage.getWidth(null), nativeResImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-			Graphics2D bGr = bImage.createGraphics();
-			bGr.drawImage(nativeResImage, 0, 0, null);
-			bGr.dispose();
-			
-			for(Rectangle viewport: OCRViewports) {
-				textCaps.add(bImage.getSubimage(viewport.x, viewport.y, viewport.width, viewport.height));			
-			}
-			for(BufferedImage textCap : textCaps) {
-				String text;
-				try {
-					
-					processImage(textCap);
-					
-					text = tesseract.doOCR(textCap);
-					text = text.replaceAll("[^a-zA-Z]", ""); //Remove all characters not a-z or A-Z
-					if(text.length()<=3) {
-						//Don't do string comparison if the output is empty
-						continue;
-					}
-					text = StringSimilarityComparer.compare(text, speciesList.species);
-					results.add(text);
-				} catch (TesseractException e) {
-					e.printStackTrace();
+		ArrayList<BufferedImage> textCaps = new ArrayList<BufferedImage>();
+		
+		for(Rectangle viewport: OCRViewports) {
+			textCaps.add(screenShot.getSubimage(viewport.x, viewport.y, viewport.width, viewport.height));			
+		}
+		for(BufferedImage textCap : textCaps) {
+			String text;
+			try {
+				
+				processImage(textCap);
+				
+				text = tesseract.doOCR(textCap);
+				text = text.replaceAll("[^a-zA-Z]", ""); //Remove all characters not a-z or A-Z
+				if(text.length()<=3) {
+					//Don't do string comparison if the output is empty
+					continue;
 				}
-			}
-		} catch (AWTException e) {
-			e.printStackTrace();
+				text = StringSimilarityComparer.compare(text, speciesList.species);
+				results.add(text);
+			} catch (TesseractException e) {
+				e.printStackTrace();
+			} 
 		}
 		return results;
 	}
@@ -149,14 +119,35 @@ public class OCR{
 			for(int j=0;j<imageHeight;j++) {
 				int pixel = inputImage.getRGB(i, j);
 				
-				if(pixel!=0xFFFFFFFF) {
-					inputImage.setRGB(i, j, 0xFFFFFFFF);
+				if(testPixel(pixel)) {
+					inputImage.setRGB(i, j, 0xFF000000);
 				}
 				else {
-					inputImage.setRGB(i, j, 0xff000000);
+					inputImage.setRGB(i, j, 0xFFFFFFFF);
 				}
 			}
 		}
+	}
+	
+	private boolean testPixel(int pixel) {
+		
+		//Test the pixel isn't transparent
+		if((pixel & 0xFF000000) != 0xFF000000) {
+			return false;
+		}
+		
+		//Test the maximum difference from 255 of a color
+		if((0xFF - (pixel >> 16 & 0xFF))>maxOCRSubpixelFFDistance) {
+			return false;
+		}
+		else if((0xFF - (pixel >> 8 & 0xFF))>maxOCRSubpixelFFDistance) {
+			return false;
+		}
+		else if((0xFF - (pixel & 0xFF))>maxOCRSubpixelFFDistance) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 }

@@ -9,6 +9,7 @@ import javax.swing.WindowConstants;
 
 import config.SettingsWriter;
 import config.UserSettings;
+import menuBar.MenuBar;
 import temtemTableUI.TemtemTableUI;
 
 public class CounterWindow extends JFrame{
@@ -28,13 +29,13 @@ public class CounterWindow extends JFrame{
 		this.setSize(settings.mainWindowWidth,settings.mainWindowHeight);
 		this.setVisible(true);
 		this.setAlwaysOnTop(true);
-		this.setTitle("Temtem tracker v1");
+		this.setTitle("Temtem tracker V2");
 		
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
 		this.tableUI = tableUI;
 		
-		this.menuBar = new MenuBar(tableUI);
+		this.menuBar = new MenuBar(tableUI, settings);
 		
 		this.setJMenuBar(menuBar);
 		this.add(this.tableUI);

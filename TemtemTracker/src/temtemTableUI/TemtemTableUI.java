@@ -50,9 +50,11 @@ public class TemtemTableUI extends JPanel {
 		// Calculate stuff
 		temtemTable.total.encountered++;
 		temtemTable.total.lumaChance = calculator.calculateChance(temtemTable.total.encountered);
+		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime);
 		targetRow.encountered++;
 		targetRow.lumaChance = calculator.calculateChance(targetRow.encountered);
 		targetRow.encounteredPercent = targetRow.encountered / (double) temtemTable.total.encountered;
+		targetRow.timeToLuma = calculator.getTimeToLuma(targetRow.encountered, temtemTable.timer.durationTime);
 		UIRows.get(targetRow).update();
 		total.update();
 		UIRows.forEach((tableRow, UIElement) -> {
@@ -155,6 +157,15 @@ public class TemtemTableUI extends JPanel {
 	
 	public TemtemDataTable getTable() {
 		return this.temtemTable;
+	}
+	
+	public void recalculateLumaTimes() {
+		for(TableDataRow dataRow : temtemTable.rows) {
+			dataRow.timeToLuma = calculator.getTimeToLuma(dataRow.encountered, temtemTable.timer.durationTime);
+			UIRows.get(dataRow).update();
+		}
+		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime);
+		total.update();
 	}
 
 }

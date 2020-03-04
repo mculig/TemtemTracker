@@ -191,8 +191,7 @@ public class DetectorLoop extends TimerTask{
 			   colorDistance(pixel4RGB, spot4RGB)<maxAllowedColorDistance))) {
 					
 					detectedBattle.set(true);
-					System.out.println("Detected battle!");
-					ArrayList<String> results = ocr.doOCR(config);
+					ArrayList<String> results = ocr.doOCR(config, screenShot, gameWindow);
 					if(results.size()>0) {
 						results.forEach(result->{
 							table.addTemtem(result);
@@ -205,7 +204,6 @@ public class DetectorLoop extends TimerTask{
 					colorDistance(pixel6RGB, spot6RGB)<maxAllowedColorDistance)
 			{
 				detectedBattle.set(false);
-				System.out.println("Detected out-of-battle!");
 			}
 			
 		} catch (AWTException e) {

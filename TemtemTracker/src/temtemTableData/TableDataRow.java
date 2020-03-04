@@ -6,5 +6,6 @@ public class TableDataRow {
 	public Integer encountered;
 	public double lumaChance;
 	public double encounteredPercent;
+	public long timeToLuma;
 
 }

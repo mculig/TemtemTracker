@@ -17,6 +17,8 @@ public class Config {
 	
 	// Maximum distance between the color I'm expecting and color from the screen
 	public int maxAllowedColorDistance;
+	// Maximum distance from FF an individual color subpixel may be when determining what is white for OCR
+	public int maxOCRSubpixelFFDistance;
 	
 	public ArrayList<ScreenConfig> aspectRatios;
 

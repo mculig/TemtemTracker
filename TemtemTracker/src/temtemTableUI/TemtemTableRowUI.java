@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 import temtemTableData.TableDataRow;
 
 public class TemtemTableRowUI extends JPanel{
@@ -25,6 +27,7 @@ public class TemtemTableRowUI extends JPanel{
 	private JLabel encounters;
 	private JLabel chanceLuma;
 	private JLabel encounteredPercent;
+	private JLabel timeToLuma;
 	private JButton deleteButton;
 	
 	public TemtemTableRowUI(TableDataRow row, TemtemTableUI tableUI) {
@@ -37,6 +40,7 @@ public class TemtemTableRowUI extends JPanel{
 		encounters = new JLabel(row.encountered.toString(), JLabel.CENTER);
 		chanceLuma = new JLabel(doublePercentageString(row.lumaChance), JLabel.CENTER);
 		encounteredPercent = new JLabel(doublePercentageString(row.encounteredPercent), JLabel.CENTER);
+		timeToLuma = new JLabel(DurationFormatUtils.formatDuration(row.timeToLuma, "HH:mm:ss"), JLabel.CENTER);
 		deleteButton = new JButton("-");
 
 		deleteButton.addActionListener(new ActionListener() {
@@ -48,12 +52,13 @@ public class TemtemTableRowUI extends JPanel{
 			
 		});
 		
-		this.setLayout(new GridLayout(1,5));
+		this.setLayout(new GridLayout(1,6));
 		
 		this.add(temtemName);
 		this.add(encounters);
 		this.add(chanceLuma);
 		this.add(encounteredPercent);
+		this.add(timeToLuma);
 		this.add(deleteButton);
 		
 	}
@@ -68,6 +73,7 @@ public class TemtemTableRowUI extends JPanel{
 		encounters.setText(row.encountered.toString());
 		chanceLuma.setText(doublePercentageString(row.lumaChance));
 		encounteredPercent.setText(doublePercentageString(row.encounteredPercent));
+		timeToLuma.setText(DurationFormatUtils.formatDuration(row.timeToLuma, "HH:mm:ss"));
 		this.revalidate();
 		this.repaint();
 	}

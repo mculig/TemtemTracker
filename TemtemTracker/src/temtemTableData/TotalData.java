@@ -6,5 +6,5 @@ public class TotalData {
 	public Integer encountered;
 	public double lumaChance;
 	public double encounteredPercent;
-
+	public long timeToLuma;
 }

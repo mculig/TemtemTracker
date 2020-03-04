@@ -1,4 +1,4 @@
-package window;
+package menuBar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,48 +10,14 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import temtemTableData.TableDataRow;
 import temtemTableData.TemtemDataTable;
-import temtemTableUI.TemtemTableUI;
 
-public class MenuBar extends JMenuBar{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -825909454996733736L;
-		
-	@SuppressWarnings("unused")
-	private TemtemTableUI tableUI;
-
-	public MenuBar(TemtemTableUI tableUI) {
-		
-		this.tableUI=tableUI;
-		
-		//Create the "File" menu button
-		JMenu fileMenu = new JMenu("File");
-		//Add "Export" to the "File" menu button
-		JMenuItem exportCSV = new JMenuItem("Export");
-		exportCSV.addActionListener(new CSVExport(tableUI.getTable()));
-		fileMenu.add(exportCSV);
-		
-		this.add(fileMenu);
-		
-		this.revalidate();
-		this.repaint();
-		
-	}
-	
-}
-
-class CSVExport implements ActionListener{
+public class CSVExport implements ActionListener{
 	
 	TemtemDataTable table;
 	
