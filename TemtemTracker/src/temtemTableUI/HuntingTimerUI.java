@@ -7,6 +7,8 @@ import java.util.Timer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 import temtemTableData.TimerData;
 
 
@@ -75,28 +77,22 @@ public class HuntingTimerUI extends JPanel{
 		refreshDisplay();
 	}
 	
-	private void refreshDisplay() {
-		
-		long minutes = ( timerData.durationTime / 1000 ) / 60;
-		long seconds = ( timerData.durationTime / 1000 ) % 60;
-		time = String.format("%02d:%02d", minutes, seconds);
-		
+	private void updateTimeDisplay() {
+		time = DurationFormatUtils.formatDuration(timerData.durationTime, "HH:mm:ss");
 		timeLabel.setText(time);
-		
+		this.revalidate();
+		this.repaint();
+	}
+	
+	private void refreshDisplay() {	
+		updateTimeDisplay();
 		updateCount();
 	}
 	
 	public void updateTime(){
 		
 		timerData.durationTime += 1000;
-		long minutes = ( timerData.durationTime / 1000 ) / 60;
-		long seconds = ( timerData.durationTime / 1000 ) % 60;
-		time = String.format("%02d:%02d", minutes, seconds);
-		
-		timeLabel.setText(time);
-		
-		this.revalidate();
-		this.repaint();
+		updateTimeDisplay();
 	}
 	
 	public void updateCount(int temtemCount) {
