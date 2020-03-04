@@ -1,8 +1,10 @@
 package temtemTableUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -39,6 +41,8 @@ public class TemtemTableTotalUI extends JPanel {
 		timeToLuma = new JLabel(DurationFormatUtils.formatDuration(total.timeToLuma, "HH:mm:ss"),JLabel.CENTER);
 		
 		this.setLayout(new GridLayout(1, 6));
+		
+		this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
 
 		this.add(temtemName);
 		this.add(encounters);

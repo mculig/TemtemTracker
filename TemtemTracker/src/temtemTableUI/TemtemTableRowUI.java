@@ -1,10 +1,12 @@
 package temtemTableUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,6 +37,8 @@ public class TemtemTableRowUI extends JPanel{
 		this.row = row;
 		
 		this.setMaximumSize(new Dimension(Integer.MAX_VALUE, maxHeight));
+		
+		this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
 		
 		temtemName = new JLabel(row.name, JLabel.CENTER);
 		encounters = new JLabel(row.encountered.toString(), JLabel.CENTER);

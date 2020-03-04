@@ -1,9 +1,11 @@
 package temtemTableUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Timer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -39,6 +41,9 @@ public class HuntingTimerUI extends JPanel{
 		temtemHTitleLabel = new JLabel("Temtem/h", JLabel.CENTER);
 		temtemHLabel = new JLabel(temtemH, JLabel.CENTER);
 		
+		timeTitleLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+		temtemHTitleLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+		
 		this.timerData = timerData;
 		
 		GridLayout layout = new GridLayout(2,1);
@@ -50,6 +55,8 @@ public class HuntingTimerUI extends JPanel{
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new GridLayout(1,6));
 		
+		
+		
 		titlePanel.add(timeTitleLabel);
 		titlePanel.add(temtemHTitleLabel);
 		//Empty placeholder panels
@@ -60,6 +67,7 @@ public class HuntingTimerUI extends JPanel{
 		
 		JPanel dataPanel = new JPanel();
 		dataPanel.setLayout(new GridLayout(1,6));
+		
 		dataPanel.add(timeLabel);
 		dataPanel.add(temtemHLabel);
 		//Empty placeholder panels

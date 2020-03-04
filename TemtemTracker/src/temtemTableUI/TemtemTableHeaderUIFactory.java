@@ -1,8 +1,10 @@
 package temtemTableUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -21,6 +23,8 @@ public class TemtemTableHeaderUIFactory {
 		GridLayout layout = new GridLayout(1,6);
 		JPanel headerPanel = new JPanel();
 		headerPanel.setLayout(layout);
+		
+		headerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
 		
 		headerPanel.add(temtemLabel);
 		headerPanel.add(encountersLabel);
