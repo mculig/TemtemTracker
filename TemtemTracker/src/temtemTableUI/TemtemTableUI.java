@@ -152,5 +152,9 @@ public class TemtemTableUI extends JPanel {
 		TableWriter tableWriter = new TableWriter(temtemTable);
 		tableWriter.writeTable();
 	}
+	
+	public TemtemDataTable getTable() {
+		return this.temtemTable;
+	}
 
 }
