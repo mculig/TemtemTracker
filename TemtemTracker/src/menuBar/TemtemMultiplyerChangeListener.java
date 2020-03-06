@@ -5,13 +5,16 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import config.UserSettings;
+import temtemTableUI.TemtemTableUI;
 
 public class TemtemMultiplyerChangeListener implements ChangeListener{
 
-	UserSettings settings;
-	int temtemNumber;
+	private TemtemTableUI tableUI;
+	private UserSettings settings;
+	private int temtemNumber;
 	
-	public TemtemMultiplyerChangeListener(UserSettings settings, int temtemNumber) {
+	public TemtemMultiplyerChangeListener(TemtemTableUI tableUI, UserSettings settings, int temtemNumber) {
+		this.tableUI = tableUI;
 		this.settings=settings;
 		this.temtemNumber=temtemNumber;
 	}
@@ -27,6 +30,8 @@ public class TemtemMultiplyerChangeListener implements ChangeListener{
 		else {
 			settings.saiparkTemtem2ChanceMultiplyer = value;
 		}
+		tableUI.recalculateLumaTimes();
+		tableUI.recalculateLumaChances();
 	}
 
 }
