@@ -2,6 +2,9 @@ package keyListener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.SwingUtilities;
+
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
@@ -23,10 +26,20 @@ public class GlobalKeyListener implements NativeKeyListener {
 		int key = e.getKeyCode();
 		switch(key) {
 			case NativeKeyEvent.VC_F5:
-				table.resetTable();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						table.resetTable();
+					}	
+				});
 				break;
 			case NativeKeyEvent.VC_F8:
-				table.pauseTimer();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						table.pauseTimer();
+					}
+				});
 				break;
 			default:
 				//Do nothing

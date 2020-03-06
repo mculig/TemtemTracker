@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.swing.SwingUtilities;
+
 import OCR.OCR;
 import config.Config;
 import config.ConfigLoader;
@@ -71,6 +73,9 @@ public class DetectorLoop extends TimerTask{
 	//Maximum distance between the color I'm expecting and color from the screen
 	private int maxAllowedColorDistance ;
 	
+	//The window finder
+	private WindowFinder windowFinder;
+	
 	Config config;
 	
 	private AtomicBoolean detectedBattle;
@@ -92,12 +97,14 @@ public class DetectorLoop extends TimerTask{
 		
 		this.maxAllowedColorDistance = config.maxAllowedColorDistance;
 		
+		windowFinder = new WindowFinder();
 		
 		detectedBattle = new AtomicBoolean(false);
 		
 		this.ocr = ocr;
 		
 		this.table = table;
+		
 	}
 
 	@Override
@@ -116,7 +123,7 @@ public class DetectorLoop extends TimerTask{
 			//The actual screenshot
 			BufferedImage screenShot;
 			
-			gameWindow = WindowFinder.findTemtemWindow(config);
+			gameWindow = windowFinder.findTemtemWindow(config);
 			if(gameWindow == null) {
 				//Failed to find window, return
 				return;
@@ -194,7 +201,15 @@ public class DetectorLoop extends TimerTask{
 					ArrayList<String> results = ocr.doOCR(config, screenShot, gameWindow);
 					if(results.size()>0) {
 						results.forEach(result->{
-							table.addTemtem(result);
+							SwingUtilities.invokeLater(new Runnable() {
+
+								@Override
+								public void run() {
+									table.addTemtem(result);
+								}
+								
+							});
+							
 						});
 					}
 					

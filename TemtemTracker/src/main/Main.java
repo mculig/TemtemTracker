@@ -37,7 +37,7 @@ public class Main {
 				new OCR(loader.getConfig(), loader.getTemtemSpecies()), tableUI);
 		testTimer.scheduleAtFixedRate(detectorLoop, 0, 10);
 		
-		new CounterWindow(loader.getUserSettings(), tableUI);
+		new CounterWindow(loader.getUserSettings(), loader.getTemtemSpecies(), tableUI);
 		
 		GlobalKeyListener keyListener = new GlobalKeyListener(tableUI);
 		

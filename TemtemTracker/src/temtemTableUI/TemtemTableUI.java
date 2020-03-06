@@ -49,12 +49,12 @@ public class TemtemTableUI extends JPanel {
 		}
 		// Calculate stuff
 		temtemTable.total.encountered++;
-		temtemTable.total.lumaChance = calculator.calculateChance(temtemTable.total.encountered);
-		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime);
+		temtemTable.total.lumaChance = calculator.calculateChance(temtemTable.total.encountered, temtemTable.total.name);
+		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime, temtemTable.total.name);
 		targetRow.encountered++;
-		targetRow.lumaChance = calculator.calculateChance(targetRow.encountered);
+		targetRow.lumaChance = calculator.calculateChance(targetRow.encountered, targetRow.name);
 		targetRow.encounteredPercent = targetRow.encountered / (double) temtemTable.total.encountered;
-		targetRow.timeToLuma = calculator.getTimeToLuma(targetRow.encountered, temtemTable.timer.durationTime);
+		targetRow.timeToLuma = calculator.getTimeToLuma(targetRow.encountered, temtemTable.timer.durationTime, targetRow.name);
 		UIRows.get(targetRow).update();
 		total.update();
 		UIRows.forEach((tableRow, UIElement) -> {
@@ -75,7 +75,7 @@ public class TemtemTableUI extends JPanel {
 		// Recalculate Temtem/H
 		huntingUI.updateCount(temtemTable.total.encountered);
 		// Recalculate total Luma chance
-		temtemTable.total.lumaChance = calculator.calculateChance(temtemTable.total.encountered);
+		temtemTable.total.lumaChance = calculator.calculateChance(temtemTable.total.encountered, temtemTable.total.name);
 		// Recalculate the encounteredPercent in the table
 		temtemTable.rows.forEach(tableRow -> {
 			tableRow.encounteredPercent = tableRow.encountered / (double) temtemTable.total.encountered;
@@ -161,11 +161,18 @@ public class TemtemTableUI extends JPanel {
 	
 	public void recalculateLumaTimes() {
 		for(TableDataRow dataRow : temtemTable.rows) {
-			dataRow.timeToLuma = calculator.getTimeToLuma(dataRow.encountered, temtemTable.timer.durationTime);
+			dataRow.timeToLuma = calculator.getTimeToLuma(dataRow.encountered, temtemTable.timer.durationTime, dataRow.name);
 			UIRows.get(dataRow).update();
 		}
-		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime);
+		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime, temtemTable.total.name);
 		total.update();
+	}
+	
+	public void recalculateLumaChances() {
+		for(TableDataRow dataRow : temtemTable.rows) {
+			dataRow.lumaChance = calculator.calculateChance(dataRow.encountered, dataRow.name);
+			UIRows.get(dataRow).update();
+		}
 	}
 
 }

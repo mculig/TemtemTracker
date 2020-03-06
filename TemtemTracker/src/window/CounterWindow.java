@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import config.SettingsWriter;
+import config.Species;
 import config.UserSettings;
 import menuBar.MenuBar;
 import temtemTableUI.TemtemTableUI;
@@ -22,7 +23,7 @@ public class CounterWindow extends JFrame{
 	private TemtemTableUI tableUI;
 	private MenuBar menuBar;
 
-	public CounterWindow(UserSettings settings, TemtemTableUI tableUI) {
+	public CounterWindow(UserSettings settings, Species species, TemtemTableUI tableUI) {
 		
 		this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 		this.setLocation(0, 0);
@@ -35,7 +36,7 @@ public class CounterWindow extends JFrame{
 		
 		this.tableUI = tableUI;
 		
-		this.menuBar = new MenuBar(tableUI, settings);
+		this.menuBar = new MenuBar(tableUI, settings, species);
 		
 		this.setJMenuBar(menuBar);
 		this.add(this.tableUI);

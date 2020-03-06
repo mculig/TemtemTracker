@@ -1,8 +1,9 @@
 package windowFinder;
 
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 
 import org.apache.commons.lang3.SystemUtils;
 
@@ -23,6 +24,13 @@ public class WindowFinder {
 	private static final int WS_MINIMIZE = 0x20000000;
 	private static final String WINDOW_NAME = "Temtem";
 	
+	//Get the graphics environment. This'll help with multiple screens
+	//This will also help with getting the proper resolution on DPI-scaled devices
+	GraphicsEnvironment g;
+	
+	//Size of the main display
+	Dimension screenSize;
+	
 	//Extension of User32 interface to include ClientToScreen since it isn't included in JNA by default
 	interface User32Ext extends StdCallLibrary{
 		User32Ext INSTANCE = Native.load("user32", User32Ext.class);
@@ -30,7 +38,14 @@ public class WindowFinder {
 		boolean ClientToScreen(WinDef.HWND hWnd, WinDef.POINT lpPoint);
 	}
 	
-	public static Rectangle findTemtemWindow(Config config) {
+	public WindowFinder() {
+		g = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice mainScreen = g.getDefaultScreenDevice();
+		screenSize = new Dimension(mainScreen.getDisplayMode().getWidth(), mainScreen.getDisplayMode().getHeight());
+		System.out.println("Screen size: " + screenSize.width + "x" + screenSize.height);
+	}
+	
+	public Rectangle findTemtemWindow(Config config) {
 		
 		Dimension gameWindowSize;
 		Rectangle gameWindow;
@@ -80,13 +95,21 @@ public class WindowFinder {
 		}
 		else {
 			//Use the full screen for the capture
-			gameWindowSize = Toolkit.getDefaultToolkit().getScreenSize();
+			gameWindowSize = screenSize;
 			gameWindow = new Rectangle(0,0,gameWindowSize.width, gameWindowSize.height);
 		}
 		
+		//If the game is outside of the screen to the left or top
 		if(gameWindow.x<0 || gameWindow.y<0) {
 			return null;
 		}
+		
+		//If the game is outside of the screen to the right or bottom
+		if(gameWindow.x + gameWindow.width > screenSize.width || gameWindow.y + gameWindow.height > screenSize.height) {
+			return null;
+		}
+		
+		
 		return gameWindow;
 	}
 

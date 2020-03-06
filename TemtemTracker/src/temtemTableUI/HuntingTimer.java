@@ -2,6 +2,8 @@ package temtemTableUI;
 
 import java.util.TimerTask;
 
+import javax.swing.SwingUtilities;
+
 public class HuntingTimer extends TimerTask{
 	
 	private HuntingTimerUI timerUI;
@@ -12,7 +14,14 @@ public class HuntingTimer extends TimerTask{
 	
 	@Override
 	public void run() {
-		timerUI.updateTime();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				timerUI.updateTime();
+			}
+			
+		});
+		
 	}
 
 }
