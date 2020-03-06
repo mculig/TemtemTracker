@@ -42,7 +42,6 @@ public class WindowFinder {
 		g = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice mainScreen = g.getDefaultScreenDevice();
 		screenSize = new Dimension(mainScreen.getDisplayMode().getWidth(), mainScreen.getDisplayMode().getHeight());
-		System.out.println("Screen size: " + screenSize.width + "x" + screenSize.height);
 	}
 	
 	public Rectangle findTemtemWindow(Config config) {

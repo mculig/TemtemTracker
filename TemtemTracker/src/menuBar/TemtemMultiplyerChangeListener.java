@@ -23,7 +23,6 @@ public class TemtemMultiplyerChangeListener implements ChangeListener{
 	public void stateChanged(ChangeEvent e) {
 		JSpinner source = ((JSpinner) e.getSource());
 		double value = (double) source.getValue();
-		System.out.println("Value: " + value);
 		if(temtemNumber==1) {
 			settings.saiparkTemtem1ChanceMultiplyer = value;
 		}
