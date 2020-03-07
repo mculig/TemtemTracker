@@ -29,7 +29,7 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-[TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
+[TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V2.0/TemtemTracker_v2.0.rar)
 
 #### Old releases:
 
