@@ -29,7 +29,7 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-[TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V2.0/TemtemTracker_v2.0.rar)
+[TemtemTracker V2.1](https://github.com/mculig/TemtemTracker/releases/download/V2.1/TemtemTracker_v2.1.rar)
 
 #### Old releases:
 
@@ -38,6 +38,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 [TemtemTracker V1.1](https://github.com/mculig/TemtemTracker/releases/download/v1.1/TemtemTracker_v1.1.rar)
 
 [TemtemTracker V1.2](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
+
+[TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V2.0/TemtemTracker_v2.0.rar)
 
 ## Important notes
 
@@ -81,6 +83,12 @@ Currently TemtemTracker is only designed to work on the **main monitor**
 - Further modifications to pre-OCR image cleanup to compensate for white vines in Mines of Mictlan
 - Removed unnecessary screenshot re-takes from OCR loop, reducing performance overhead
 
+
+### V2.1
+
+#### Bugfixes/optimization
+
+-Fixed Encountered % not being multiplied by 100
 
 ## How it works
 
