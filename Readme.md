@@ -14,9 +14,13 @@ The tracker:
 TemtemTracker V2 requires **Java 13**  and **Visual C++ Redistributable 2017** in order to work. 
 
 Java 13 can be found here : [JAVA 13](https://www.oracle.com/java/technologies/javase-jdk13-downloads.html)
-Visual C++ Redistributable 2017 can be downloaded here: [vc_redist.x86.exe (32-bit)](https://aka.ms/vs/16/release/vc_redist.x86.exe), [vc_redist.x64.exe (64-bit)](https://aka.ms/vs/16/release/vc_redist.x64.exe) 
 
+Visual C++ Redistributable 2017 can be downloaded here: 
 
+- [vc_redist.x86.exe (32-bit)](https://aka.ms/vs/16/release/vc_redist.x86.exe)
+- [vc_redist.x64.exe (64-bit)](https://aka.ms/vs/16/release/vc_redist.x64.exe) 
+
+OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 
 ## Releases
 
