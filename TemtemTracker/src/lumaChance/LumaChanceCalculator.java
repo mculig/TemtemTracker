@@ -14,7 +14,7 @@ public class LumaChanceCalculator {
 	
 	public double calculateChance(int encounters, String temtemName) {
 		double lumaChance = saiparkMultiplyer(temtemName);
-		return (1-Math.pow((1-lumaChance), encounters))*100;
+		return (1-Math.pow((1-lumaChance), encounters));
 	}
 
 	//Calculates the time required to get a luma with 0.9999 probability in miliseconds
