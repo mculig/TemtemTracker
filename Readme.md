@@ -8,6 +8,9 @@ The tracker:
 * **DOES NOT** send any requests of its own to any server.
 * **DOES NOT** automate any part of gameplay
 * **DOES NOT** do anything a player couldn't do themselves using pen and paper
+* **WILL NOT** get you banned
+
+![Good to go](https://github.com/mculig/TemtemTracker/blob/master/Images/good2go.png)
 
 ## Requirements
 
@@ -26,12 +29,16 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 [TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
 
+#### Old releases:
+
+[TemtemTracker V1.1]()
+[TemtemTracker V1.2]()
 
 ## Important notes
 
 For the application to work you **MUST NOT** obstruct any of the interface elements used for detection (Spots 1-6 in images below) OR OCR (Frames 1 and 2 in images below)
 
-Currently TemtemTracker is only designed to work on the main monitor
+Currently TemtemTracker is only designed to work on the **main monitor**
 
 ## Controls
 
