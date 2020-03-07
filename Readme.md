@@ -31,6 +31,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 For the application to work you **MUST NOT** obstruct any of the interface elements used for detection (Spots 1-6 in images below) OR OCR (Frames 1 and 2 in images below)
 
+Currently TemtemTracker is only designed to work on the main monitor
+
 ## Controls
 
 * Exit: X on application window
@@ -99,6 +101,7 @@ The OCR Frames location and dimensions are determined by the values:
 The application interface can be seen on the following image: 
 
 ![Application Interface](https://github.com/mculig/TemtemTracker/blob/master/Images/window.png)
+![Saipark Settings](https://github.com/mculig/TemtemTracker/blob/master/Images/saiparkSettingsWindow.png)
 
 The application tracks Temtem encountered, the number of encounters, the chance of having encountered a Luma of that species and the % that species represents in the total number of Temtem encountered, as well as totals for these values.
 
