@@ -9,18 +9,29 @@ The tracker:
 * **DOES NOT** automate any part of gameplay
 * **DOES NOT** do anything a player couldn't do themselves using pen and paper
 
+## Requirements
+
+TemtemTracker V2 requires **Java 13**  and **Visual C++ Redistributable 2017** in order to work. 
+
+Java 13 can be found here : [JAVA 13](https://www.oracle.com/java/technologies/javase-jdk13-downloads.html)
+Visual C++ Redistributable 2017 can be downloaded here: [vc_redist.x86.exe (32-bit)](https://aka.ms/vs/16/release/vc_redist.x86.exe), [vc_redist.x64.exe (64-bit)](https://aka.ms/vs/16/release/vc_redist.x64.exe) 
+
+
+
+## Releases
+
+[TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
+
+
 ## Important notes
 
-For the application to work you **MUST** be running Temtem in fullscreen mode and you **MUST NOT** obstruct any of the interface elements used for detection (Spots 1-6 in images below) OR OCR (Frames 1 and 2 in images below)
+For the application to work you **MUST NOT** obstruct any of the interface elements used for detection (Spots 1-6 in images below) OR OCR (Frames 1 and 2 in images below)
 
 ## Controls
 
 * Exit: X on application window
-* Reset table and timer: F8 
-
-## Releases
-
-[TemtemTracker V1.2](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
+* Reset table and timer: F5
+* Pause/restart timer: F8
 
 ## Update notes
 
@@ -32,6 +43,26 @@ For the application to work you **MUST** be running Temtem in fullscreen mode an
 
 - Modifications to pre-OCR image cleanup code to take into account alpha channel on colors
 - This should fix the high false-detection rate in Omninesia
+
+### V2.0
+
+#### New features
+
+- Redesigned interface with new capabilities
+- Ability to remove Temtem from tracking list
+- Persistence of tracking information across tracker restarts
+- Ability to export tracking data in CSV format (Excel, Google Sheets, Open Office/Libre Office Calc)
+- Ability to pause/resume timer (F8)
+- Remapped table reset to F5 since F5 is more commonly associated with refreshing
+- Time to Luma estimates (for 99.99% chance of having encountered a Luma and 50% chance)
+- Saipark mode with the ability to adjust Luma rates for 2 Temtem (does not affect Total calculation)
+- Support for windowed mode using JNA
+
+#### Bugfixes/optimization
+
+- Further modifications to pre-OCR image cleanup to compensate for white vines in Mines of Mictlan
+- Removed unnecessary screenshot re-takes from OCR loop, reducing performance overhead
+
 
 ## How it works
 
