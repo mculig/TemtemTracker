@@ -10,7 +10,7 @@ The tracker:
 * **DOES NOT** do anything a player couldn't do themselves using pen and paper
 * **WILL NOT** get you banned
 
-![Good to go](https://github.com/mculig/TemtemTracker/blob/master/Images/good2go.png)
+![Good to go](https://github.com/mculig/TemtemTracker/blob/master/Images/good2go.PNG)
 
 ## Requirements
 
@@ -113,7 +113,7 @@ The OCR Frames location and dimensions are determined by the values:
 The application interface can be seen on the following image: 
 
 ![Application Interface](https://github.com/mculig/TemtemTracker/blob/master/Images/window.png)
-![Saipark Settings](https://github.com/mculig/TemtemTracker/blob/master/Images/saiparkSettingsWindow.png)
+![Saipark Settings](https://github.com/mculig/TemtemTracker/blob/master/Images/saiparkSettingsWindow.PNG)
 
 The application tracks Temtem encountered, the number of encounters, the chance of having encountered a Luma of that species and the % that species represents in the total number of Temtem encountered, as well as totals for these values.
 
