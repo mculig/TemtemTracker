@@ -29,7 +29,7 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-[TemtemTracker V2.1](https://github.com/mculig/TemtemTracker/releases/download/V2.1/TemtemTracker_v2.1.rar)
+[TemtemTracker V2.2](https://github.com/mculig/TemtemTracker/releases/download/V2.2/TemtemTracker_v2.2.rar)
 
 #### Old releases:
 
@@ -40,6 +40,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 [TemtemTracker V1.2](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
 
 [TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V2.0/TemtemTracker_v2.0.rar)
+
+[TemtemTracker V2.1](https://github.com/mculig/TemtemTracker/releases/download/V2.1/TemtemTracker_v2.1.rar)
 
 ## Important notes
 
@@ -89,6 +91,13 @@ Currently TemtemTracker is only designed to work on the **main monitor**
 #### Bugfixes/optimization
 
 -Fixed Encountered % not being multiplied by 100
+
+### V2.2
+
+#### Bugfixes/optimization
+
+-Fixed possible concurrency issue that may be culprit behind table sometimes no longer updating
+-Fixed Temtem/h not being set back to 0 when every temtem has been manually removed from the table
 
 ## How it works
 
