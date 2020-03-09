@@ -88,7 +88,7 @@ public class HuntingTimerUI extends JPanel{
 	}
 	
 	private void updateTimeDisplay() {
-		time = DurationFormatUtils.formatDuration(timerData.durationTime, "HH:mm:ss");
+		time = DurationFormatUtils.formatDuration(timerData.durationTime.get(), "HH:mm:ss");
 		timeLabel.setText(time);
 		this.revalidate();
 		this.repaint();
@@ -101,7 +101,7 @@ public class HuntingTimerUI extends JPanel{
 	
 	public void updateTime(){
 		
-		timerData.durationTime += 1000;
+		timerData.durationTime.addAndGet(1000);
 		updateTimeDisplay();
 	}
 	
@@ -111,9 +111,12 @@ public class HuntingTimerUI extends JPanel{
 	}
 	
 	public void updateCount() {
-		if(timerData.temtemCount!=0 && timerData.durationTime!=0) {
-			temtemH = String.format("%.2f", (timerData.temtemCount/((double)timerData.durationTime/ 3600000)));
+		if(timerData.temtemCount!=0 && timerData.durationTime.get()!=0) {
+			temtemH = String.format("%.2f", (timerData.temtemCount/((double)timerData.durationTime.get()/ 3600000)));
 			temtemHLabel.setText(temtemH);
+		}
+		else {
+			temtemHLabel.setText("0.0");
 		}
 		
 		this.revalidate();
@@ -123,7 +126,7 @@ public class HuntingTimerUI extends JPanel{
 	public void reset() {
 		time="00:00";
 		temtemH="0.0";
-		timerData.durationTime = 0;
+		timerData.durationTime.getAndSet(0);
 		
 		timeLabel.setText(time);
 		temtemHLabel.setText(temtemH);

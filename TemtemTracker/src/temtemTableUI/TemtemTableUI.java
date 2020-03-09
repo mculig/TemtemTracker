@@ -2,6 +2,7 @@ package temtemTableUI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -50,11 +51,11 @@ public class TemtemTableUI extends JPanel {
 		// Calculate stuff
 		temtemTable.total.encountered++;
 		temtemTable.total.lumaChance = calculator.calculateChance(temtemTable.total.encountered, temtemTable.total.name);
-		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime, temtemTable.total.name);
+		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime.get(), temtemTable.total.name);
 		targetRow.encountered++;
 		targetRow.lumaChance = calculator.calculateChance(targetRow.encountered, targetRow.name);
 		targetRow.encounteredPercent = targetRow.encountered / (double) temtemTable.total.encountered;
-		targetRow.timeToLuma = calculator.getTimeToLuma(targetRow.encountered, temtemTable.timer.durationTime, targetRow.name);
+		targetRow.timeToLuma = calculator.getTimeToLuma(targetRow.encountered, temtemTable.timer.durationTime.get(), targetRow.name);
 		UIRows.get(targetRow).update();
 		total.update();
 		UIRows.forEach((tableRow, UIElement) -> {
@@ -112,6 +113,7 @@ public class TemtemTableUI extends JPanel {
 			temtemTable.total.encounteredPercent = 1;
 			temtemTable.total.lumaChance = 0;
 			temtemTable.timer = new TimerData();
+			temtemTable.timer.durationTime = new AtomicLong(0);
 		} else {
 			temtemTable = table;
 		}
@@ -161,10 +163,10 @@ public class TemtemTableUI extends JPanel {
 	
 	public void recalculateLumaTimes() {
 		for(TableDataRow dataRow : temtemTable.rows) {
-			dataRow.timeToLuma = calculator.getTimeToLuma(dataRow.encountered, temtemTable.timer.durationTime, dataRow.name);
+			dataRow.timeToLuma = calculator.getTimeToLuma(dataRow.encountered, temtemTable.timer.durationTime.get(), dataRow.name);
 			UIRows.get(dataRow).update();
 		}
-		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime, temtemTable.total.name);
+		temtemTable.total.timeToLuma = calculator.getTimeToLuma(temtemTable.total.encountered, temtemTable.timer.durationTime.get(), temtemTable.total.name);
 		total.update();
 	}
 	

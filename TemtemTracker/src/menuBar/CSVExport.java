@@ -62,7 +62,7 @@ public class CSVExport implements ActionListener{
 				bw.newLine();
 				bw.write("Time,Temtem/h");
 				bw.newLine();
-				bw.write(DurationFormatUtils.formatDuration(table.timer.durationTime, "HH:mm:ss") + "," + table.timer.temtemCount/(table.timer.durationTime/(double)3600000));
+				bw.write(DurationFormatUtils.formatDuration(table.timer.durationTime.get(), "HH:mm:ss") + "," + table.timer.temtemCount/(table.timer.durationTime.get()/(double)3600000));
 				bw.newLine();
 				bw.close();
 			} catch (FileNotFoundException e1) {
