@@ -200,7 +200,7 @@ public class OCR {
 		//Check if we're out of bounds
 		//This should never happen as text is central to the image and should never have an uninterrupted
 		//tendril of black pixels connecting it to the edges, but it's good practice to check
-		if(i>imageWidth || j>imageHeight) {
+		if(i>=imageWidth || j>=imageHeight) {
 			return;
 		}
 		if(i<0 || j<0) {
