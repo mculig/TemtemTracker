@@ -15,6 +15,8 @@ import temtemTableData.TemtemDataTable;
 import temtemTableData.TimerData;
 import temtemTableData.TotalData;
 
+
+
 public class TemtemTableUI extends JPanel {
 
 	/**
@@ -73,6 +75,10 @@ public class TemtemTableUI extends JPanel {
 		this.remove(rowUI);
 		// Reduce the total
 		temtemTable.total.encountered -= row.encountered;
+		// Remove the row
+		temtemTable.rows.remove(row);
+		// Remove the row from the hash map
+		UIRows.remove(row);
 		// Recalculate Temtem/H
 		huntingUI.updateCount(temtemTable.total.encountered);
 		// Recalculate total Luma chance
@@ -82,24 +88,11 @@ public class TemtemTableUI extends JPanel {
 			tableRow.encounteredPercent = tableRow.encountered / (double) temtemTable.total.encountered;
 			UIRows.get(tableRow).update();
 		});
-		// Remove the row
-		temtemTable.rows.remove(row);
-		// Remove the row from the hash map
-		UIRows.remove(row);
-		// Redraw the panel
-		redrawPanel();
-	}
-
-	private void redrawPanel() {
-		this.removeAll();
-		this.add(TemtemTableHeaderUIFactory.createHeaderUI(), 0);
-		this.add(new TemtemTableTotalUI(temtemTable.total), 1);
-		this.add(huntingUI, 2);
-		for (TableDataRow row : temtemTable.rows) {
-			this.add(UIRows.get(row), 1);
-		}
+		total.update();
 		this.revalidate();
 		this.repaint();
+		// Redraw the panel
+		//redrawPanel();
 	}
 
 	private void initializeTable(TemtemDataTable table) {
