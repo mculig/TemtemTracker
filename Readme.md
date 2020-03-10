@@ -29,21 +29,11 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-[TemtemTracker V2.3](https://github.com/mculig/TemtemTracker/releases/download/V2.3/TemtemTracker_v2.3.rar)
+[TemtemTracker V2.4](https://github.com/mculig/TemtemTracker/releases/download/V2.4/TemtemTracker_v2.4.rar)
 
 #### Old releases:
 
-[TemtemTracker V1](https://github.com/mculig/TemtemTracker/releases/download/v1.0/TemtemTracker_v1.rar)
-
-[TemtemTracker V1.1](https://github.com/mculig/TemtemTracker/releases/download/v1.1/TemtemTracker_v1.1.rar)
-
-[TemtemTracker V1.2](https://github.com/mculig/TemtemTracker/releases/download/V1.2/TemtemTracker_v1.2.rar)
-
-[TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V2.0/TemtemTracker_v2.0.rar)
-
-[TemtemTracker V2.1](https://github.com/mculig/TemtemTracker/releases/download/V2.1/TemtemTracker_v2.1.rar)
-
-[TemtemTracker V2.2](https://github.com/mculig/TemtemTracker/releases/download/V2.2/TemtemTracker_v2.2.rar)
+[Releases](https://github.com/mculig/TemtemTracker/releases)
 
 ## Important notes
 
@@ -59,53 +49,15 @@ Currently TemtemTracker is only designed to work on the **main monitor**
 
 ## Update notes
 
-### V1.1
-
-- Added support for different resolutions with different detection spots in the config file
-
-### V1.2
-
-- Modifications to pre-OCR image cleanup code to take into account alpha channel on colors
-- This should fix the high false-detection rate in Omninesia
-
-### V2.0
-
-#### New features
-
-- Redesigned interface with new capabilities
-- Ability to remove Temtem from tracking list
-- Persistence of tracking information across tracker restarts
-- Ability to export tracking data in CSV format (Excel, Google Sheets, Open Office/Libre Office Calc)
-- Ability to pause/resume timer (F8)
-- Remapped table reset to F5 since F5 is more commonly associated with refreshing
-- Time to Luma estimates (for 99.99% chance of having encountered a Luma and 50% chance)
-- Saipark mode with the ability to adjust Luma rates for 2 Temtem (does not affect Total calculation)
-- Support for windowed mode using JNA
+### V2.4
 
 #### Bugfixes/optimization
 
-- Further modifications to pre-OCR image cleanup to compensate for white vines in Mines of Mictlan
-- Removed unnecessary screenshot re-takes from OCR loop, reducing performance overhead
+-Fixed Total no longer working after removing a row from the table and encountering the same Temtem
 
+### Update history
 
-### V2.1
-
-#### Bugfixes/optimization
-
--Fixed Encountered % not being multiplied by 100
-
-### V2.2
-
-#### Bugfixes/optimization
-
--Fixed possible concurrency issue that may be culprit behind table sometimes no longer updating
--Fixed Temtem/h not being set back to 0 when every temtem has been manually removed from the table
-
-### V2.3
-
-#### Bugfixes/optimization
-
--Fixed out of bounds problem with pre-OCR image cleanup that could sometimes occur and stop the tracker from working
+[UpdateHistory](https://github.com/mculig/TemtemTracker/blob/master/UpdateHistory.md)
 
 ## How it works
 
