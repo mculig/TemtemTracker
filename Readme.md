@@ -29,7 +29,7 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-[TemtemTracker V2.2](https://github.com/mculig/TemtemTracker/releases/download/V2.2/TemtemTracker_v2.2.rar)
+[TemtemTracker V2.3](https://github.com/mculig/TemtemTracker/releases/download/V2.3/TemtemTracker_v2.3.rar)
 
 #### Old releases:
 
@@ -42,6 +42,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 [TemtemTracker V2](https://github.com/mculig/TemtemTracker/releases/download/V2.0/TemtemTracker_v2.0.rar)
 
 [TemtemTracker V2.1](https://github.com/mculig/TemtemTracker/releases/download/V2.1/TemtemTracker_v2.1.rar)
+
+[TemtemTracker V2.2](https://github.com/mculig/TemtemTracker/releases/download/V2.2/TemtemTracker_v2.2.rar)
 
 ## Important notes
 
@@ -98,6 +100,12 @@ Currently TemtemTracker is only designed to work on the **main monitor**
 
 -Fixed possible concurrency issue that may be culprit behind table sometimes no longer updating
 -Fixed Temtem/h not being set back to 0 when every temtem has been manually removed from the table
+
+### V2.3
+
+#### Bugfixes/optimization
+
+-Fixed out of bounds problem with pre-OCR image cleanup that could sometimes occur and stop the tracker from working
 
 ## How it works
 
