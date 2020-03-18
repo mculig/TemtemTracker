@@ -29,7 +29,7 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-[TemtemTracker V2.4](https://github.com/mculig/TemtemTracker/releases/download/V2.4/TemtemTracker_v2.4.rar)
+[TemtemTracker V2.5](https://github.com/mculig/TemtemTracker/releases/download/V2.5/TemtemTracker_v2.5.rar)
 
 #### Old releases:
 
@@ -49,11 +49,11 @@ Currently TemtemTracker is only designed to work on the **main monitor**
 
 ## Update notes
 
-### V2.4
+### V2.5
 
 #### Bugfixes/optimization
 
--Fixed Total no longer working after removing a row from the table and encountering the same Temtem
+- Fixed tracker not starting when time spent exceeds Time to Luma due to the expected time being negative
 
 ### Update history
 
