@@ -44,7 +44,7 @@ public class TemtemTableRowUI extends JPanel{
 		encounters = new JLabel(row.encountered.toString(), JLabel.CENTER);
 		chanceLuma = new JLabel(doublePercentageString(row.lumaChance), JLabel.CENTER);
 		encounteredPercent = new JLabel(doublePercentageString(row.encounteredPercent), JLabel.CENTER);
-		timeToLuma = new JLabel(DurationFormatUtils.formatDuration(row.timeToLuma, "HH:mm:ss"), JLabel.CENTER);
+		timeToLuma = new JLabel(getDurationString(row.timeToLuma), JLabel.CENTER);
 		deleteButton = new JButton("-");
 
 		deleteButton.addActionListener(new ActionListener() {
@@ -77,8 +77,17 @@ public class TemtemTableRowUI extends JPanel{
 		encounters.setText(row.encountered.toString());
 		chanceLuma.setText(doublePercentageString(row.lumaChance));
 		encounteredPercent.setText(doublePercentageString(row.encounteredPercent));
-		timeToLuma.setText(DurationFormatUtils.formatDuration(row.timeToLuma, "HH:mm:ss"));
+		timeToLuma.setText(getDurationString(row.timeToLuma));
 		this.revalidate();
 		this.repaint();
+	}
+	
+	private String getDurationString(long timeToLuma){
+		if(timeToLuma<0) {
+			return "-" + DurationFormatUtils.formatDuration(Math.abs(row.timeToLuma), "HH:mm:ss");
+		}
+		else {
+			return DurationFormatUtils.formatDuration(row.timeToLuma, "HH:mm:ss");
+		}
 	}
 }
