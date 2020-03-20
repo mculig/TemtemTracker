@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 ### V2.4
 
 #### Bugfixes/optimization
 
 -Fixed Total no longer working after removing a row from the table and encountering the same Temtem
 
+=======
+>>>>>>> 78327aa6ce86d65975789a6a2dfa92b7651e1f1f
 ### V2.3
 
 #### Bugfixes/optimization
