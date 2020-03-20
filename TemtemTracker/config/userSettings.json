@@ -1,0 +1,11 @@
+{
+  "mainWindowOpacity": 1.0,
+  "mainWindowWidth": 603,
+  "mainWindowHeight": 271,
+  "timeToLumaProbability": 0.5,
+  "saiparkMode": true,
+  "saiparkTemtem1": "Mushi",
+  "saiparkTemtem2": "Adoroboros",
+  "saiparkTemtem1ChanceMultiplyer": 3.0,
+  "saiparkTemtem2ChanceMultiplyer": 2.0
+}
