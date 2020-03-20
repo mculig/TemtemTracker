@@ -1,12 +1,12 @@
 {
 	"lumaChance":0.000125,
 	"useJNAWindowCapture":true,
-	"spot1RGB":"FFFFA732",
-	"spot2RGB":"FF1BD1D4",
-	"spot3RGB":"FFFFA732",
-	"spot4RGB":"FF1BD1D4",
-	"spot5RGB":"FF3CE8EA",
-	"spot6RGB":"FF3CE8EA",
+	"spot1RGB":"0xFFFFA732",
+	"spot2RGB":"0xFF1BD1D4",
+	"spot3RGB":"0xFFFFA732",
+	"spot4RGB":"0xFF1BD1D4",
+	"spot5RGB":"0xFF3CE8EA",
+	"spot6RGB":"0xFF3CE8EA",
 	"maxAllowedColorDistance":500,
 	"maxOCRSubpixelFFDistance":15,
 	"aspectRatios":[{
