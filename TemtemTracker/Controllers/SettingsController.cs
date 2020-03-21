@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using TemtemTracker.Data;
 
 namespace TemtemTracker.Controllers
@@ -28,10 +29,20 @@ namespace TemtemTracker.Controllers
 
             settingsWindow.PopulateWindowSettings(userSettings.mainWindowOpacity);
 
+            KeysConverter kc = new KeysConverter();
+            settingsWindow.PopulateHotkeySettings(kc.ConvertToString(userSettings.resetTableHotkey), kc.ConvertToString(userSettings.pauseTimerHotkey));
+
             trackerUI.Width = userSettings.mainWindowWidth;
             trackerUI.Height = userSettings.mainWindowHeight;
             trackerUI.Opacity = userSettings.mainWindowOpacity;
-                    
+
+            //Set this as the settings controller in the UI
+            trackerUI.SetSettingsController(this);
+        }
+
+        public UserSettings GetSettings()
+        {
+            return this.userSettings;
         }
 
         public void ShowSettingsWindow()
@@ -79,7 +90,7 @@ namespace TemtemTracker.Controllers
         public void SaveSettings()
         {
             String settingsJson = JsonConvert.SerializeObject(userSettings);
-            File.WriteAllText(Paths.userSettingsPath, settingsJson);
+            File.WriteAllText(Paths.USER_SETTINGS_PATH, settingsJson);
         }
 
     }

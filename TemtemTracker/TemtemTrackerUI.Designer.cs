@@ -71,21 +71,23 @@
             // resetTableToolStripMenuItem
             // 
             this.resetTableToolStripMenuItem.Name = "resetTableToolStripMenuItem";
-            this.resetTableToolStripMenuItem.Size = new System.Drawing.Size(190, 30);
+            this.resetTableToolStripMenuItem.ShortcutKeyDisplayString = "F6";
+            this.resetTableToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.resetTableToolStripMenuItem.Text = "Reset Table";
             this.resetTableToolStripMenuItem.Click += new System.EventHandler(this.resetTableToolStripMenuItem_Click);
             // 
             // pauseTimerToolStripMenuItem
             // 
             this.pauseTimerToolStripMenuItem.Name = "pauseTimerToolStripMenuItem";
-            this.pauseTimerToolStripMenuItem.Size = new System.Drawing.Size(190, 30);
+            this.pauseTimerToolStripMenuItem.ShortcutKeyDisplayString = "F8";
+            this.pauseTimerToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.pauseTimerToolStripMenuItem.Text = "Pause Timer";
             this.pauseTimerToolStripMenuItem.Click += new System.EventHandler(this.pauseTimerToolStripMenuItem_Click);
             // 
             // propertiesToolStripMenuItem
             // 
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
-            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(190, 30);
+            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.propertiesToolStripMenuItem.Text = "Properties";
             this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
             // 

@@ -24,52 +24,36 @@ namespace TemtemTracker
             {
                 return;
             }
-            //Create the Luma Calculator
-            LumaChanceCalculator lumaCalculator = new LumaChanceCalculator(configLoader.GetUserSettings(), configLoader.GetConfig());
             //Create the main window and controller
             TemtemTrackerUI trackerUI = new TemtemTrackerUI();
             //Create the SettingsController
             SettingsController settingsController = new SettingsController(configLoader.GetSpeciesList(), configLoader.GetUserSettings(), trackerUI);
-            trackerUI.SetSettingsController(settingsController);
+            //Create the Luma Calculator
+            LumaChanceCalculator lumaCalculator = new LumaChanceCalculator(settingsController, configLoader.GetConfig());
             //Create the TemtemTableController
             TemtemTableController tableController = new TemtemTableController(trackerUI, lumaCalculator);
-            trackerUI.SetTableController(tableController);
             OCRController ocr = new OCRController(configLoader.GetConfig(), configLoader.GetSpeciesList());
             DetectorLoop loop = new DetectorLoop(configLoader.GetConfig(), tableController, ocr);
             if (loop.LoadFailed())
             {
                 return;
             }
-            //The timer responsible for the detection loop
-            System.Timers.Timer detectionLoopTimer = new System.Timers.Timer(10);
-            detectionLoopTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) => {
-                loop.Detect();
-            };
-            detectionLoopTimer.AutoReset = true;
-            detectionLoopTimer.Enabled = true;
-            //The timer responsible for the timer in the UI
-            System.Timers.Timer timeTrackerTimer = new System.Timers.Timer(1000);
-            timeTrackerTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) =>
-            {
-                tableController.IncrementTimer();
-            };
-            timeTrackerTimer.AutoReset = true;
-            timeTrackerTimer.Enabled = true;
+            //The timer controller
+            TimerController timerController = new TimerController(trackerUI, tableController, loop);
+            timerController.StartTimers();
+            //The hotkey controller
+            HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, timerController, tableController);
             //Add listeners to application exit
             Application.ApplicationExit += new EventHandler((Object source, EventArgs args) => {
                 //Remove timers after run is over
-                detectionLoopTimer.Stop();
-                detectionLoopTimer.Dispose();
-                timeTrackerTimer.Stop();
-                timeTrackerTimer.Dispose();
+                timerController.DisposeTimers();
                 //Save Config and stuff
                 tableController.SaveTable();
                 settingsController.SaveSettings();
             });
 
             //Run the app
-            Application.Run(trackerUI);
-          
+            Application.Run(trackerUI);       
         }
     }
 }

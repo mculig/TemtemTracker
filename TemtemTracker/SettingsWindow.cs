@@ -36,6 +36,12 @@ namespace TemtemTracker
             }
         }
 
+        public void PopulateHotkeySettings(string resetTableHotkeyString, string pauseTimerHotkeyString)
+        {
+            labelResetTableHotkey.Text = resetTableHotkeyString;
+            labelPauseTimerHotkey.Text = pauseTimerHotkeyString;
+        }
+
         public void PopulateSaiparkSettings(List<string> temtemNames, bool saiparkMode, string temtem1Name, string temtem2Name, double temtem1Multiplier, double temtem2Multiplier)
         {
             

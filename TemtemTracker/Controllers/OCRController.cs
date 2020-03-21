@@ -13,9 +13,14 @@ namespace TemtemTracker.Controllers
     public class OCRController
     {
 
+        private readonly string LANGUAGE = "eng";
+        private readonly string TESS_DATAPATH = @"tessdata";
+        private readonly uint ARGB_BLACK = 0xFF000000;
+        private readonly uint ARGB_WHITE = 0xFFFFFFFF;
+        private readonly uint ARGB_RED = 0xFFFF0000;
+
         private TesseractEngine tesseract;
-        private readonly string language = "eng";
-        private readonly string tessDatapath = @"tessdata";
+        
 
         private List<Rectangle> OCRViewports;
         Species speciesList;
@@ -50,7 +55,7 @@ namespace TemtemTracker.Controllers
             this.speciesList = speciesList;
             this.maxOCRSubpixelFFDistance = config.maxOCRSubpixelFFDistance;
             this.config = config;
-            tesseract = new TesseractEngine(tessDatapath, language);
+            tesseract = new TesseractEngine(TESS_DATAPATH, LANGUAGE);
         }
 
         public List<String> doOCR(Bitmap gameWindow)
@@ -127,11 +132,11 @@ namespace TemtemTracker.Controllers
                     int pixel = image.GetPixel(i, j).ToArgb();
                     if (testWhite(pixel))
                     {
-                        whiteMask[i, j] = 0xFF000000;
+                        whiteMask[i, j] = ARGB_BLACK;
                     }
                     else
                     {
-                        whiteMask[i, j] = 0xFFFFFFFF;
+                        whiteMask[i, j] = ARGB_WHITE;
                     }
                 }
             }
@@ -150,7 +155,7 @@ namespace TemtemTracker.Controllers
             //Populate the pixelMap with pixelIDs and pixel locations along the scanning line
             for (int i = 0; i < imageWidth; i++)
             {
-                if (whiteMask[i,scanningLine] == 0xFF000000)
+                if (whiteMask[i,scanningLine] == ARGB_BLACK)
                 {
                     pixelMap[pixelID++]= i;
                 }
@@ -161,7 +166,7 @@ namespace TemtemTracker.Controllers
             {
                 int pixelI = pixelMap[PixelID];
 
-                if (whiteMask[pixelI,scanningLine] == 0xFFFF0000)
+                if (whiteMask[pixelI,scanningLine] == ARGB_RED)
                 {
                     //We've already marked this pixel as a part of a middle cluster
                     continue;
@@ -175,13 +180,13 @@ namespace TemtemTracker.Controllers
             {
                 for (int j = 0; j < imageHeight; j++)
                 {
-                    if (whiteMask[i,j] == 0xFFFF0000)
+                    if (whiteMask[i,j] == ARGB_RED)
                     {
-                        whiteMask[i,j] = 0xFF000000;
+                        whiteMask[i,j] = ARGB_BLACK;
                     }
                     else
                     {
-                        whiteMask[i,j] = 0xFFFFFFFF;
+                        whiteMask[i,j] = ARGB_WHITE;
                     }
                 }
             }
@@ -200,7 +205,7 @@ namespace TemtemTracker.Controllers
         {
 
             // Test the pixel isn't transparent
-            if ((pixel & 0xFF000000) != 0xFF000000)
+            if ((pixel & ARGB_BLACK) != ARGB_BLACK)
             {
                 return false;
             }
@@ -236,11 +241,11 @@ namespace TemtemTracker.Controllers
                 return;
             }
             //If a pixel is already red, we've done it
-            if (whiteMask[i,j] == 0xFFFF0000)
+            if (whiteMask[i,j] == ARGB_RED)
             {
                 return;
             }
-            else if (whiteMask[i,j] == 0xFFFFFFFF)
+            else if (whiteMask[i,j] == ARGB_WHITE)
             {
                 //If the pixel is white, we're not interested in its neighbours
                 return;
@@ -248,7 +253,7 @@ namespace TemtemTracker.Controllers
             else
             {
                 //Mark the pixel red;
-                whiteMask[i,j] = 0xFFFF0000;
+                whiteMask[i,j] = ARGB_RED;
                 foreach(int iOffset in new int[] { -1, 1 })
                 {
                     foreach(int jOffset in new int[] { -1, 1 })
@@ -262,6 +267,7 @@ namespace TemtemTracker.Controllers
 
         private string StringSimilarityCompare(string input, List<string> list)
         {
+            //These values here are purely nonsensical high values and serve no other purpose
             int minScore = 20000;
             int minDistance = 20000;
 

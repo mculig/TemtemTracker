@@ -67,6 +67,9 @@ namespace TemtemTracker.Controllers
             //Update time and temtem/h
             trackerUI.UpdateTime(dataTable.timer.durationTime);
             updateTemtemH();
+
+            //Set this as the table controller in the UI
+            trackerUI.SetTableController(this);
         }
 
         public void RemoveRow(TemtemDataRow row)

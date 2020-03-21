@@ -17,5 +17,7 @@ namespace TemtemTracker.Data
         public string saiparkTemtem2;
         public double saiparkTemtem1ChanceMultiplyer;
         public double saiparkTemtem2ChanceMultiplyer;
+        public int resetTableHotkey;
+        public int pauseTimerHotkey;
     }
 }

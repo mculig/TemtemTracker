@@ -82,10 +82,14 @@
     <Compile Include="Controllers\ConfigLoader.cs" />
     <Compile Include="Controllers\DetectorLoop.cs" />
     <Compile Include="Controllers\ErrorMessage.cs" />
+    <Compile Include="Controllers\HotkeyController.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Controllers\LumaChanceCalculator.cs" />
     <Compile Include="Controllers\OCRController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TemtemTableController.cs" />
+    <Compile Include="Controllers\TimerController.cs" />
     <Compile Include="Controllers\User32.cs" />
     <Compile Include="Controllers\WindowFinder.cs" />
     <Compile Include="Data\Config.cs" />

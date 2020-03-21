@@ -7,5 +7,7 @@
   "saiparkTemtem1": "Mushi",
   "saiparkTemtem2": "Adoroboros",
   "saiparkTemtem1ChanceMultiplyer": 3.0,
-  "saiparkTemtem2ChanceMultiplyer": 2.0
+  "saiparkTemtem2ChanceMultiplyer": 2.0,
+  "resetTableHotkey": 116,
+  "pauseTimerHotkey": 119 
 }

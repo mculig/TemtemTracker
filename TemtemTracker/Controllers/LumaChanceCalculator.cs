@@ -12,9 +12,9 @@ namespace TemtemTracker.Controllers
         private UserSettings userSettings;
         private Config config;
 
-        public LumaChanceCalculator(UserSettings userSettings, Config config)
+        public LumaChanceCalculator(SettingsController settingsController, Config config)
         {
-            this.userSettings = userSettings;
+            this.userSettings = settingsController.GetSettings();
             this.config = config;
         }
 

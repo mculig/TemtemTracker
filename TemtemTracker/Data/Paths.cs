@@ -8,8 +8,8 @@ namespace TemtemTracker.Data
 {
     public class Paths
     {
-        public static readonly string speciesPath = @"config\temtemSpecies.json";
-        public static readonly string configPath = @"config\config.json";
-        public static readonly string userSettingsPath = @"config\userSettings.json";
+        public static readonly string SPECIES_PATH = @"config\temtemSpecies.json";
+        public static readonly string CONFIG_PATH = @"config\config.json";
+        public static readonly string USER_SETTINGS_PATH = @"config\userSettings.json";
     }
 }

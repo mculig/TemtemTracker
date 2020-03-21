@@ -22,34 +22,34 @@ namespace TemtemTracker.Controllers
 
         public ConfigLoader()
         {
-            if (File.Exists(Paths.speciesPath))
+            if (File.Exists(Paths.SPECIES_PATH))
             {
-                string speciesJson = File.ReadAllText(Paths.speciesPath);
+                string speciesJson = File.ReadAllText(Paths.SPECIES_PATH);
                 species = JsonConvert.DeserializeObject<Species>(speciesJson);
             }
             else
             {
-                new ErrorMessage("Failed to load config file: " + Paths.speciesPath,
+                new ErrorMessage("Failed to load config file: " + Paths.SPECIES_PATH,
                     SetFailedStatus);
             }
-            if (File.Exists(Paths.configPath))
+            if (File.Exists(Paths.CONFIG_PATH))
             {
-                string configJson = File.ReadAllText(Paths.configPath);
+                string configJson = File.ReadAllText(Paths.CONFIG_PATH);
                 config = JsonConvert.DeserializeObject<Config>(configJson);
             }
             else
             {
-                new ErrorMessage("Failed to load config file: " + Paths.configPath,
+                new ErrorMessage("Failed to load config file: " + Paths.CONFIG_PATH,
                     SetFailedStatus);
             }
-            if (File.Exists(Paths.userSettingsPath))
+            if (File.Exists(Paths.USER_SETTINGS_PATH))
             {
-                string userSettingsJson = File.ReadAllText(Paths.userSettingsPath);
+                string userSettingsJson = File.ReadAllText(Paths.USER_SETTINGS_PATH);
                 userSettings = JsonConvert.DeserializeObject<UserSettings>(userSettingsJson);
             }
             else
             {
-                new ErrorMessage("Failed to load config file: " + Paths.userSettingsPath,
+                new ErrorMessage("Failed to load config file: " + Paths.USER_SETTINGS_PATH,
                     SetFailedStatus);
             }
         }
