@@ -22,11 +22,6 @@ namespace TemtemTracker
             this.settingsController = settingsController;
         }
 
-        private void darkModeCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-           
-        }
-
         private void SettingsWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(e.CloseReason == CloseReason.UserClosing)

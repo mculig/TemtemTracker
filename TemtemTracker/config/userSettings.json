@@ -1,15 +1,15 @@
 {
   "mainWindowOpacity": 1.0,
-  "mainWindowWidth": 603,
-  "mainWindowHeight": 271,
+  "mainWindowWidth": 865,
+  "mainWindowHeight": 429,
   "timeToLumaProbability": 0.5,
   "saiparkMode": true,
   "saiparkTemtem1": "Mushi",
   "saiparkTemtem2": "Adoroboros",
   "saiparkTemtem1ChanceMultiplyer": 3.0,
   "saiparkTemtem2ChanceMultiplyer": 2.0,
-  "resetTableHotkeyModifier":  393216,
+  "resetTableHotkeyModifier": 262144,
   "resetTableHotkey": 116,
-  "pauseTimerHotkeyModifier":  393216,
-  "pauseTimerHotkey": 119 
+  "pauseTimerHotkeyModifier": 262144,
+  "pauseTimerHotkey": 119
 }

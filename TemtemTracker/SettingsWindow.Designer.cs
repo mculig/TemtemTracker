@@ -32,7 +32,6 @@
             this.windowTabPage = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.opacityTrackBar = new System.Windows.Forms.TrackBar();
-            this.darkModeCheckbox = new System.Windows.Forms.CheckBox();
             this.lumaChanceTabPage = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.radioButtonLuma75Percent = new System.Windows.Forms.RadioButton();
@@ -89,7 +88,6 @@
             // windowTabPage
             // 
             this.windowTabPage.Controls.Add(this.groupBox3);
-            this.windowTabPage.Controls.Add(this.darkModeCheckbox);
             this.windowTabPage.Location = new System.Drawing.Point(4, 29);
             this.windowTabPage.Name = "windowTabPage";
             this.windowTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -118,17 +116,6 @@
             this.opacityTrackBar.TabIndex = 4;
             this.opacityTrackBar.Value = 100;
             this.opacityTrackBar.Scroll += new System.EventHandler(this.opacityTrackBar_Scroll);
-            // 
-            // darkModeCheckbox
-            // 
-            this.darkModeCheckbox.AutoSize = true;
-            this.darkModeCheckbox.Location = new System.Drawing.Point(6, 112);
-            this.darkModeCheckbox.Name = "darkModeCheckbox";
-            this.darkModeCheckbox.Size = new System.Drawing.Size(113, 24);
-            this.darkModeCheckbox.TabIndex = 3;
-            this.darkModeCheckbox.Text = "Dark Mode";
-            this.darkModeCheckbox.UseVisualStyleBackColor = true;
-            this.darkModeCheckbox.CheckedChanged += new System.EventHandler(this.darkModeCheckbox_CheckedChanged);
             // 
             // lumaChanceTabPage
             // 
@@ -413,7 +400,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsWindow_FormClosing);
             this.settingsTabControl.ResumeLayout(false);
             this.windowTabPage.ResumeLayout(false);
-            this.windowTabPage.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacityTrackBar)).EndInit();
@@ -440,7 +426,6 @@
         private System.Windows.Forms.TabControl settingsTabControl;
         private System.Windows.Forms.TabPage windowTabPage;
         private System.Windows.Forms.TabPage saiparkTabPage;
-        private System.Windows.Forms.CheckBox darkModeCheckbox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.NumericUpDown temtem1Multiplier;
         private System.Windows.Forms.Label label3;
