@@ -8,6 +8,8 @@
   "saiparkTemtem2": "Adoroboros",
   "saiparkTemtem1ChanceMultiplyer": 3.0,
   "saiparkTemtem2ChanceMultiplyer": 2.0,
+  "resetTableHotkeyModifier":  393216,
   "resetTableHotkey": 116,
+  "pauseTimerHotkeyModifier":  393216,
   "pauseTimerHotkey": 119 
 }

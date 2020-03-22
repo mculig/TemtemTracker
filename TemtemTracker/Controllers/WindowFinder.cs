@@ -54,7 +54,8 @@ namespace TemtemTracker.Controllers
             Process foundProcess = Process.GetProcessById(unchecked((int)processID));
             if(foundProcess.ProcessName != WINDOW_NAME)
             {
-                Console.WriteLine("Found wrong process: " + foundProcess.MainWindowTitle);
+                //This sometimes randomly happens with windows that have Temtem anywhere in their title
+                //The spawning process either isn't named or isn't named Temtem
                 return null;
             }
 

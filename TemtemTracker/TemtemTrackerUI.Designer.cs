@@ -49,13 +49,14 @@
             this.trackerTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.trackerTable.ColumnCount = 1;
             this.trackerTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.trackerTable.Location = new System.Drawing.Point(0, 83);
+            this.trackerTable.Location = new System.Drawing.Point(0, 77);
+            this.trackerTable.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.trackerTable.Name = "trackerTable";
             this.trackerTable.RowCount = 1;
             this.trackerTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.trackerTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.trackerTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.trackerTable.Size = new System.Drawing.Size(1047, 221);
+            this.trackerTable.Size = new System.Drawing.Size(1047, 230);
             this.trackerTable.TabIndex = 0;
             // 
             // fileToolStripMenuItem
@@ -93,6 +94,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
@@ -114,6 +116,7 @@
             // 
             this.temtemTableRowHeaderUI.Dock = System.Windows.Forms.DockStyle.Top;
             this.temtemTableRowHeaderUI.Location = new System.Drawing.Point(0, 33);
+            this.temtemTableRowHeaderUI.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.temtemTableRowHeaderUI.Name = "temtemTableRowHeaderUI";
             this.temtemTableRowHeaderUI.Size = new System.Drawing.Size(1047, 44);
             this.temtemTableRowHeaderUI.TabIndex = 0;
@@ -130,6 +133,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1047, 411);
             this.Controls.Add(this.temtemTableTotalUI);
             this.Controls.Add(this.temtemTableRowHeaderUI);

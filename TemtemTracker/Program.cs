@@ -31,7 +31,7 @@ namespace TemtemTracker
             //Create the Luma Calculator
             LumaChanceCalculator lumaCalculator = new LumaChanceCalculator(settingsController, configLoader.GetConfig());
             //Create the TemtemTableController
-            TemtemTableController tableController = new TemtemTableController(trackerUI, lumaCalculator);
+            TemtemTableController tableController = new TemtemTableController(trackerUI, lumaCalculator, settingsController);
             OCRController ocr = new OCRController(configLoader.GetConfig(), configLoader.GetSpeciesList());
             DetectorLoop loop = new DetectorLoop(configLoader.GetConfig(), tableController, ocr);
             if (loop.LoadFailed())
@@ -47,6 +47,8 @@ namespace TemtemTracker
             Application.ApplicationExit += new EventHandler((Object source, EventArgs args) => {
                 //Remove timers after run is over
                 timerController.DisposeTimers();
+                //Unregister hotkeys
+                hotkeyController.UnregisterHotkeys();
                 //Save Config and stuff
                 tableController.SaveTable();
                 settingsController.SaveSettings();

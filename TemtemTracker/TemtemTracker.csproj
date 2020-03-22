@@ -165,7 +165,9 @@
     <EmbeddedResource Include="TimeTrackerUI.resx">
       <DependentUpon>TimeTrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.manifest" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="config\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -46,7 +46,7 @@ namespace TemtemTracker
                 timeLabel.Font = new Font(timeLabel.Font, FontStyle.Regular);
                 //Set the color of the title and the text back to normal
                 labelTimeTitle.ForeColor = Color.Black;
-                labelTimeTitle.Font = new Font(labelTimeTitle.Font, FontStyle.Regular);
+                labelTimeTitle.Font = new Font(labelTimeTitle.Font, FontStyle.Bold);
                 labelTimeTitle.Text = TIME_TITLE_RUNNING;
             }
             else

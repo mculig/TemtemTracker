@@ -50,12 +50,30 @@ namespace TemtemTracker
             else
             {
                 trackerTable.Controls.Add(row);
+                if(trackerTable.Controls.Count%2 == 0)
+                {
+                    row.BackColor = SystemColors.ControlLight;
+                }
             } 
         }
 
         public void RemoveRowFromTable(TemtemTableRowUI row)
         {
             trackerTable.Controls.Remove(row);
+            //Recolor all the controls to fit the intertwined colors scheme
+            int i = 1;
+            foreach(Control c in trackerTable.Controls)
+            {
+                if (i % 2 == 0)
+                {
+                    c.BackColor = SystemColors.ControlLight;
+                }
+                else
+                {
+                    c.BackColor = SystemColors.Control;
+                }
+                i++;
+            }
         }
 
         public void RemoveAllTableRows()
@@ -100,6 +118,11 @@ namespace TemtemTracker
                 pauseTimerToolStripMenuItem.Text = "Unpause timer";
             }
             timeTrackerUI1.TogglePausedVisualIndication(timerState);
+        }
+
+        public void SetDarkMode()
+        {
+            
         }
 
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)

@@ -28,12 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.windowSettings = new System.Windows.Forms.TabPage();
+            this.settingsTabControl = new System.Windows.Forms.TabControl();
+            this.windowTabPage = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.opacityTrackBar = new System.Windows.Forms.TrackBar();
             this.darkModeCheckbox = new System.Windows.Forms.CheckBox();
-            this.saiparkSettings = new System.Windows.Forms.TabPage();
+            this.lumaChanceTabPage = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.radioButtonLuma75Percent = new System.Windows.Forms.RadioButton();
+            this.radioButtonLuma9999Percent = new System.Windows.Forms.RadioButton();
+            this.radioButtonLuma50Percent = new System.Windows.Forms.RadioButton();
+            this.saiparkTabPage = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.temtem2Multiplier = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
@@ -45,50 +50,53 @@
             this.temtem1NameSelect = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.checkBoxSaiparkMode = new System.Windows.Forms.CheckBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.labelResetTableHotkey = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.buttonRemapResetTableHotkey = new System.Windows.Forms.Button();
+            this.hotkeysTabPage = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.buttonRemapPauseTimerHotkey = new System.Windows.Forms.Button();
             this.labelPauseTimerHotkey = new System.Windows.Forms.Label();
-            this.tabControl1.SuspendLayout();
-            this.windowSettings.SuspendLayout();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.buttonRemapResetTableHotkey = new System.Windows.Forms.Button();
+            this.labelResetTableHotkey = new System.Windows.Forms.Label();
+            this.settingsTabControl.SuspendLayout();
+            this.windowTabPage.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacityTrackBar)).BeginInit();
-            this.saiparkSettings.SuspendLayout();
+            this.lumaChanceTabPage.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.saiparkTabPage.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.temtem2Multiplier)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.temtem1Multiplier)).BeginInit();
-            this.tabPage1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.hotkeysTabPage.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // settingsTabControl
             // 
-            this.tabControl1.Controls.Add(this.windowSettings);
-            this.tabControl1.Controls.Add(this.saiparkSettings);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(342, 435);
-            this.tabControl1.TabIndex = 0;
+            this.settingsTabControl.Controls.Add(this.windowTabPage);
+            this.settingsTabControl.Controls.Add(this.lumaChanceTabPage);
+            this.settingsTabControl.Controls.Add(this.saiparkTabPage);
+            this.settingsTabControl.Controls.Add(this.hotkeysTabPage);
+            this.settingsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.settingsTabControl.Location = new System.Drawing.Point(0, 0);
+            this.settingsTabControl.Name = "settingsTabControl";
+            this.settingsTabControl.SelectedIndex = 0;
+            this.settingsTabControl.Size = new System.Drawing.Size(342, 435);
+            this.settingsTabControl.TabIndex = 0;
             // 
-            // windowSettings
+            // windowTabPage
             // 
-            this.windowSettings.Controls.Add(this.groupBox3);
-            this.windowSettings.Controls.Add(this.darkModeCheckbox);
-            this.windowSettings.Location = new System.Drawing.Point(4, 29);
-            this.windowSettings.Name = "windowSettings";
-            this.windowSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.windowSettings.Size = new System.Drawing.Size(334, 402);
-            this.windowSettings.TabIndex = 2;
-            this.windowSettings.Text = "Window";
-            this.windowSettings.UseVisualStyleBackColor = true;
+            this.windowTabPage.Controls.Add(this.groupBox3);
+            this.windowTabPage.Controls.Add(this.darkModeCheckbox);
+            this.windowTabPage.Location = new System.Drawing.Point(4, 29);
+            this.windowTabPage.Name = "windowTabPage";
+            this.windowTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.windowTabPage.Size = new System.Drawing.Size(334, 402);
+            this.windowTabPage.TabIndex = 2;
+            this.windowTabPage.Text = "Window";
+            this.windowTabPage.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -122,18 +130,77 @@
             this.darkModeCheckbox.UseVisualStyleBackColor = true;
             this.darkModeCheckbox.CheckedChanged += new System.EventHandler(this.darkModeCheckbox_CheckedChanged);
             // 
-            // saiparkSettings
+            // lumaChanceTabPage
             // 
-            this.saiparkSettings.Controls.Add(this.groupBox2);
-            this.saiparkSettings.Controls.Add(this.groupBox1);
-            this.saiparkSettings.Controls.Add(this.checkBoxSaiparkMode);
-            this.saiparkSettings.Location = new System.Drawing.Point(4, 29);
-            this.saiparkSettings.Name = "saiparkSettings";
-            this.saiparkSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.saiparkSettings.Size = new System.Drawing.Size(334, 402);
-            this.saiparkSettings.TabIndex = 3;
-            this.saiparkSettings.Text = "Saipark";
-            this.saiparkSettings.UseVisualStyleBackColor = true;
+            this.lumaChanceTabPage.Controls.Add(this.groupBox6);
+            this.lumaChanceTabPage.Location = new System.Drawing.Point(4, 29);
+            this.lumaChanceTabPage.Name = "lumaChanceTabPage";
+            this.lumaChanceTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.lumaChanceTabPage.Size = new System.Drawing.Size(334, 402);
+            this.lumaChanceTabPage.TabIndex = 5;
+            this.lumaChanceTabPage.Text = "Luma Chance";
+            this.lumaChanceTabPage.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.radioButtonLuma75Percent);
+            this.groupBox6.Controls.Add(this.radioButtonLuma9999Percent);
+            this.groupBox6.Controls.Add(this.radioButtonLuma50Percent);
+            this.groupBox6.Location = new System.Drawing.Point(8, 6);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(318, 115);
+            this.groupBox6.TabIndex = 0;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Show Time For";
+            // 
+            // radioButtonLuma75Percent
+            // 
+            this.radioButtonLuma75Percent.AutoSize = true;
+            this.radioButtonLuma75Percent.Location = new System.Drawing.Point(6, 53);
+            this.radioButtonLuma75Percent.Name = "radioButtonLuma75Percent";
+            this.radioButtonLuma75Percent.Size = new System.Drawing.Size(66, 24);
+            this.radioButtonLuma75Percent.TabIndex = 4;
+            this.radioButtonLuma75Percent.TabStop = true;
+            this.radioButtonLuma75Percent.Text = "75%";
+            this.radioButtonLuma75Percent.UseVisualStyleBackColor = true;
+            this.radioButtonLuma75Percent.CheckedChanged += new System.EventHandler(this.radioButtonLuma75Percent_CheckedChanged);
+            // 
+            // radioButtonLuma9999Percent
+            // 
+            this.radioButtonLuma9999Percent.AutoSize = true;
+            this.radioButtonLuma9999Percent.Location = new System.Drawing.Point(6, 83);
+            this.radioButtonLuma9999Percent.Name = "radioButtonLuma9999Percent";
+            this.radioButtonLuma9999Percent.Size = new System.Drawing.Size(88, 24);
+            this.radioButtonLuma9999Percent.TabIndex = 3;
+            this.radioButtonLuma9999Percent.TabStop = true;
+            this.radioButtonLuma9999Percent.Text = "99.99%";
+            this.radioButtonLuma9999Percent.UseVisualStyleBackColor = true;
+            this.radioButtonLuma9999Percent.CheckedChanged += new System.EventHandler(this.radioButtonLuma9999Percent_CheckedChanged);
+            // 
+            // radioButtonLuma50Percent
+            // 
+            this.radioButtonLuma50Percent.AutoSize = true;
+            this.radioButtonLuma50Percent.Location = new System.Drawing.Point(6, 25);
+            this.radioButtonLuma50Percent.Name = "radioButtonLuma50Percent";
+            this.radioButtonLuma50Percent.Size = new System.Drawing.Size(66, 24);
+            this.radioButtonLuma50Percent.TabIndex = 2;
+            this.radioButtonLuma50Percent.TabStop = true;
+            this.radioButtonLuma50Percent.Text = "50%";
+            this.radioButtonLuma50Percent.UseVisualStyleBackColor = true;
+            this.radioButtonLuma50Percent.CheckedChanged += new System.EventHandler(this.radioButtonLuma50Percent_CheckedChanged);
+            // 
+            // saiparkTabPage
+            // 
+            this.saiparkTabPage.Controls.Add(this.groupBox2);
+            this.saiparkTabPage.Controls.Add(this.groupBox1);
+            this.saiparkTabPage.Controls.Add(this.checkBoxSaiparkMode);
+            this.saiparkTabPage.Location = new System.Drawing.Point(4, 29);
+            this.saiparkTabPage.Name = "saiparkTabPage";
+            this.saiparkTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.saiparkTabPage.Size = new System.Drawing.Size(334, 402);
+            this.saiparkTabPage.TabIndex = 3;
+            this.saiparkTabPage.Text = "Saipark";
+            this.saiparkTabPage.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -259,48 +326,17 @@
             this.checkBoxSaiparkMode.UseVisualStyleBackColor = true;
             this.checkBoxSaiparkMode.CheckedChanged += new System.EventHandler(this.checkBoxSaiparkMode_CheckedChanged);
             // 
-            // tabPage1
+            // hotkeysTabPage
             // 
-            this.tabPage1.Controls.Add(this.groupBox5);
-            this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(334, 402);
-            this.tabPage1.TabIndex = 4;
-            this.tabPage1.Text = "Hotkeys";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // labelResetTableHotkey
-            // 
-            this.labelResetTableHotkey.AutoSize = true;
-            this.labelResetTableHotkey.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelResetTableHotkey.Location = new System.Drawing.Point(6, 33);
-            this.labelResetTableHotkey.Name = "labelResetTableHotkey";
-            this.labelResetTableHotkey.Size = new System.Drawing.Size(65, 20);
-            this.labelResetTableHotkey.TabIndex = 0;
-            this.labelResetTableHotkey.Text = "Hotkey";
-            this.labelResetTableHotkey.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.buttonRemapResetTableHotkey);
-            this.groupBox4.Controls.Add(this.labelResetTableHotkey);
-            this.groupBox4.Location = new System.Drawing.Point(8, 6);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(318, 86);
-            this.groupBox4.TabIndex = 1;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Reset Table Hotkey";
-            // 
-            // buttonRemapResetTableHotkey
-            // 
-            this.buttonRemapResetTableHotkey.Location = new System.Drawing.Point(71, 25);
-            this.buttonRemapResetTableHotkey.Name = "buttonRemapResetTableHotkey";
-            this.buttonRemapResetTableHotkey.Size = new System.Drawing.Size(103, 36);
-            this.buttonRemapResetTableHotkey.TabIndex = 1;
-            this.buttonRemapResetTableHotkey.Text = "Remap";
-            this.buttonRemapResetTableHotkey.UseVisualStyleBackColor = true;
+            this.hotkeysTabPage.Controls.Add(this.groupBox5);
+            this.hotkeysTabPage.Controls.Add(this.groupBox4);
+            this.hotkeysTabPage.Location = new System.Drawing.Point(4, 29);
+            this.hotkeysTabPage.Name = "hotkeysTabPage";
+            this.hotkeysTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.hotkeysTabPage.Size = new System.Drawing.Size(334, 402);
+            this.hotkeysTabPage.TabIndex = 4;
+            this.hotkeysTabPage.Text = "Hotkeys";
+            this.hotkeysTabPage.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -315,63 +351,95 @@
             // 
             // buttonRemapPauseTimerHotkey
             // 
-            this.buttonRemapPauseTimerHotkey.Location = new System.Drawing.Point(71, 25);
+            this.buttonRemapPauseTimerHotkey.Location = new System.Drawing.Point(209, 29);
             this.buttonRemapPauseTimerHotkey.Name = "buttonRemapPauseTimerHotkey";
             this.buttonRemapPauseTimerHotkey.Size = new System.Drawing.Size(103, 36);
             this.buttonRemapPauseTimerHotkey.TabIndex = 1;
             this.buttonRemapPauseTimerHotkey.Text = "Remap";
             this.buttonRemapPauseTimerHotkey.UseVisualStyleBackColor = true;
+            this.buttonRemapPauseTimerHotkey.Click += new System.EventHandler(this.buttonRemapPauseTimerHotkey_Click);
             // 
             // labelPauseTimerHotkey
             // 
-            this.labelPauseTimerHotkey.AutoSize = true;
             this.labelPauseTimerHotkey.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPauseTimerHotkey.Location = new System.Drawing.Point(6, 33);
             this.labelPauseTimerHotkey.Name = "labelPauseTimerHotkey";
-            this.labelPauseTimerHotkey.Size = new System.Drawing.Size(65, 20);
+            this.labelPauseTimerHotkey.Size = new System.Drawing.Size(197, 28);
             this.labelPauseTimerHotkey.TabIndex = 0;
-            this.labelPauseTimerHotkey.Text = "Hotkey";
+            this.labelPauseTimerHotkey.Text = "Modifier + Key";
             this.labelPauseTimerHotkey.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.buttonRemapResetTableHotkey);
+            this.groupBox4.Controls.Add(this.labelResetTableHotkey);
+            this.groupBox4.Location = new System.Drawing.Point(8, 6);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(318, 86);
+            this.groupBox4.TabIndex = 1;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Reset Table Hotkey";
+            // 
+            // buttonRemapResetTableHotkey
+            // 
+            this.buttonRemapResetTableHotkey.Location = new System.Drawing.Point(209, 29);
+            this.buttonRemapResetTableHotkey.Name = "buttonRemapResetTableHotkey";
+            this.buttonRemapResetTableHotkey.Size = new System.Drawing.Size(103, 36);
+            this.buttonRemapResetTableHotkey.TabIndex = 1;
+            this.buttonRemapResetTableHotkey.Text = "Remap";
+            this.buttonRemapResetTableHotkey.UseVisualStyleBackColor = true;
+            this.buttonRemapResetTableHotkey.Click += new System.EventHandler(this.buttonRemapResetTableHotkey_Click);
+            // 
+            // labelResetTableHotkey
+            // 
+            this.labelResetTableHotkey.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelResetTableHotkey.Location = new System.Drawing.Point(6, 33);
+            this.labelResetTableHotkey.Name = "labelResetTableHotkey";
+            this.labelResetTableHotkey.Size = new System.Drawing.Size(197, 28);
+            this.labelResetTableHotkey.TabIndex = 0;
+            this.labelResetTableHotkey.Text = "Modifier + Key";
+            this.labelResetTableHotkey.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SettingsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(342, 435);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.settingsTabControl);
             this.Name = "SettingsWindow";
             this.ShowInTaskbar = false;
             this.Text = "Settings";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsWindow_FormClosing);
-            this.tabControl1.ResumeLayout(false);
-            this.windowSettings.ResumeLayout(false);
-            this.windowSettings.PerformLayout();
+            this.settingsTabControl.ResumeLayout(false);
+            this.windowTabPage.ResumeLayout(false);
+            this.windowTabPage.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacityTrackBar)).EndInit();
-            this.saiparkSettings.ResumeLayout(false);
-            this.saiparkSettings.PerformLayout();
+            this.lumaChanceTabPage.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.saiparkTabPage.ResumeLayout(false);
+            this.saiparkTabPage.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.temtem2Multiplier)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.temtem1Multiplier)).EndInit();
-            this.tabPage1.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.hotkeysTabPage.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage windowSettings;
-        private System.Windows.Forms.TabPage saiparkSettings;
+        private System.Windows.Forms.TabControl settingsTabControl;
+        private System.Windows.Forms.TabPage windowTabPage;
+        private System.Windows.Forms.TabPage saiparkTabPage;
         private System.Windows.Forms.CheckBox darkModeCheckbox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.NumericUpDown temtem1Multiplier;
@@ -386,12 +454,17 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TrackBar opacityTrackBar;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage hotkeysTabPage;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label labelResetTableHotkey;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button buttonRemapPauseTimerHotkey;
         private System.Windows.Forms.Label labelPauseTimerHotkey;
         private System.Windows.Forms.Button buttonRemapResetTableHotkey;
+        private System.Windows.Forms.TabPage lumaChanceTabPage;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.RadioButton radioButtonLuma9999Percent;
+        private System.Windows.Forms.RadioButton radioButtonLuma50Percent;
+        private System.Windows.Forms.RadioButton radioButtonLuma75Percent;
     }
 }

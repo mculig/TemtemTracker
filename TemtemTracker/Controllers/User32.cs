@@ -103,5 +103,26 @@ namespace TemtemTracker.Controllers
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        //Helper function to check a Keys enum for Alt, Control or Shift and return
+        //a KeyModifiers structure with the appropriate flags set
+        public static KeyModifiers KeysToKeyModifiers(Keys keys)
+        {
+            KeyModifiers modifiers = new KeyModifiers();
+            if((keys & Keys.Alt) > 0)
+            {
+                modifiers |= KeyModifiers.Alt;
+            }
+            if((keys & Keys.Control) > 0)
+            {
+                modifiers |= KeyModifiers.Control;
+            }
+            if((keys & Keys.Shift) > 0)
+            {
+                modifiers |= KeyModifiers.Shift;
+            }
+
+            return modifiers;
+        }
     }
 }

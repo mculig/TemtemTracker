@@ -28,10 +28,13 @@ namespace TemtemTracker.Controllers
         //A hash map between UI rows and data elements used when inserting or deleting elements
         Dictionary<TemtemDataRow, TemtemTableRowUI> UIRows;
 
-        public TemtemTableController(TemtemTrackerUI trackerUI, LumaChanceCalculator lumaCalculator)
+        public TemtemTableController(TemtemTrackerUI trackerUI, LumaChanceCalculator lumaCalculator, SettingsController settingsController)
         {
             this.trackerUI = trackerUI;
             this.lumaCalculator = lumaCalculator;
+
+            settingsController.SetTableController(this);
+
             UIRows = new Dictionary<TemtemDataRow, TemtemTableRowUI>();
 
             //Deserialize user data OR create missing objects
@@ -147,6 +150,17 @@ namespace TemtemTracker.Controllers
             trackerUI.UpdateTotal();
             trackerUI.UpdateTemtemH(0);
             trackerUI.UpdateTime(0);
+        }
+
+        public void UpdateLumaTimes()
+        {
+            foreach(KeyValuePair<TemtemDataRow, TemtemTableRowUI> entry in UIRows)
+            {
+                entry.Key.timeToLuma = lumaCalculator.GetTimeToLuma(entry.Key.encountered, dataTable.timer.durationTime, entry.Key.name);
+                entry.Value.UpdateRow();
+            }
+            dataTable.total.timeToLuma = lumaCalculator.GetTimeToLuma(dataTable.total.encountered, dataTable.timer.durationTime, dataTable.total.name);
+            trackerUI.UpdateTotal();
         }
 
         public void IncrementTimer()

@@ -59,6 +59,29 @@ namespace TemtemTracker
             opacityTrackBar.Value = (int) (opacity * 100);
         }
 
+        public void SetTimeToLumaRadioButton(double probability)
+        {
+            if (probability == 0.9999)
+            {
+                radioButtonLuma9999Percent.Checked = true;
+            }
+            else if (probability == 0.75)
+            {
+                radioButtonLuma75Percent.Checked = true;
+            }
+            else if (probability == 0.5)
+            {
+                radioButtonLuma50Percent.Checked = true;
+            }
+            else
+            {
+                //Fallback default is 50%
+                radioButtonLuma50Percent.Checked = true;
+                //Also set this to 50% in the settings
+                settingsController.SetTimeToLumaProbability(0.5);
+            }
+        }
+
         private void checkBoxSaiparkMode_CheckedChanged(object sender, EventArgs e)
         {
             settingsController.SetSaiparkMode(checkBoxSaiparkMode.Checked);
@@ -87,6 +110,122 @@ namespace TemtemTracker
         private void opacityTrackBar_Scroll(object sender, EventArgs e)
         {
             settingsController.SetMainWindowOpacity(opacityTrackBar.Value);
+        }
+
+        private void buttonRemapResetTableHotkey_Click(object sender, EventArgs e)
+        {
+            //Temporarily disable hotkeys
+            settingsController.DisableHotkeys();
+            //Enable key preview
+            KeyPreview = true;
+            //Create temporary event handler to handle key preview
+            EventHandler disableKeyPreview = null;
+            disableKeyPreview = (s, eA) =>
+            {
+                settingsTabControl.SelectedIndexChanged -= disableKeyPreview;
+                VisibleChanged -= disableKeyPreview;
+                KeyPreview = false;
+                //Enable hotkeys again
+                settingsController.EnableHotkeys();
+            };
+            //Set it so key preview gets disabled when the tab is changed
+            settingsTabControl.SelectedIndexChanged += disableKeyPreview;
+            //Set it so key preview gets disabled when the window is made invisible
+            VisibleChanged += disableKeyPreview;
+            //Create temporary event handler to handle the actual key
+            KeyEventHandler getPressedKey = null;
+            getPressedKey = (s, eA) =>
+            {
+                switch (eA.KeyCode)
+                {
+                    case Keys.ControlKey:
+                    case Keys.ShiftKey:
+                    case Keys.Menu:
+                    case Keys.LWin:
+                    case Keys.RWin:
+                        //We ignore controls other than to combine them with others
+                        return;
+                }
+                //Remove the event handlers
+                KeyDown -= getPressedKey;
+                settingsTabControl.SelectedIndexChanged -= disableKeyPreview;
+                VisibleChanged -= disableKeyPreview;
+                KeyPreview = false;
+                settingsController.RemapResetTableHotkey(eA.Modifiers, eA.KeyCode);
+                //Enable hotkeys again
+                settingsController.EnableHotkeys();
+            };
+            KeyDown += getPressedKey;
+        }
+
+        private void buttonRemapPauseTimerHotkey_Click(object sender, EventArgs e)
+        {
+            //Temporarily disable hotkeys
+            settingsController.DisableHotkeys();
+            //Enable key preview
+            KeyPreview = true;
+            //Create temporary event handler to handle key preview
+            EventHandler disableKeyPreview = null;
+            disableKeyPreview = (s, eA) =>
+            {
+                settingsTabControl.SelectedIndexChanged -= disableKeyPreview;
+                VisibleChanged -= disableKeyPreview;
+                KeyPreview = false;
+                //Enable hotkeys again
+                settingsController.EnableHotkeys();
+            };
+            //Set it so key preview gets disabled when the tab is changed
+            settingsTabControl.SelectedIndexChanged += disableKeyPreview;
+            //Set it so key preview gets disabled when the window is made invisible
+            VisibleChanged += disableKeyPreview;
+            //Create temporary event handler to handle the actual key
+            KeyEventHandler getPressedKey = null;
+            getPressedKey = (s, eA) =>
+            {
+                switch (eA.KeyCode)
+                {
+                    case Keys.ControlKey:
+                    case Keys.ShiftKey:
+                    case Keys.Menu:
+                    case Keys.LWin:
+                    case Keys.RWin:
+                        //We ignore controls other than to combine them with others
+                        return;
+                }
+                //Remove the event handlers
+                KeyDown -= getPressedKey;
+                settingsTabControl.SelectedIndexChanged -= disableKeyPreview;
+                VisibleChanged -= disableKeyPreview;
+                KeyPreview = false;
+                settingsController.RemapPauseTimerHotkey(eA.Modifiers, eA.KeyCode);
+                //Enable hotkeys again
+                settingsController.EnableHotkeys();
+            };
+            KeyDown += getPressedKey;
+        }
+
+        private void radioButtonLuma50Percent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonLuma50Percent.Checked)
+            {
+                settingsController.SetTimeToLumaProbability(0.5);
+            }
+        }
+
+        private void radioButtonLuma75Percent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonLuma75Percent.Checked)
+            {
+                settingsController.SetTimeToLumaProbability(0.75);
+            }
+        }
+
+        private void radioButtonLuma9999Percent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonLuma9999Percent.Checked)
+            {
+                settingsController.SetTimeToLumaProbability(0.9999);
+            }
         }
     }
 }

@@ -19,6 +19,11 @@ namespace TemtemTracker.Controllers
         private TemtemTableController tableController;
         private Keys resetTableHotkey;
         private Keys pauseTimerHotkey;
+        private Keys resetTableHotkeyModifiers;
+        private Keys pauseTimerHotkeyModifiers;
+        private User32.KeyModifiers resetTableKeyModifiers;
+        private User32.KeyModifiers pauseTimerKeyModifiers;
+        private bool hotkeysDisabled = false;
 
         private readonly int KEY_MESSAGE = 0x0312;
         private readonly int RESET_TABLE_HOTKEY_ID = 0;
@@ -30,24 +35,34 @@ namespace TemtemTracker.Controllers
             this.trackerUI = trackerUI;
             this.timerController = timerController;
             this.tableController = tableController;
+            settingsController.SetHotkeyController(this);
 
             //Get the hotkeys from settings
             this.resetTableHotkey = (Keys) settingsController.GetSettings().resetTableHotkey;
+            this.resetTableHotkeyModifiers = (Keys)settingsController.GetSettings().resetTableHotkeyModifier;
+            this.resetTableKeyModifiers = User32.KeysToKeyModifiers(resetTableHotkeyModifiers);
             this.pauseTimerHotkey = (Keys) settingsController.GetSettings().pauseTimerHotkey;
+            this.pauseTimerHotkeyModifiers = (Keys)settingsController.GetSettings().pauseTimerHotkeyModifier;
+            this.pauseTimerKeyModifiers = User32.KeysToKeyModifiers(pauseTimerHotkeyModifiers);
 
-            //Set the hotkeys in the menu
-            KeysConverter kc = new KeysConverter();
-            trackerUI.SetMenuStripHotkeyStrings(kc.ConvertToString(resetTableHotkey), kc.ConvertToString(pauseTimerHotkey));
+            //Set tracker UI hotkey strings
+            PopulateTrackerUIHotkeyLabels();
 
             //Bind the hotkeys 
-            User32.RegisterHotKey(this.Handle, RESET_TABLE_HOTKEY_ID, User32.KeyModifiers.None, resetTableHotkey);
-            User32.RegisterHotKey(this.Handle, PAUSE_TIMER_HOTKEY_ID, User32.KeyModifiers.None, pauseTimerHotkey);
+            User32.RegisterHotKey(this.Handle, RESET_TABLE_HOTKEY_ID, resetTableKeyModifiers, resetTableHotkey);
+            User32.RegisterHotKey(this.Handle, PAUSE_TIMER_HOTKEY_ID, pauseTimerKeyModifiers, pauseTimerHotkey);
 
         }
 
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
+
+            if (hotkeysDisabled)
+            {
+                //If we've temporarily disabled hotkeys
+                return;
+            }
 
             if(m.Msg == KEY_MESSAGE)
             {
@@ -68,23 +83,55 @@ namespace TemtemTracker.Controllers
             }
         }
 
-        public void RemapResetTableHotkey()
+        public void ReloadResetTableHotkey()
         {
-
+            //Get the hotkeys from settings
+            this.resetTableHotkey = (Keys)settingsController.GetSettings().resetTableHotkey;
+            this.resetTableHotkeyModifiers = (Keys)settingsController.GetSettings().resetTableHotkeyModifier;
+            this.resetTableKeyModifiers = User32.KeysToKeyModifiers(resetTableHotkeyModifiers);
+            //Set the hotkey labels in the tracker UI
+            PopulateTrackerUIHotkeyLabels();
         }
 
-        public void RemapPauseTimerHotkey()
+        public void ReloadPauseTimerHotkey()
         {
-
+            //Get the hotkeys from settings
+            this.pauseTimerHotkey = (Keys)settingsController.GetSettings().pauseTimerHotkey;
+            this.pauseTimerHotkeyModifiers = (Keys)settingsController.GetSettings().pauseTimerHotkeyModifier;
+            this.pauseTimerKeyModifiers = User32.KeysToKeyModifiers(pauseTimerHotkeyModifiers);
+            //Set the hotkey labels in the tracker UI
+            PopulateTrackerUIHotkeyLabels();
         }
 
-        //Finalizer (destructor) to unregister hotkeys when this class is garbage collected
-        ~HotkeyController()
+        public void DisableHotkeys()
+        {
+            UnregisterHotkeys();
+        }
+        
+        public void EnableHotkeys()
+        {
+            User32.RegisterHotKey(this.Handle, RESET_TABLE_HOTKEY_ID, resetTableKeyModifiers, resetTableHotkey);
+            User32.RegisterHotKey(this.Handle, PAUSE_TIMER_HOTKEY_ID, pauseTimerKeyModifiers, pauseTimerHotkey);
+        }
+
+        //Unregister the hotkeys
+        public void UnregisterHotkeys()
         {
             User32.UnregisterHotKey(this.Handle, RESET_TABLE_HOTKEY_ID);
             User32.UnregisterHotKey(this.Handle, PAUSE_TIMER_HOTKEY_ID);
         }
 
+        private void PopulateTrackerUIHotkeyLabels()
+        {
+            //Set the hotkeys in the menu
+            KeysConverter kc = new KeysConverter();
+            string resetTableHotkeyModifiersString = kc.ConvertToString(resetTableHotkeyModifiers);
+            resetTableHotkeyModifiersString = resetTableHotkeyModifiersString.Replace("+None", "");
+            string pauseTimerHotkeyModifiersString = kc.ConvertToString(pauseTimerHotkeyModifiers);
+            pauseTimerHotkeyModifiersString = pauseTimerHotkeyModifiersString.Replace("+None", "");
+            trackerUI.SetMenuStripHotkeyStrings(resetTableHotkeyModifiersString + "+" + kc.ConvertToString(resetTableHotkey),
+                pauseTimerHotkeyModifiersString + "+" + kc.ConvertToString(pauseTimerHotkey));
+        }
 
 
     }

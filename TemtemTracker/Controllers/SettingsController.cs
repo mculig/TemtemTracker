@@ -16,6 +16,8 @@ namespace TemtemTracker.Controllers
         UserSettings userSettings;
         SettingsWindow settingsWindow;
         TemtemTrackerUI trackerUI;
+        TemtemTableController tableController;
+        HotkeyController hotkeyController;
 
         public SettingsController(Species species, UserSettings userSettings, TemtemTrackerUI trackerUI)
         {
@@ -29,15 +31,28 @@ namespace TemtemTracker.Controllers
 
             settingsWindow.PopulateWindowSettings(userSettings.mainWindowOpacity);
 
-            KeysConverter kc = new KeysConverter();
-            settingsWindow.PopulateHotkeySettings(kc.ConvertToString(userSettings.resetTableHotkey), kc.ConvertToString(userSettings.pauseTimerHotkey));
+            settingsWindow.SetTimeToLumaRadioButton(userSettings.timeToLumaProbability);
 
+            //Populate settings window hotkey labels
+            PopulateSettingsWindowHotkeyLabels();
+
+            //Set tracker UI dimensions
             trackerUI.Width = userSettings.mainWindowWidth;
             trackerUI.Height = userSettings.mainWindowHeight;
             trackerUI.Opacity = userSettings.mainWindowOpacity;
 
             //Set this as the settings controller in the UI
             trackerUI.SetSettingsController(this);
+        }
+
+        public void SetTableController(TemtemTableController tableController)
+        {
+            this.tableController = tableController;
+        }
+
+        public void SetHotkeyController(HotkeyController hotkeyController)
+        {
+            this.hotkeyController = hotkeyController;
         }
 
         public UserSettings GetSettings()
@@ -87,11 +102,62 @@ namespace TemtemTracker.Controllers
             userSettings.mainWindowHeight = mainWindowSize.Height;
         }
 
+        public void DisableHotkeys()
+        {
+            hotkeyController.DisableHotkeys();
+        }
+
+        public void EnableHotkeys()
+        {
+            hotkeyController.EnableHotkeys();
+        }
+
+        public void RemapResetTableHotkey(Keys modifiers, Keys newKey)
+        {
+            userSettings.resetTableHotkeyModifier = (int) modifiers;
+            userSettings.resetTableHotkey = (int) newKey;
+            hotkeyController.ReloadResetTableHotkey();
+            PopulateSettingsWindowHotkeyLabels();
+        }
+
+        public void RemapPauseTimerHotkey(Keys modifiers, Keys newKey)
+        {
+            userSettings.pauseTimerHotkeyModifier = (int)modifiers;
+            userSettings.pauseTimerHotkey = (int) newKey;
+            hotkeyController.ReloadPauseTimerHotkey();
+            PopulateSettingsWindowHotkeyLabels();
+        }
+
+        public void SetTimeToLumaProbability(double probability)
+        {
+            userSettings.timeToLumaProbability = probability;
+            if (tableController != null)
+            {
+                //When initializing the app this can get fired before 
+                //the table exists which isn't great
+                //To prevent this we just check if it's null or not
+                tableController.UpdateLumaTimes();
+            }
+            
+        }
+
         public void SaveSettings()
         {
             String settingsJson = JsonConvert.SerializeObject(userSettings);
             File.WriteAllText(Paths.USER_SETTINGS_PATH, settingsJson);
         }
 
+        private void PopulateSettingsWindowHotkeyLabels()
+        {
+            KeysConverter kc = new KeysConverter();
+            string resetTableHotkeyModifiersString = kc.ConvertToString(userSettings.resetTableHotkeyModifier);
+            resetTableHotkeyModifiersString = resetTableHotkeyModifiersString.Replace("+None", "");
+            string pauseTimerHotkeyModifiersString = kc.ConvertToString(userSettings.pauseTimerHotkeyModifier);
+            pauseTimerHotkeyModifiersString = pauseTimerHotkeyModifiersString.Replace("+None", "");
+            settingsWindow.PopulateHotkeySettings(resetTableHotkeyModifiersString + "+" + kc.ConvertToString(userSettings.resetTableHotkey),
+                pauseTimerHotkeyModifiersString + "+" + kc.ConvertToString(userSettings.pauseTimerHotkey));
+        }
+
+        
     }
 }
