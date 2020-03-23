@@ -125,12 +125,11 @@ namespace TemtemTracker.Controllers
         {
             //Set the hotkeys in the menu
             KeysConverter kc = new KeysConverter();
-            string resetTableHotkeyModifiersString = kc.ConvertToString(resetTableHotkeyModifiers);
-            resetTableHotkeyModifiersString = resetTableHotkeyModifiersString.Replace("+None", "");
-            string pauseTimerHotkeyModifiersString = kc.ConvertToString(pauseTimerHotkeyModifiers);
-            pauseTimerHotkeyModifiersString = pauseTimerHotkeyModifiersString.Replace("+None", "");
-            trackerUI.SetMenuStripHotkeyStrings(resetTableHotkeyModifiersString + "+" + kc.ConvertToString(resetTableHotkey),
-                pauseTimerHotkeyModifiersString + "+" + kc.ConvertToString(pauseTimerHotkey));
+            string resetTableHotkeyModifiersString = HelperMethods.ModifierKeysToString(resetTableHotkeyModifiers);
+            string pauseTimerHotkeyModifiersString = HelperMethods.ModifierKeysToString(pauseTimerHotkeyModifiers);
+            trackerUI.SetMenuStripHotkeyStrings(resetTableHotkeyModifiersString + kc.ConvertToString(resetTableHotkey),
+                pauseTimerHotkeyModifiersString + kc.ConvertToString(pauseTimerHotkey));
+            
         }
 
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -47,6 +49,12 @@ namespace TemtemTracker.Controllers
         // is white for pre-OCR image cleanup
         int maxOCRSubpixelFFDistance;
 
+        //Minimum width to resize image to before OCR Pre-processing
+        int minimumOCRResizeWidth;
+
+        //Tesseract character whitelist
+        string OCRCharWhitelist;
+
         //Config
         Config config;
 
@@ -54,8 +62,12 @@ namespace TemtemTracker.Controllers
         {
             this.speciesList = speciesList;
             this.maxOCRSubpixelFFDistance = config.maxOCRSubpixelFFDistance;
+            this.minimumOCRResizeWidth = config.minimumOCRResizeWidth;
+            this.OCRCharWhitelist = config.OCRCharWhitelist;
             this.config = config;
             tesseract = new TesseractEngine(TESS_DATAPATH, LANGUAGE);
+            //Limit tesseract to alphabet only
+            tesseract.SetVariable("tessedit_char_whitelist", OCRCharWhitelist);           
         }
 
         public List<String> doOCR(Bitmap gameWindow)
@@ -91,30 +103,69 @@ namespace TemtemTracker.Controllers
 
             List<string> results = new List<string>();
 
+            //Create a list of tasks
+            List<Task<Bitmap>> taskList = new List<Task<Bitmap>>();
+            //Create a task for each image processing segment
             foreach(Rectangle viewport in OCRViewports)
             {
                 Bitmap viewportCrop = gameWindow.Clone(viewport, gameWindow.PixelFormat);
-                ProcessImage(viewportCrop);
-                Page result = tesseract.Process(viewportCrop);
-                string text = result.GetText();
-                //Dispose of the result
-                result.Dispose();
-                text = Regex.Replace(text, "[^a-zA-Z]","");
-                if (text.Length <= 3)
-                {
-                    continue;
-                }
-                text = StringSimilarityCompare(text, speciesList.species);
-                results.Add(text);
-                //Dispose of the image
-                viewportCrop.Dispose();
-                
+                taskList.Add(Task.Run(()=> {
+                    //This is fine since ImageProcessingTask disposes of the provided image
+                    return ImageProcessingTask(viewportCrop);
+                }));
             }
 
+            //Wait for all processing to finish
+            Task.WaitAll(taskList.ToArray());
 
+            //Process the images
+            foreach(Task<Bitmap> processingTask in taskList)
+            {
+                using(Bitmap processingResult = processingTask.Result)
+                {
+                    using (Page result = tesseract.Process(processingResult))
+                    {
+                        string ocrTextResult = result.GetText();
+                        //Ignore any noise OR empty strings
+                        if (ocrTextResult.Length <= 3)
+                        {
+                            continue;
+                        }
+                        //Run the similarity metric
+                        ocrTextResult = StringSimilarityCompare(ocrTextResult, speciesList.species);
+                        //Add the result to our results
+                        results.Add(ocrTextResult);
+                    }
+                }
+            }
 
             return results;
+        }
 
+        private Bitmap ImageProcessingTask(Bitmap image)
+        {
+            int resizedHeight = (int)Math.Ceiling((minimumOCRResizeWidth / (double)image.Width) * image.Height);
+            Bitmap resizedCrop = new Bitmap(minimumOCRResizeWidth, resizedHeight);
+            using (Graphics graphics = Graphics.FromImage(resizedCrop))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (ImageAttributes wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, new Rectangle(0, 0, resizedCrop.Width, resizedCrop.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+            //Process the resize
+            ProcessImage(resizedCrop);
+            //Dispose the provided image
+            image.Dispose();
+            //Return the resized image
+            return resizedCrop;
         }
 
         private void ProcessImage(Bitmap image)
@@ -171,8 +222,8 @@ namespace TemtemTracker.Controllers
                     //We've already marked this pixel as a part of a middle cluster
                     continue;
                 }
-                //Run the recursive check on this pixel
-                recursivePixelCheck(pixelI, scanningLine, whiteMask, imageHeight, imageWidth);
+                //Run the check on this pixel
+                PixelCheck(pixelI, scanningLine, whiteMask, imageHeight, imageWidth);
             }
 
             //Set red pixels to black and rest to white
@@ -190,7 +241,7 @@ namespace TemtemTracker.Controllers
                     }
                 }
             }
-
+            //Set the image pixels to the pixel values in the white mask
             for (int i = 0; i < imageWidth; i++)
             {
                 for (int j = 0; j < imageHeight; j++)
@@ -227,39 +278,39 @@ namespace TemtemTracker.Controllers
             return true;
         }
 
-        private void recursivePixelCheck(int i, int j, uint[,] whiteMask, int imageHeight, int imageWidth)
+        private void PixelCheck(int i, int j, uint[,] whiteMask, int imageHeight, int imageWidth)
         {
-            //Check if we're out of bounds
-            //This should never happen as text is central to the image and should never have an uninterrupted
-            //tendril of black pixels connecting it to the edges, but it's good practice to check
-            if (i >= imageWidth || j >= imageHeight)
+            Queue<Tuple<int,int>> pixelStack = new Queue<Tuple<int, int>>();
+            //Add the initial pixel coordinates
+            pixelStack.Enqueue(Tuple.Create(i,j));
+            //Proceess the queue
+            while (pixelStack.Count != 0)
             {
-                return;
-            }
-            if (i < 0 || j < 0)
-            {
-                return;
-            }
-            //If a pixel is already red, we've done it
-            if (whiteMask[i,j] == ARGB_RED)
-            {
-                return;
-            }
-            else if (whiteMask[i,j] == ARGB_WHITE)
-            {
-                //If the pixel is white, we're not interested in its neighbours
-                return;
-            }
-            else
-            {
-                //Mark the pixel red;
-                whiteMask[i,j] = ARGB_RED;
-                foreach(int iOffset in new int[] { -1, 1 })
+                //Get pixel coordinates from the stack
+                Tuple<int, int> coordinate = pixelStack.Dequeue();
+                //Set that pixel red
+                whiteMask[coordinate.Item1, coordinate.Item2] = ARGB_RED;
+                //Check neighboring pixels
+                foreach (int iOffset in new int[] { -1, 1 })
                 {
-                    foreach(int jOffset in new int[] { -1, 1 })
+                    foreach (int jOffset in new int[] { -1, 1 })
                     {
-                        //Do the recursive check on nearby pixels
-                        recursivePixelCheck(i + iOffset, j + jOffset, whiteMask, imageHeight, imageWidth);
+                        if(coordinate.Item1+iOffset >= imageWidth || coordinate.Item2+jOffset >= imageHeight)
+                        {
+                            continue;
+                        }
+                        if(coordinate.Item1+iOffset < 0 || coordinate.Item2+jOffset < 0)
+                        {
+                            continue;
+                        }
+                        if(whiteMask[coordinate.Item1+iOffset, coordinate.Item2 + jOffset] == ARGB_BLACK)
+                        {
+                            Tuple<int,int> newTuple = Tuple.Create(coordinate.Item1 + iOffset, coordinate.Item2 + jOffset);
+                            if (!pixelStack.Contains(newTuple))
+                            {
+                                pixelStack.Enqueue(newTuple);
+                            }
+                        }
                     }
                 }
             }

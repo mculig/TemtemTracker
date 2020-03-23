@@ -23,6 +23,10 @@ namespace TemtemTracker.Data
         public int maxAllowedColorDistance;
         // Maximum distance from FF an individual color subpixel may be when determining what is white for OCR image cleanup
         public int maxOCRSubpixelFFDistance;
+        // Minimum width to resize image to before OCR Pre-processing
+        public int minimumOCRResizeWidth;
+        //Tesseract character whitelist
+        public string OCRCharWhitelist;
 
         public List<ScreenConfig> aspectRatios;
     }

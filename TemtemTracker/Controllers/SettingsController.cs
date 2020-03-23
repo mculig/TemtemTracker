@@ -150,12 +150,10 @@ namespace TemtemTracker.Controllers
         private void PopulateSettingsWindowHotkeyLabels()
         {
             KeysConverter kc = new KeysConverter();
-            string resetTableHotkeyModifiersString = kc.ConvertToString(userSettings.resetTableHotkeyModifier);
-            resetTableHotkeyModifiersString = resetTableHotkeyModifiersString.Replace("+None", "");
-            string pauseTimerHotkeyModifiersString = kc.ConvertToString(userSettings.pauseTimerHotkeyModifier);
-            pauseTimerHotkeyModifiersString = pauseTimerHotkeyModifiersString.Replace("+None", "");
-            settingsWindow.PopulateHotkeySettings(resetTableHotkeyModifiersString + "+" + kc.ConvertToString(userSettings.resetTableHotkey),
-                pauseTimerHotkeyModifiersString + "+" + kc.ConvertToString(userSettings.pauseTimerHotkey));
+            string resetTableHotkeyModifiersString = HelperMethods.ModifierKeysToString((Keys) userSettings.resetTableHotkeyModifier);
+            string pauseTimerHotkeyModifiersString = HelperMethods.ModifierKeysToString((Keys) userSettings.pauseTimerHotkeyModifier);
+            settingsWindow.PopulateHotkeySettings(resetTableHotkeyModifiersString + kc.ConvertToString(userSettings.resetTableHotkey),
+                pauseTimerHotkeyModifiersString + kc.ConvertToString(userSettings.pauseTimerHotkey));
         }
 
         
