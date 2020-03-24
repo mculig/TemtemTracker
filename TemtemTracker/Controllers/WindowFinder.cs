@@ -12,7 +12,6 @@ namespace TemtemTracker.Controllers
 {
     public class WindowFinder
     {
-        private static readonly int WS_MINIMIZE = 0x20000000;
         private static readonly string WINDOW_NAME = "Temtem";
 
         public WindowFinder()
@@ -22,40 +21,30 @@ namespace TemtemTracker.Controllers
 
         public static Bitmap getTemtemWindowScreenshot()
         {
-            //Get the game window
-            IntPtr temtemWindow = User32.FindWindow(null, WINDOW_NAME);
+            //Pointer to the Temtem Window
+            IntPtr temtemWindow = IntPtr.Zero;
 
-            if (temtemWindow == null)
-            {
-                //If we can't find Temtem, we return null
-                return null;
-            }
-
-            User32.WINDOWINFO info = new User32.WINDOWINFO();
-            User32.GetWindowInfo(temtemWindow, ref info);
-
-            if((info.dwStyle & WS_MINIMIZE) == WS_MINIMIZE)
-            {
-                //Window is minimized, return null
-                return null;
-            }
-
+            //Get the currently focused window
             IntPtr focused = User32.GetForegroundWindow();
 
-            if(focused!=null && !focused.Equals(temtemWindow))
+            //If we're not focusing a window
+            if(focused == IntPtr.Zero)
             {
-                //The focused window isn't Temtem
                 return null;
             }
-
-            //Check that we didn't catch a wrong process with a similar window name
-            uint processID;
-            User32.GetWindowThreadProcessId(temtemWindow, out processID);
-            Process foundProcess = Process.GetProcessById(unchecked((int)processID));
-            if(foundProcess.ProcessName != WINDOW_NAME)
+            //Check if the focused window is Temtem
+            StringBuilder windowName = new StringBuilder(100);
+            User32.GetWindowText(focused, windowName, 100);
+            uint focusedWindowProcessID;
+            User32.GetWindowThreadProcessId(focused, out focusedWindowProcessID);
+            string focusedWindowProcessName = Process.GetProcessById((int)focusedWindowProcessID).ProcessName;
+            if (windowName.ToString().Equals(WINDOW_NAME) && focusedWindowProcessName.Equals(WINDOW_NAME))
             {
-                //This sometimes randomly happens with windows that have Temtem anywhere in their title
-                //The spawning process either isn't named or isn't named Temtem
+                temtemWindow = focused;   
+            }
+            else
+            {
+                //We aren't in the right window
                 return null;
             }
 

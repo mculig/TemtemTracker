@@ -32,11 +32,16 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseTimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.temtemTableTotalUI = new TemtemTracker.TemtemTableTotalUI();
             this.temtemTableRowHeaderUI = new TemtemTracker.TemtemTableRowHeaderUI();
             this.timeTrackerUI1 = new TemtemTracker.TimeTrackerUI();
+            this.exportCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,6 +69,11 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.resetTableToolStripMenuItem,
             this.pauseTimerToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.saveTableToolStripMenuItem,
+            this.loadTableToolStripMenuItem,
+            this.exportCSVToolStripMenuItem,
+            this.toolStripSeparator2,
             this.propertiesToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(50, 29);
@@ -84,6 +94,30 @@
             this.pauseTimerToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.pauseTimerToolStripMenuItem.Text = "Pause Timer";
             this.pauseTimerToolStripMenuItem.Click += new System.EventHandler(this.pauseTimerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(218, 6);
+            // 
+            // saveTableToolStripMenuItem
+            // 
+            this.saveTableToolStripMenuItem.Name = "saveTableToolStripMenuItem";
+            this.saveTableToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
+            this.saveTableToolStripMenuItem.Text = "Save As";
+            this.saveTableToolStripMenuItem.Click += new System.EventHandler(this.saveTableToolStripMenuItem_Click);
+            // 
+            // loadTableToolStripMenuItem
+            // 
+            this.loadTableToolStripMenuItem.Name = "loadTableToolStripMenuItem";
+            this.loadTableToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
+            this.loadTableToolStripMenuItem.Text = "Load";
+            this.loadTableToolStripMenuItem.Click += new System.EventHandler(this.loadTableToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(218, 6);
             // 
             // propertiesToolStripMenuItem
             // 
@@ -129,6 +163,13 @@
             this.timeTrackerUI1.Size = new System.Drawing.Size(1047, 57);
             this.timeTrackerUI1.TabIndex = 1;
             // 
+            // exportCSVToolStripMenuItem
+            // 
+            this.exportCSVToolStripMenuItem.Name = "exportCSVToolStripMenuItem";
+            this.exportCSVToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
+            this.exportCSVToolStripMenuItem.Text = "Export CSV";
+            this.exportCSVToolStripMenuItem.Click += new System.EventHandler(this.exportCSVToolStripMenuItem_Click);
+            // 
             // TemtemTrackerUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -164,6 +205,11 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem resetTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pauseTimerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveTableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadTableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem exportCSVToolStripMenuItem;
     }
 }
 

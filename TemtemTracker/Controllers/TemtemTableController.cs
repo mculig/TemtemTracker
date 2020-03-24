@@ -37,10 +37,18 @@ namespace TemtemTracker.Controllers
 
             UIRows = new Dictionary<TemtemDataRow, TemtemTableRowUI>();
 
+            LoadTableFromFile(tableFile);
+
+            //Set this as the table controller in the UI
+            trackerUI.SetTableController(this);
+        }
+
+        public void LoadTableFromFile(string fileName)
+        {
             //Deserialize user data OR create missing objects
-            if (File.Exists(tableFile))
+            if (File.Exists(fileName))
             {
-                string json = File.ReadAllText(tableFile);
+                string json = File.ReadAllText(fileName);
                 dataTable = JsonConvert.DeserializeObject<TemtemDataTable>(json);
             }
             else
@@ -60,7 +68,8 @@ namespace TemtemTracker.Controllers
                 dataTable.timer.temtemCount = 0;
             }
             //Set up the UI
-            foreach(TemtemDataRow row in dataTable.rows){
+            foreach (TemtemDataRow row in dataTable.rows)
+            {
                 TemtemTableRowUI rowUI = new TemtemTableRowUI(row, this);
                 UIRows[row] = rowUI;
                 trackerUI.AddRowToTable(rowUI);
@@ -70,9 +79,6 @@ namespace TemtemTracker.Controllers
             //Update time and temtem/h
             trackerUI.UpdateTime(dataTable.timer.durationTime);
             updateTemtemH();
-
-            //Set this as the table controller in the UI
-            trackerUI.SetTableController(this);
         }
 
         public void RemoveRow(TemtemDataRow row)
@@ -177,10 +183,38 @@ namespace TemtemTracker.Controllers
 
         public void SaveTable()
         {
+            //Save table to the default auto-save and auto-load location
+            Directory.CreateDirectory("savedData"); //Creates folder if it's missing
             String jsonTable = JsonConvert.SerializeObject(dataTable);
             File.WriteAllText(tableFile, jsonTable);
         }
 
+        public void SaveTableAs(string fileName)
+        {
+            //Save table to a provided location
+            String jsonTable = JsonConvert.SerializeObject(dataTable);
+            File.WriteAllText(fileName, jsonTable);
+        }
+        
+        public void ExportCSV(string fileName)
+        {
+            //Save table to CSV file
+            String csvString = "";
+            //Write header
+            csvString += "Temtem, Encounters, Chance Luma, Encountered %\n";
+            //Write rows
+            dataTable.rows.ForEach(row => {
+                csvString += row.name + "," + row.encountered + "," + row.lumaChance + "," + row.encounteredPercent + "\n";
+            });
+            //Write total
+            csvString += dataTable.total.name + "," + dataTable.total.encountered + "," + dataTable.total.lumaChance + "," + dataTable.total.encounteredPercent + "\n";
+            //Write timer header
+            csvString += "Time(ms), Temtem/h\n";
+            //Write timer data
+            csvString += dataTable.timer.durationTime + "," + dataTable.timer.temtemCount /((double) dataTable.timer.durationTime / 3600000)+"\n";
+            //Write to file
+            File.WriteAllText(fileName, csvString);
+        }
 
     }
 }

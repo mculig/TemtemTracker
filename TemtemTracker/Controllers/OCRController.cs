@@ -74,10 +74,11 @@ namespace TemtemTracker.Controllers
         {
             if (!this.gameWindowSize.Equals(gameWindow.Size))
             {
+                //The game window size changed, we must account for possible dimension changes
                 this.gameWindowSize = gameWindow.Size;
-
+                //Get the config for the (possibly) new aspect ratio
                 ScreenConfig screenConfig = ConfigLoader.GetConfigForAspectRatio(config, gameWindowSize);
-
+                //Calculate frame locations and widths for the new size/aspect ratio
                 this.frame1PercentageLeft = screenConfig.frame1PercentageLeft;
                 this.frame1PercentageTop = screenConfig.frame1PercentageTop;
 
@@ -94,13 +95,13 @@ namespace TemtemTracker.Controllers
                 (int)Math.Ceiling(gameWindowSize.Height * frame1PercentageTop));
                 frame2Location = new Point((int)Math.Ceiling(gameWindowSize.Width * frame2PercentageLeft),
                 (int)Math.Ceiling(gameWindowSize.Height * frame2PercentageTop));
+                //Create a new list of OCR viewports
+                this.OCRViewports = new List<Rectangle>();
+
+                OCRViewports.Add(new Rectangle(frame1Location, frameSize));
+                OCRViewports.Add(new Rectangle(frame2Location, frameSize));
             }
-
-            this.OCRViewports = new List<Rectangle>();
-
-            OCRViewports.Add(new Rectangle(frame1Location, frameSize));
-            OCRViewports.Add(new Rectangle(frame2Location, frameSize));
-
+            //Create a list to hold our results
             List<string> results = new List<string>();
 
             //Create a list of tasks
@@ -138,7 +139,7 @@ namespace TemtemTracker.Controllers
                     }
                 }
             }
-
+            //Return our array of OCR readings
             return results;
         }
 
@@ -173,7 +174,6 @@ namespace TemtemTracker.Controllers
             int imageHeight = image.Height;
             int imageWidth = image.Width;
 
-            //int[,] pixels = new int[imageWidth,imageHeight];
             uint[,] whiteMask = new uint[imageWidth, imageHeight];
 
             for(int i = 0; i < imageWidth; i++)
