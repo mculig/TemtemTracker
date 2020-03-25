@@ -78,10 +78,17 @@ namespace TemtemTracker.Controllers
                         {
                             continue;
                         }
-                        //Run the similarity metric
-                        ocrTextResult = StringSimilarityCompare(ocrTextResult, speciesList.species);
-                        //Add the result to our results
-                        results.Add(ocrTextResult);
+                        //Run the similarity metric and get the closest actual name
+                        ocrTextResult = GetClosestActualTemtemName(ocrTextResult, speciesList.species);
+                        //Add the result to our results if it isn't the empty entry
+                        //The empty entry is here to pick up short noise that might
+                        //get interpreted as a character and will be closest in distance
+                        //to an empty string
+                        if (ocrTextResult != "")
+                        {
+                            results.Add(ocrTextResult);
+                        }
+                        
                     }
                 }
             }
@@ -262,7 +269,7 @@ namespace TemtemTracker.Controllers
             }
         }
 
-        private string StringSimilarityCompare(string input, List<string> list)
+        private string GetClosestActualTemtemName(string input, List<string> list)
         {
             //These values here are purely nonsensical high values and serve no other purpose
             int minScore = 20000;
