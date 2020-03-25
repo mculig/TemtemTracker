@@ -144,7 +144,8 @@ namespace TemtemTracker.Controllers
                 //If the game screen is null we've detected nothing
                 return;
             }
-
+            //If the game window dimensions have changed we need to recalculate all the spots.
+            //This shouldn't happen often
             if (!gameWindow.Size.Equals(this.gameWindowSize))
             {
                 gameWindowSize = gameWindow.Size;

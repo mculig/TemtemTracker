@@ -54,18 +54,27 @@ namespace TemtemTracker.Controllers
             User32.GetClientRect(temtemWindow, out User32.RECT bounds);
             User32.ClientToScreen(temtemWindow, ref lpPoint);
 
-            Bitmap bmp = new Bitmap((bounds.right - bounds.left), (bounds.bottom - bounds.top));
-            using (Graphics g = Graphics.FromImage(bmp))
+            try
             {
-                g.CopyFromScreen(lpPoint.X, lpPoint.Y, 0, 0, bmp.Size);
-                g.Flush();
-            }          
+                Bitmap bmp = new Bitmap((bounds.right - bounds.left), (bounds.bottom - bounds.top));
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.CopyFromScreen(lpPoint.X, lpPoint.Y, 0, 0, bmp.Size);
+                    g.Flush();
+                }
 
-            //Release the device context
-            User32.ReleaseDC(temtemWindow, hdcWindow);
+                //Release the device context
+                User32.ReleaseDC(temtemWindow, hdcWindow);
 
-
-            return bmp;
+                return bmp;
+            }
+            catch(ArgumentException)
+            {
+                //This only seems to happen when the window is closing and we end up with a 0 width, 0 height game window rectangle
+                //No intricate handling is necessary here, just return null and don't process it
+                return null;
+            }
+            
         }
 
     }
