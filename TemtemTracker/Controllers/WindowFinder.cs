@@ -54,7 +54,7 @@ namespace TemtemTracker.Controllers
             User32.GetClientRect(temtemWindow, out User32.RECT bounds);
             User32.ClientToScreen(temtemWindow, ref lpPoint);
 
-            Bitmap bmp = new Bitmap(Math.Abs(bounds.right - bounds.left), Math.Abs(bounds.bottom - bounds.top));
+            Bitmap bmp = new Bitmap((bounds.right - bounds.left), (bounds.bottom - bounds.top));
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.CopyFromScreen(lpPoint.X, lpPoint.Y, 0, 0, bmp.Size);
@@ -64,7 +64,6 @@ namespace TemtemTracker.Controllers
             //Release the device context
             User32.ReleaseDC(temtemWindow, hdcWindow);
 
-            //bmp.Save(@"config\tmpScreenshot.png");
 
             return bmp;
         }

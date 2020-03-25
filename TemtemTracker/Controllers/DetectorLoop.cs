@@ -22,21 +22,29 @@ namespace TemtemTracker.Controllers
         private double spot1WidthPercentage;
         private double spot1HeightPercentage;
         private readonly uint spot1RGB;
+        private int spot1Y;
+        private int spot1X;
 
         //Detection spot 2
         private double spot2WidthPercentage;
         private double spot2HeightPercentage;
         private readonly uint spot2RGB;
+        private int spot2Y;
+        private int spot2X;
 
         //Detection spot 3
         private double spot3WidthPercentage;
         private double spot3HeightPercentage;
         private readonly uint spot3RGB;
+        private int spot3Y;
+        private int spot3X;
 
         //Detection spot 4
         private double spot4WidthPercentage;
         private double spot4HeightPercentage;
         private readonly uint spot4RGB;
+        private int spot4Y;
+        private int spot4X;
 
         //Spots for detecting out-of combat status
         //Detects 2 spots along the blue border of the minimap
@@ -45,11 +53,15 @@ namespace TemtemTracker.Controllers
         private double spot5WidthPercentage;
         private double spot5HeightPercentage;
         private readonly uint spot5RGB;
+        private int spot5Y;
+        private int spot5X;
 
         //Detection spot 6
         private double spot6WidthPercentage;
         private double spot6HeightPercentage;
         private readonly uint spot6RGB;
+        private int spot6Y;
+        private int spot6X;
 
         //Used to check if the window size changed
         Size gameWindowSize = new Size(0, 0);
@@ -135,45 +147,56 @@ namespace TemtemTracker.Controllers
 
             if (!gameWindow.Size.Equals(this.gameWindowSize))
             {
-                this.gameWindowSize = gameWindow.Size;
+                gameWindowSize = gameWindow.Size;
 
                 screenConfig = ConfigLoader.GetConfigForAspectRatio(config, gameWindowSize);
 
-                this.spot1WidthPercentage = screenConfig.spot1WidthPercentage;
-                this.spot1HeightPercentage = screenConfig.spot1HeightPercentage;
+                spot1WidthPercentage = screenConfig.spot1WidthPercentage;
+                spot1HeightPercentage = screenConfig.spot1HeightPercentage;
 
-                this.spot2WidthPercentage = screenConfig.spot2WidthPercentage;
-                this.spot2HeightPercentage = screenConfig.spot2HeightPercentage;
+                spot2WidthPercentage = screenConfig.spot2WidthPercentage;
+                spot2HeightPercentage = screenConfig.spot2HeightPercentage;
 
-                this.spot3WidthPercentage = screenConfig.spot3WidthPercentage;
-                this.spot3HeightPercentage = screenConfig.spot3HeightPercentage;
+                spot3WidthPercentage = screenConfig.spot3WidthPercentage;
+                spot3HeightPercentage = screenConfig.spot3HeightPercentage;
 
-                this.spot4WidthPercentage = screenConfig.spot4WidthPercentage;
-                this.spot4HeightPercentage = screenConfig.spot4HeightPercentage;
+                spot4WidthPercentage = screenConfig.spot4WidthPercentage;
+                spot4HeightPercentage = screenConfig.spot4HeightPercentage;
 
-                this.spot5WidthPercentage = screenConfig.spot5WidthPercentage;
-                this.spot5HeightPercentage = screenConfig.spot5HeightPercentage;
+                spot5WidthPercentage = screenConfig.spot5WidthPercentage;
+                spot5HeightPercentage = screenConfig.spot5HeightPercentage;
 
-                this.spot6WidthPercentage = screenConfig.spot6WidthPercentage;
-                this.spot6HeightPercentage = screenConfig.spot6HeightPercentage;
+                spot6WidthPercentage = screenConfig.spot6WidthPercentage;
+                spot6HeightPercentage = screenConfig.spot6HeightPercentage;
 
+                spot1X = (int)Math.Ceiling(spot1WidthPercentage * gameWindow.Width);
+                spot1Y = (int)Math.Ceiling(spot1HeightPercentage * gameWindow.Height);
+
+                spot2X = (int)Math.Ceiling(spot2WidthPercentage * gameWindow.Width);
+                spot2Y = (int)Math.Ceiling(spot2HeightPercentage * gameWindow.Height);
+
+                spot3X = (int)Math.Ceiling(spot3WidthPercentage * gameWindow.Width);
+                spot3Y = (int)Math.Ceiling(spot3HeightPercentage * gameWindow.Height);
+
+                spot4X = (int)Math.Ceiling(spot4WidthPercentage * gameWindow.Width);
+                spot4Y = (int)Math.Ceiling(spot4HeightPercentage * gameWindow.Height);
+
+                spot5X = (int)Math.Ceiling(spot5WidthPercentage * gameWindow.Width);
+                spot5Y = (int)Math.Ceiling(spot5HeightPercentage * gameWindow.Height);
+
+                spot6X = (int)Math.Ceiling(spot6WidthPercentage * gameWindow.Width);
+                spot6Y = (int)Math.Ceiling(spot6HeightPercentage * gameWindow.Height);
             }
 
             //In-battle detection
-            Color pixel1RGB = gameWindow.GetPixel((int) Math.Ceiling(spot1WidthPercentage * gameWindow.Width),
-                (int) Math.Ceiling(spot1HeightPercentage*gameWindow.Height));
-            Color pixel2RGB = gameWindow.GetPixel((int)Math.Ceiling(spot2WidthPercentage * gameWindow.Width),
-                (int)Math.Ceiling(spot2HeightPercentage * gameWindow.Height));
-            Color pixel3RGB = gameWindow.GetPixel((int)Math.Ceiling(spot3WidthPercentage * gameWindow.Width),
-                (int)Math.Ceiling(spot3HeightPercentage * gameWindow.Height));
-            Color pixel4RGB = gameWindow.GetPixel((int)Math.Ceiling(spot4WidthPercentage * gameWindow.Width),
-                (int)Math.Ceiling(spot4HeightPercentage * gameWindow.Height));
+            Color pixel1RGB = gameWindow.GetPixel(spot1X, spot1Y);
+            Color pixel2RGB = gameWindow.GetPixel(spot2X, spot2Y);
+            Color pixel3RGB = gameWindow.GetPixel(spot3X, spot3Y);
+            Color pixel4RGB = gameWindow.GetPixel(spot4X, spot4Y);
 
             //Out-of-battle detection
-            Color pixel5RGB = gameWindow.GetPixel((int)Math.Ceiling(spot5WidthPercentage * gameWindow.Width),
-                (int)Math.Ceiling(spot5HeightPercentage * gameWindow.Height));
-            Color pixel6RGB = gameWindow.GetPixel((int)Math.Ceiling(spot6WidthPercentage * gameWindow.Width),
-                (int)Math.Ceiling(spot6HeightPercentage * gameWindow.Height));
+            Color pixel5RGB = gameWindow.GetPixel(spot5X, spot5Y);
+            Color pixel6RGB = gameWindow.GetPixel(spot6X, spot6Y);
 
             if (detectedBattle == false &&
                ((ColorDistance(pixel1RGB, spot1RGB) < maxAllowedColorDistance &&

@@ -110,7 +110,7 @@ namespace TemtemTracker.Controllers
             foreach(Rectangle viewport in OCRViewports)
             {
                 Bitmap viewportCrop = gameWindow.Clone(viewport, gameWindow.PixelFormat);
-                taskList.Add(Task.Run(()=> {
+                taskList.Add(Task.Run(()=> {               
                     //This is fine since ImageProcessingTask disposes of the provided image
                     return ImageProcessingTask(viewportCrop);
                 }));
