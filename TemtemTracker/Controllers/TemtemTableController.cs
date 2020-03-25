@@ -17,16 +17,16 @@ namespace TemtemTracker.Controllers
         static readonly string tableFile = @"savedData\table.json";
 
         //The Luma calculator
-        LumaChanceCalculator lumaCalculator;
+        private readonly LumaChanceCalculator lumaCalculator;
 
         //The various UI elements we need to control
-        TemtemTrackerUI trackerUI;
+        private readonly TemtemTrackerUI trackerUI;
 
         //The data table we load from JSON or set up
         TemtemDataTable dataTable;
 
         //A hash map between UI rows and data elements used when inserting or deleting elements
-        Dictionary<TemtemDataRow, TemtemTableRowUI> UIRows;
+        readonly Dictionary<TemtemDataRow, TemtemTableRowUI> UIRows;
 
         public TemtemTableController(TemtemTrackerUI trackerUI, LumaChanceCalculator lumaCalculator, SettingsController settingsController)
         {
@@ -53,19 +53,23 @@ namespace TemtemTracker.Controllers
             }
             else
             {
-                dataTable = new TemtemDataTable();
-                dataTable.rows = new List<TemtemDataRow>();
-                //Total row
-                dataTable.total = new TemtemDataRow();
+                dataTable = new TemtemDataTable
+                {
+                    rows = new List<TemtemDataRow>(),
+                    //Total row
+                    total = new TemtemDataRow()
+                };
                 dataTable.total.name = "Total";
                 dataTable.total.encountered = 0;
                 dataTable.total.encounteredPercent = 0.0;
                 dataTable.total.lumaChance = 0.0;
                 dataTable.total.timeToLuma = 0;
                 //Timer data
-                dataTable.timer = new TimerData();
-                dataTable.timer.durationTime = 0;
-                dataTable.timer.temtemCount = 0;
+                dataTable.timer = new TimerData
+                {
+                    durationTime = 0,
+                    temtemCount = 0
+                };
             }
             //Set up the UI
             foreach (TemtemDataRow row in dataTable.rows)
@@ -78,7 +82,7 @@ namespace TemtemTracker.Controllers
             trackerUI.SetTotal(dataTable.total);
             //Update time and temtem/h
             trackerUI.UpdateTime(dataTable.timer.durationTime);
-            updateTemtemH();
+            UpdateTemtemH();
         }
 
         public void RemoveRow(TemtemDataRow row)
@@ -116,9 +120,11 @@ namespace TemtemTracker.Controllers
             if(targetRow == null)
             {
                 //We didn't find the row, set up a new one
-                targetRow = new TemtemDataRow();
-                targetRow.name = temtemName;
-                targetRow.encountered = 0;
+                targetRow = new TemtemDataRow
+                {
+                    name = temtemName,
+                    encountered = 0
+                };
                 dataTable.rows.Add(targetRow);
                 UIRows[targetRow] = new TemtemTableRowUI(targetRow, this);
                 trackerUI.AddRowToTable(UIRows[targetRow]);
@@ -139,7 +145,7 @@ namespace TemtemTracker.Controllers
                 entry.Key.encounteredPercent = entry.Key.encountered / (double) dataTable.total.encountered;
                 entry.Value.UpdateRow();
             }
-            updateTemtemH();
+            UpdateTemtemH();
         }
 
         public void ResetTable()
@@ -175,7 +181,7 @@ namespace TemtemTracker.Controllers
             trackerUI.UpdateTime(dataTable.timer.durationTime);
         }
 
-        private void updateTemtemH()
+        private void UpdateTemtemH()
         {
             dataTable.timer.temtemCount = dataTable.total.encountered;
             trackerUI.UpdateTemtemH(dataTable.timer.temtemCount/((double) dataTable.timer.durationTime/ 3600000));

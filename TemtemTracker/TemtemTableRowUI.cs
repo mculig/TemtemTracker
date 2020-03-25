@@ -16,8 +16,8 @@ namespace TemtemTracker
     {
 
         private delegate void SafeCallDelegate();
-        private TemtemDataRow row;
-        private TemtemTableController controller;
+        private readonly TemtemDataRow row;
+        private readonly TemtemTableController controller;
 
         public TemtemTableRowUI(TemtemDataRow row, TemtemTableController controller)
         {
@@ -39,25 +39,25 @@ namespace TemtemTracker
             {
                 labelTemtemName.Text = row.name;
                 labelEncounters.Text = row.encountered.ToString();
-                labelChanceLuma.Text = doubleToPercent(row.lumaChance);
-                labelEncounteredPercent.Text = doubleToPercent(row.encounteredPercent);
-                labelTimeToLuma.Text = milisToHMS(row.timeToLuma);
+                labelChanceLuma.Text = DoubleToPercent(row.lumaChance);
+                labelEncounteredPercent.Text = DoubleToPercent(row.encounteredPercent);
+                labelTimeToLuma.Text = MilisToHMS(row.timeToLuma);
             }
             
         }
 
-        private String doubleToPercent(double number)
+        private String DoubleToPercent(double number)
         {
             return number.ToString("P");
         }
 
-        private String milisToHMS(long milis)
+        private String MilisToHMS(long milis)
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(milis);
             return ((int) ts.TotalHours).ToString("00") + ts.ToString(@"\:mm\:ss");
         }
 
-        private void deleteButtonClick(object sender, EventArgs e)
+        private void DeleteButtonClick(object sender, EventArgs e)
         {
             controller.RemoveRow(row);
         }

@@ -14,7 +14,7 @@ namespace TemtemTracker
     public partial class SettingsWindow : Form
     {
 
-        private SettingsController settingsController;
+        private readonly SettingsController settingsController;
 
         public SettingsWindow(SettingsController settingsController)
         {
@@ -40,7 +40,7 @@ namespace TemtemTracker
         public void PopulateSaiparkSettings(List<string> temtemNames, bool saiparkMode, string temtem1Name, string temtem2Name, double temtem1Multiplier, double temtem2Multiplier)
         {
             
-            checkBoxSaiparkMode.Checked = true;
+            checkBoxSaiparkMode.Checked = saiparkMode;
             temtem1NameSelect.DataSource = temtemNames.OrderBy(x => x).ToList();
             temtem2NameSelect.DataSource = temtemNames.OrderBy(x => x).ToList();
             temtem1NameSelect.SelectedItem = temtem1Name;
@@ -77,59 +77,57 @@ namespace TemtemTracker
             }
         }
 
-        private void checkBoxSaiparkMode_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxSaiparkMode_CheckedChanged(object sender, EventArgs e)
         {
             settingsController.SetSaiparkMode(checkBoxSaiparkMode.Checked);
         }
 
-        private void temtem1NameSelect_SelectedIndexChanged(object sender, EventArgs e)
+        private void Temtem1NameSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
             settingsController.SetTemtem1Name((string) temtem1NameSelect.SelectedItem);
         }
 
-        private void temtem2NameSelect_SelectedIndexChanged(object sender, EventArgs e)
+        private void Temtem2NameSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
             settingsController.SetTemtem2Name((string) temtem2NameSelect.SelectedItem);
         }
 
-        private void temtem1Multiplier_ValueChanged(object sender, EventArgs e)
+        private void Temtem1Multiplier_ValueChanged(object sender, EventArgs e)
         {
             settingsController.SetTemtem1Multiplier(Convert.ToDouble(temtem1Multiplier.Value));
         }
 
-        private void temtem2Multiplier_ValueChanged(object sender, EventArgs e)
+        private void Temtem2Multiplier_ValueChanged(object sender, EventArgs e)
         {
             settingsController.SetTemtem2Multiplier(Convert.ToDouble(temtem2Multiplier.Value));
         }
 
-        private void opacityTrackBar_Scroll(object sender, EventArgs e)
+        private void OpacityTrackBar_Scroll(object sender, EventArgs e)
         {
             settingsController.SetMainWindowOpacity(opacityTrackBar.Value);
         }
 
-        private void buttonRemapResetTableHotkey_Click(object sender, EventArgs e)
+        private void ButtonRemapResetTableHotkey_Click(object sender, EventArgs e)
         {
             //Temporarily disable hotkeys
             settingsController.DisableHotkeys();
             //Enable key preview
             KeyPreview = true;
             //Create temporary event handler to handle key preview
-            EventHandler disableKeyPreview = null;
-            disableKeyPreview = (s, eA) =>
+            void disableKeyPreview(object s, EventArgs eA)
             {
                 settingsTabControl.SelectedIndexChanged -= disableKeyPreview;
                 VisibleChanged -= disableKeyPreview;
                 KeyPreview = false;
                 //Enable hotkeys again
                 settingsController.EnableHotkeys();
-            };
+            }
             //Set it so key preview gets disabled when the tab is changed
             settingsTabControl.SelectedIndexChanged += disableKeyPreview;
             //Set it so key preview gets disabled when the window is made invisible
             VisibleChanged += disableKeyPreview;
             //Create temporary event handler to handle the actual key
-            KeyEventHandler getPressedKey = null;
-            getPressedKey = (s, eA) =>
+            void getPressedKey(object s, KeyEventArgs eA)
             {
                 switch (eA.KeyCode)
                 {
@@ -149,33 +147,32 @@ namespace TemtemTracker
                 settingsController.RemapResetTableHotkey(eA.Modifiers, eA.KeyCode);
                 //Enable hotkeys again
                 settingsController.EnableHotkeys();
-            };
+            }
+
             KeyDown += getPressedKey;
         }
 
-        private void buttonRemapPauseTimerHotkey_Click(object sender, EventArgs e)
+        private void ButtonRemapPauseTimerHotkey_Click(object sender, EventArgs e)
         {
             //Temporarily disable hotkeys
             settingsController.DisableHotkeys();
             //Enable key preview
             KeyPreview = true;
             //Create temporary event handler to handle key preview
-            EventHandler disableKeyPreview = null;
-            disableKeyPreview = (s, eA) =>
+            void disableKeyPreview(object s, EventArgs eA)
             {
                 settingsTabControl.SelectedIndexChanged -= disableKeyPreview;
                 VisibleChanged -= disableKeyPreview;
                 KeyPreview = false;
                 //Enable hotkeys again
                 settingsController.EnableHotkeys();
-            };
+            }
             //Set it so key preview gets disabled when the tab is changed
             settingsTabControl.SelectedIndexChanged += disableKeyPreview;
             //Set it so key preview gets disabled when the window is made invisible
             VisibleChanged += disableKeyPreview;
             //Create temporary event handler to handle the actual key
-            KeyEventHandler getPressedKey = null;
-            getPressedKey = (s, eA) =>
+            void getPressedKey(object s, KeyEventArgs eA)
             {
                 switch (eA.KeyCode)
                 {
@@ -195,11 +192,12 @@ namespace TemtemTracker
                 settingsController.RemapPauseTimerHotkey(eA.Modifiers, eA.KeyCode);
                 //Enable hotkeys again
                 settingsController.EnableHotkeys();
-            };
+            }
+
             KeyDown += getPressedKey;
         }
 
-        private void radioButtonLuma50Percent_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonLuma50Percent_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonLuma50Percent.Checked)
             {
@@ -207,7 +205,7 @@ namespace TemtemTracker
             }
         }
 
-        private void radioButtonLuma75Percent_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonLuma75Percent_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonLuma75Percent.Checked)
             {
@@ -215,7 +213,7 @@ namespace TemtemTracker
             }
         }
 
-        private void radioButtonLuma9999Percent_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonLuma9999Percent_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonLuma9999Percent.Checked)
             {

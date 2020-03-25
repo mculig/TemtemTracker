@@ -21,22 +21,22 @@ namespace TemtemTracker.Controllers
         //Detection spot 1
         private double spot1WidthPercentage;
         private double spot1HeightPercentage;
-        private uint spot1RGB;
+        private readonly uint spot1RGB;
 
         //Detection spot 2
         private double spot2WidthPercentage;
         private double spot2HeightPercentage;
-        private uint spot2RGB;
+        private readonly uint spot2RGB;
 
         //Detection spot 3
         private double spot3WidthPercentage;
         private double spot3HeightPercentage;
-        private uint spot3RGB;
+        private readonly uint spot3RGB;
 
         //Detection spot 4
         private double spot4WidthPercentage;
         private double spot4HeightPercentage;
-        private uint spot4RGB;
+        private readonly uint spot4RGB;
 
         //Spots for detecting out-of combat status
         //Detects 2 spots along the blue border of the minimap
@@ -44,28 +44,28 @@ namespace TemtemTracker.Controllers
         //Detection spot 5
         private double spot5WidthPercentage;
         private double spot5HeightPercentage;
-        private uint spot5RGB;
+        private readonly uint spot5RGB;
 
         //Detection spot 6
         private double spot6WidthPercentage;
         private double spot6HeightPercentage;
-        private uint spot6RGB;
+        private readonly uint spot6RGB;
 
         //Used to check if the window size changed
         Size gameWindowSize = new Size(0, 0);
 
         //Maximum distance between the color I'm expecting and color from the screen
-        private int maxAllowedColorDistance;
+        private readonly int maxAllowedColorDistance;
 
-        Config config;
+        private readonly Config config;
 
         private bool detectedBattle=false;
 
-        private TemtemTableController tableController;
-        private OCRController ocrController;
+        private readonly TemtemTableController tableController;
+        private readonly OCRController ocrController;
 
         //For errors
-        bool loadFailed = false;
+        private readonly bool loadFailed = false;
 
         public DetectorLoop(Config config, TemtemTableController tableController, OCRController ocrController)
         {
@@ -122,7 +122,7 @@ namespace TemtemTracker.Controllers
 
         public void Detect()
         {
-            Bitmap gameWindow = WindowFinder.getTemtemWindowScreenshot();
+            Bitmap gameWindow = WindowFinder.GetTemtemWindowScreenshot();
 
             //For loading the detection spots
             ScreenConfig screenConfig;
@@ -176,22 +176,22 @@ namespace TemtemTracker.Controllers
                 (int)Math.Ceiling(spot6HeightPercentage * gameWindow.Height));
 
             if (detectedBattle == false &&
-               ((colorDistance(pixel1RGB, spot1RGB) < maxAllowedColorDistance &&
-               colorDistance(pixel2RGB, spot2RGB) < maxAllowedColorDistance) ||
-               (colorDistance(pixel3RGB, spot3RGB) < maxAllowedColorDistance &&
-               colorDistance(pixel4RGB, spot4RGB) < maxAllowedColorDistance)))
+               ((ColorDistance(pixel1RGB, spot1RGB) < maxAllowedColorDistance &&
+               ColorDistance(pixel2RGB, spot2RGB) < maxAllowedColorDistance) ||
+               (ColorDistance(pixel3RGB, spot3RGB) < maxAllowedColorDistance &&
+               ColorDistance(pixel4RGB, spot4RGB) < maxAllowedColorDistance)))
             {
                 detectedBattle = true;
                 //Do OCR operation
-                List<string> results = ocrController.doOCR(gameWindow);
+                List<string> results = ocrController.DoOCR(gameWindow);
                 results.ForEach(result => {
                     //Here we add the detected Temtem to the UI
                     tableController.AddTemtem(result);
                 });
             }
             else if (detectedBattle == true &&
-                    colorDistance(pixel5RGB, spot5RGB) < maxAllowedColorDistance &&
-                    colorDistance(pixel6RGB, spot6RGB) < maxAllowedColorDistance)
+                    ColorDistance(pixel5RGB, spot5RGB) < maxAllowedColorDistance &&
+                    ColorDistance(pixel6RGB, spot6RGB) < maxAllowedColorDistance)
             {
                 //Set battle to false
                 detectedBattle = false;
@@ -201,7 +201,7 @@ namespace TemtemTracker.Controllers
             gameWindow.Dispose();
         }
 
-        private int colorDistance(Color rgb1, uint rgbInt)
+        private int ColorDistance(Color rgb1, uint rgbInt)
         {
             byte a1 = rgb1.A;
             byte r1 = rgb1.R;

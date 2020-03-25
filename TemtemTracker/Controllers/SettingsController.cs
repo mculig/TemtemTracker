@@ -13,9 +13,9 @@ namespace TemtemTracker.Controllers
 {
     public class SettingsController
     {
-        UserSettings userSettings;
-        SettingsWindow settingsWindow;
-        TemtemTrackerUI trackerUI;
+        private readonly UserSettings userSettings;
+        private readonly SettingsWindow settingsWindow;
+        private readonly TemtemTrackerUI trackerUI;
         TemtemTableController tableController;
         HotkeyController hotkeyController;
 

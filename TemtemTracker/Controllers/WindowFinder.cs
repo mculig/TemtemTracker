@@ -19,10 +19,10 @@ namespace TemtemTracker.Controllers
             
         }
 
-        public static Bitmap getTemtemWindowScreenshot()
+        public static Bitmap GetTemtemWindowScreenshot()
         {
             //Pointer to the Temtem Window
-            IntPtr temtemWindow = IntPtr.Zero;
+            IntPtr temtemWindow;
 
             //Get the currently focused window
             IntPtr focused = User32.GetForegroundWindow();
@@ -35,8 +35,7 @@ namespace TemtemTracker.Controllers
             //Check if the focused window is Temtem
             StringBuilder windowName = new StringBuilder(100);
             User32.GetWindowText(focused, windowName, 100);
-            uint focusedWindowProcessID;
-            User32.GetWindowThreadProcessId(focused, out focusedWindowProcessID);
+            User32.GetWindowThreadProcessId(focused, out uint focusedWindowProcessID); //Inline variable declaration
             string focusedWindowProcessName = Process.GetProcessById((int)focusedWindowProcessID).ProcessName;
             if (windowName.ToString().Equals(WINDOW_NAME) && focusedWindowProcessName.Equals(WINDOW_NAME))
             {
@@ -50,10 +49,9 @@ namespace TemtemTracker.Controllers
 
             IntPtr hdcWindow = User32.GetDC(temtemWindow);
 
-            User32.RECT bounds = new User32.RECT();
             User32.POINT lpPoint = new User32.POINT();
 
-            User32.GetClientRect(temtemWindow, out bounds);
+            User32.GetClientRect(temtemWindow, out User32.RECT bounds);
             User32.ClientToScreen(temtemWindow, ref lpPoint);
 
             Bitmap bmp = new Bitmap(Math.Abs(bounds.right - bounds.left), Math.Abs(bounds.bottom - bounds.top));

@@ -4,27 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TemtemTracker.Data;
 
 namespace TemtemTracker.Controllers
 {
     public class TimerController
     {
 
-        private static readonly int DETECTION_TIME_INTERVAL = 10;
+        
         private static readonly int TIME_TRACKER_INTERVAL = 1000;
+        private readonly int detectionLoopInterval;
 
-        Timer detectionLoopTimer;
-        Timer timeTrackerTimer;
+        private readonly Timer detectionLoopTimer;
+        private readonly Timer timeTrackerTimer;
 
-        TemtemTableController tableController;
-        DetectorLoop detectorLoop;
+        private readonly TemtemTableController tableController;
+        private readonly DetectorLoop detectorLoop;
 
-        public TimerController(TemtemTrackerUI trackerUI, TemtemTableController tableController, DetectorLoop detectorLoop)
+        public TimerController(TemtemTrackerUI trackerUI, TemtemTableController tableController, DetectorLoop detectorLoop, Config config)
         {
             this.tableController = tableController;
             this.detectorLoop = detectorLoop;
+            this.detectionLoopInterval = config.detectionLoopInterval;
 
-            detectionLoopTimer = new Timer(DETECTION_TIME_INTERVAL);
+            detectionLoopTimer = new Timer(detectionLoopInterval);
             timeTrackerTimer = new Timer(TIME_TRACKER_INTERVAL);
 
             detectionLoopTimer.Elapsed += DetectionLoopListener;

@@ -115,7 +115,7 @@
             this.opacityTrackBar.Size = new System.Drawing.Size(308, 69);
             this.opacityTrackBar.TabIndex = 4;
             this.opacityTrackBar.Value = 100;
-            this.opacityTrackBar.Scroll += new System.EventHandler(this.opacityTrackBar_Scroll);
+            this.opacityTrackBar.Scroll += new System.EventHandler(this.OpacityTrackBar_Scroll);
             // 
             // lumaChanceTabPage
             // 
@@ -150,7 +150,7 @@
             this.radioButtonLuma75Percent.TabStop = true;
             this.radioButtonLuma75Percent.Text = "75%";
             this.radioButtonLuma75Percent.UseVisualStyleBackColor = true;
-            this.radioButtonLuma75Percent.CheckedChanged += new System.EventHandler(this.radioButtonLuma75Percent_CheckedChanged);
+            this.radioButtonLuma75Percent.CheckedChanged += new System.EventHandler(this.RadioButtonLuma75Percent_CheckedChanged);
             // 
             // radioButtonLuma9999Percent
             // 
@@ -162,7 +162,7 @@
             this.radioButtonLuma9999Percent.TabStop = true;
             this.radioButtonLuma9999Percent.Text = "99.99%";
             this.radioButtonLuma9999Percent.UseVisualStyleBackColor = true;
-            this.radioButtonLuma9999Percent.CheckedChanged += new System.EventHandler(this.radioButtonLuma9999Percent_CheckedChanged);
+            this.radioButtonLuma9999Percent.CheckedChanged += new System.EventHandler(this.RadioButtonLuma9999Percent_CheckedChanged);
             // 
             // radioButtonLuma50Percent
             // 
@@ -174,7 +174,7 @@
             this.radioButtonLuma50Percent.TabStop = true;
             this.radioButtonLuma50Percent.Text = "50%";
             this.radioButtonLuma50Percent.UseVisualStyleBackColor = true;
-            this.radioButtonLuma50Percent.CheckedChanged += new System.EventHandler(this.radioButtonLuma50Percent_CheckedChanged);
+            this.radioButtonLuma50Percent.CheckedChanged += new System.EventHandler(this.RadioButtonLuma50Percent_CheckedChanged);
             // 
             // saiparkTabPage
             // 
@@ -214,7 +214,7 @@
             this.temtem2Multiplier.Name = "temtem2Multiplier";
             this.temtem2Multiplier.Size = new System.Drawing.Size(105, 26);
             this.temtem2Multiplier.TabIndex = 5;
-            this.temtem2Multiplier.ValueChanged += new System.EventHandler(this.temtem2Multiplier_ValueChanged);
+            this.temtem2Multiplier.ValueChanged += new System.EventHandler(this.Temtem2Multiplier_ValueChanged);
             // 
             // label4
             // 
@@ -232,7 +232,7 @@
             this.temtem2NameSelect.Name = "temtem2NameSelect";
             this.temtem2NameSelect.Size = new System.Drawing.Size(121, 28);
             this.temtem2NameSelect.TabIndex = 3;
-            this.temtem2NameSelect.SelectedIndexChanged += new System.EventHandler(this.temtem2NameSelect_SelectedIndexChanged);
+            this.temtem2NameSelect.SelectedIndexChanged += new System.EventHandler(this.Temtem2NameSelect_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -273,7 +273,7 @@
             this.temtem1Multiplier.Name = "temtem1Multiplier";
             this.temtem1Multiplier.Size = new System.Drawing.Size(105, 26);
             this.temtem1Multiplier.TabIndex = 5;
-            this.temtem1Multiplier.ValueChanged += new System.EventHandler(this.temtem1Multiplier_ValueChanged);
+            this.temtem1Multiplier.ValueChanged += new System.EventHandler(this.Temtem1Multiplier_ValueChanged);
             // 
             // label3
             // 
@@ -291,7 +291,7 @@
             this.temtem1NameSelect.Name = "temtem1NameSelect";
             this.temtem1NameSelect.Size = new System.Drawing.Size(121, 28);
             this.temtem1NameSelect.TabIndex = 3;
-            this.temtem1NameSelect.SelectedIndexChanged += new System.EventHandler(this.temtem1NameSelect_SelectedIndexChanged);
+            this.temtem1NameSelect.SelectedIndexChanged += new System.EventHandler(this.Temtem1NameSelect_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -311,7 +311,7 @@
             this.checkBoxSaiparkMode.TabIndex = 0;
             this.checkBoxSaiparkMode.Text = "Enable Saipark Mode";
             this.checkBoxSaiparkMode.UseVisualStyleBackColor = true;
-            this.checkBoxSaiparkMode.CheckedChanged += new System.EventHandler(this.checkBoxSaiparkMode_CheckedChanged);
+            this.checkBoxSaiparkMode.CheckedChanged += new System.EventHandler(this.CheckBoxSaiparkMode_CheckedChanged);
             // 
             // hotkeysTabPage
             // 
@@ -344,7 +344,7 @@
             this.buttonRemapPauseTimerHotkey.TabIndex = 1;
             this.buttonRemapPauseTimerHotkey.Text = "Remap";
             this.buttonRemapPauseTimerHotkey.UseVisualStyleBackColor = true;
-            this.buttonRemapPauseTimerHotkey.Click += new System.EventHandler(this.buttonRemapPauseTimerHotkey_Click);
+            this.buttonRemapPauseTimerHotkey.Click += new System.EventHandler(this.ButtonRemapPauseTimerHotkey_Click);
             // 
             // labelPauseTimerHotkey
             // 
@@ -375,7 +375,7 @@
             this.buttonRemapResetTableHotkey.TabIndex = 1;
             this.buttonRemapResetTableHotkey.Text = "Remap";
             this.buttonRemapResetTableHotkey.UseVisualStyleBackColor = true;
-            this.buttonRemapResetTableHotkey.Click += new System.EventHandler(this.buttonRemapResetTableHotkey_Click);
+            this.buttonRemapResetTableHotkey.Click += new System.EventHandler(this.ButtonRemapResetTableHotkey_Click);
             // 
             // labelResetTableHotkey
             // 

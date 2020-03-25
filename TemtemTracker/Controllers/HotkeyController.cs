@@ -13,17 +13,16 @@ namespace TemtemTracker.Controllers
         //This is an empty bodiless form that is never shown and inherits form purely
         //so it can override WndProc and get the hotkeys it registered
 
-        private SettingsController settingsController;
-        private TemtemTrackerUI trackerUI;
-        private TimerController timerController;
-        private TemtemTableController tableController;
+        private readonly SettingsController settingsController;
+        private readonly TemtemTrackerUI trackerUI;
+        private readonly TimerController timerController;
+        private readonly TemtemTableController tableController;
         private Keys resetTableHotkey;
         private Keys pauseTimerHotkey;
         private Keys resetTableHotkeyModifiers;
         private Keys pauseTimerHotkeyModifiers;
         private User32.KeyModifiers resetTableKeyModifiers;
         private User32.KeyModifiers pauseTimerKeyModifiers;
-        private bool hotkeysDisabled = false;
 
         private readonly int KEY_MESSAGE = 0x0312;
         private readonly int RESET_TABLE_HOTKEY_ID = 0;
@@ -57,12 +56,6 @@ namespace TemtemTracker.Controllers
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
-
-            if (hotkeysDisabled)
-            {
-                //If we've temporarily disabled hotkeys
-                return;
-            }
 
             if(m.Msg == KEY_MESSAGE)
             {

@@ -9,7 +9,9 @@ namespace TemtemTracker.Data
     public class Config
     {
         public double lumaChance;
-        public bool useJNAWindowCapture;
+
+        //Interval (in ms) to run detection loop at
+        public int detectionLoopInterval;
 
         //Colours for the various detection spots
         public String spot1RGB;

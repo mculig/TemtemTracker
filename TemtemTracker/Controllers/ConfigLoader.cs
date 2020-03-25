@@ -14,9 +14,9 @@ namespace TemtemTracker.Controllers
     {
         
 
-        private Species species;
-        private Config config;
-        private UserSettings userSettings;
+        private readonly Species species;
+        private readonly Config config;
+        private readonly UserSettings userSettings;
 
         private bool loadFailed = false;
 
@@ -86,13 +86,11 @@ namespace TemtemTracker.Controllers
             foreach(ScreenConfig conf in config.aspectRatios)
             {
                 string[] dimensionsString = conf.aspectRatio.Split(':');
-                int aspectRatioWidth=0;
-                int aspectRatioHeight=0;
-                if(!int.TryParse(dimensionsString[0], out aspectRatioWidth))
+                if (!int.TryParse(dimensionsString[0], out int aspectRatioWidth)) //Inline variable declaration
                 {
                     new ErrorMessage("Failure while parsing aspect ratio width from config!", null);
                 }
-                if (!int.TryParse(dimensionsString[1], out aspectRatioHeight))
+                if (!int.TryParse(dimensionsString[1], out int aspectRatioHeight)) //Inline variable declaration
                 {
                     new ErrorMessage("Failure while parsing aspect ratio height from config!", null);
                 }

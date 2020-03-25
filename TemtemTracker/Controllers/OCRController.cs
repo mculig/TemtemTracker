@@ -21,11 +21,11 @@ namespace TemtemTracker.Controllers
         private readonly uint ARGB_WHITE = 0xFFFFFFFF;
         private readonly uint ARGB_RED = 0xFFFF0000;
 
-        private TesseractEngine tesseract;
+        private readonly TesseractEngine tesseract;
         
 
         private List<Rectangle> OCRViewports;
-        Species speciesList;
+        private readonly Species speciesList;
 
         // Frame locations for OCR
         private double frame1PercentageLeft;
@@ -47,16 +47,16 @@ namespace TemtemTracker.Controllers
 
         // Maximum distance an R, G or B subpixel max be from FF, used to determine what
         // is white for pre-OCR image cleanup
-        int maxOCRSubpixelFFDistance;
+        private readonly int maxOCRSubpixelFFDistance;
 
         //Minimum width to resize image to before OCR Pre-processing
-        int minimumOCRResizeWidth;
+        private readonly int minimumOCRResizeWidth;
 
         //Tesseract character whitelist
-        string OCRCharWhitelist;
+        private readonly string OCRCharWhitelist;
 
         //Config
-        Config config;
+        private readonly Config config;
 
         public OCRController(Config config, Species speciesList)
         {
@@ -70,7 +70,7 @@ namespace TemtemTracker.Controllers
             tesseract.SetVariable("tessedit_char_whitelist", OCRCharWhitelist);           
         }
 
-        public List<String> doOCR(Bitmap gameWindow)
+        public List<String> DoOCR(Bitmap gameWindow)
         {
             if (!this.gameWindowSize.Equals(gameWindow.Size))
             {
@@ -181,7 +181,7 @@ namespace TemtemTracker.Controllers
                 for(int j = 0; j < imageHeight; j++)
                 {
                     int pixel = image.GetPixel(i, j).ToArgb();
-                    if (testWhite(pixel))
+                    if (TestWhite(pixel))
                     {
                         whiteMask[i, j] = ARGB_BLACK;
                     }
@@ -252,7 +252,7 @@ namespace TemtemTracker.Controllers
 
         }
 
-        private bool testWhite(int pixel)
+        private bool TestWhite(int pixel)
         {
 
             // Test the pixel isn't transparent
