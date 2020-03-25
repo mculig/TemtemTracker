@@ -23,27 +23,7 @@ namespace TemtemTracker.Controllers
 
         private readonly TesseractEngine tesseract;
         
-
-        private List<Rectangle> OCRViewports;
         private readonly Species speciesList;
-
-        // Frame locations for OCR
-        private double frame1PercentageLeft;
-        private double frame1PercentageTop;
-        private double frame2PercentageLeft;
-        private double frame2PercentageTop;
-        private double frameWidthPercentage;
-        private double frameHeightPercentage;
-
-        //Frame location points
-        Point frame1Location;
-        Point frame2Location;
-
-        // Frame size
-        private Size frameSize;
-
-        // Used to check if the window size changed
-        private Size gameWindowSize = new Size(0, 0);
 
         // Maximum distance an R, G or B subpixel max be from FF, used to determine what
         // is white for pre-OCR image cleanup
@@ -55,64 +35,30 @@ namespace TemtemTracker.Controllers
         //Tesseract character whitelist
         private readonly string OCRCharWhitelist;
 
-        //Config
-        private readonly Config config;
-
         public OCRController(Config config, Species speciesList)
         {
             this.speciesList = speciesList;
             this.maxOCRSubpixelFFDistance = config.maxOCRSubpixelFFDistance;
             this.minimumOCRResizeWidth = config.minimumOCRResizeWidth;
             this.OCRCharWhitelist = config.OCRCharWhitelist;
-            this.config = config;
             tesseract = new TesseractEngine(TESS_DATAPATH, LANGUAGE);
             //Limit tesseract to alphabet only
             tesseract.SetVariable("tessedit_char_whitelist", OCRCharWhitelist);           
         }
 
-        public List<String> DoOCR(Bitmap gameWindow)
+        public List<String> DoOCR(List<Bitmap> OCRViewports)
         {
-            if (!this.gameWindowSize.Equals(gameWindow.Size))
-            {
-                //The game window size changed, we must account for possible dimension changes
-                this.gameWindowSize = gameWindow.Size;
-                //Get the config for the (possibly) new aspect ratio
-                ScreenConfig screenConfig = ConfigLoader.GetConfigForAspectRatio(config, gameWindowSize);
-                //Calculate frame locations and widths for the new size/aspect ratio
-                this.frame1PercentageLeft = screenConfig.frame1PercentageLeft;
-                this.frame1PercentageTop = screenConfig.frame1PercentageTop;
-
-                this.frame2PercentageLeft = screenConfig.frame2PercentageLeft;
-                this.frame2PercentageTop = screenConfig.frame2PercentageTop;
-
-                this.frameWidthPercentage = screenConfig.frameWidthPercentage;
-                this.frameHeightPercentage = screenConfig.frameHeightPercentage;
-
-                this.frameSize = new Size((int)Math.Ceiling(gameWindowSize.Width * frameWidthPercentage),
-                        (int)Math.Ceiling(gameWindowSize.Height * frameHeightPercentage));
-
-                frame1Location = new Point((int)Math.Ceiling(gameWindowSize.Width * frame1PercentageLeft),
-                (int)Math.Ceiling(gameWindowSize.Height * frame1PercentageTop));
-                frame2Location = new Point((int)Math.Ceiling(gameWindowSize.Width * frame2PercentageLeft),
-                (int)Math.Ceiling(gameWindowSize.Height * frame2PercentageTop));
-                //Create a new list of OCR viewports
-                this.OCRViewports = new List<Rectangle>();
-
-                OCRViewports.Add(new Rectangle(frame1Location, frameSize));
-                OCRViewports.Add(new Rectangle(frame2Location, frameSize));
-            }
             //Create a list to hold our results
             List<string> results = new List<string>();
 
             //Create a list of tasks
             List<Task<Bitmap>> taskList = new List<Task<Bitmap>>();
             //Create a task for each image processing segment
-            foreach(Rectangle viewport in OCRViewports)
+            foreach(Bitmap viewport in OCRViewports)
             {
-                Bitmap viewportCrop = gameWindow.Clone(viewport, gameWindow.PixelFormat);
                 taskList.Add(Task.Run(()=> {               
                     //This is fine since ImageProcessingTask disposes of the provided image
-                    return ImageProcessingTask(viewportCrop);
+                    return ImageProcessingTask(viewport);
                 }));
             }
 

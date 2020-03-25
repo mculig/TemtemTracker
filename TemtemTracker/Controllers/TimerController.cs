@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
+using System.Threading;
 using TemtemTracker.Data;
 
 namespace TemtemTracker.Controllers
@@ -15,11 +14,14 @@ namespace TemtemTracker.Controllers
         private static readonly int TIME_TRACKER_INTERVAL = 1000;
         private readonly int detectionLoopInterval;
 
-        private readonly Timer detectionLoopTimer;
-        private readonly Timer timeTrackerTimer;
+        private readonly System.Timers.Timer detectionLoopTimer;
+        private readonly System.Timers.Timer timeTrackerTimer;
 
         private readonly TemtemTableController tableController;
         private readonly DetectorLoop detectorLoop;
+
+        //To prevent reentrancy 
+        int _TimerLock = 0;
 
         public TimerController(TemtemTrackerUI trackerUI, TemtemTableController tableController, DetectorLoop detectorLoop, Config config)
         {
@@ -27,8 +29,8 @@ namespace TemtemTracker.Controllers
             this.detectorLoop = detectorLoop;
             this.detectionLoopInterval = config.detectionLoopInterval;
 
-            detectionLoopTimer = new Timer(detectionLoopInterval);
-            timeTrackerTimer = new Timer(TIME_TRACKER_INTERVAL);
+            detectionLoopTimer = new System.Timers.Timer(detectionLoopInterval);
+            timeTrackerTimer = new System.Timers.Timer(TIME_TRACKER_INTERVAL);
 
             detectionLoopTimer.Elapsed += DetectionLoopListener;
             timeTrackerTimer.Elapsed += TimeTrackerListener;
@@ -62,7 +64,17 @@ namespace TemtemTracker.Controllers
 
         private void DetectionLoopListener(Object source, System.Timers.ElapsedEventArgs e)
         {
-            detectorLoop.Detect();
+
+            if (Interlocked.CompareExchange(ref _TimerLock, 1, 0) != 0) return;
+            try
+            {
+                detectorLoop.Detect();
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _TimerLock, 0);
+            }
+
         }
 
         private void TimeTrackerListener(Object source, System.Timers.ElapsedEventArgs e)

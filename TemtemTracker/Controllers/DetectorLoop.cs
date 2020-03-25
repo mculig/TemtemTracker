@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TemtemTracker.Data;
 
@@ -22,29 +25,21 @@ namespace TemtemTracker.Controllers
         private double spot1WidthPercentage;
         private double spot1HeightPercentage;
         private readonly uint spot1RGB;
-        private int spot1Y;
-        private int spot1X;
 
         //Detection spot 2
         private double spot2WidthPercentage;
         private double spot2HeightPercentage;
         private readonly uint spot2RGB;
-        private int spot2Y;
-        private int spot2X;
 
         //Detection spot 3
         private double spot3WidthPercentage;
         private double spot3HeightPercentage;
         private readonly uint spot3RGB;
-        private int spot3Y;
-        private int spot3X;
 
         //Detection spot 4
         private double spot4WidthPercentage;
         private double spot4HeightPercentage;
         private readonly uint spot4RGB;
-        private int spot4Y;
-        private int spot4X;
 
         //Spots for detecting out-of combat status
         //Detects 2 spots along the blue border of the minimap
@@ -53,18 +48,38 @@ namespace TemtemTracker.Controllers
         private double spot5WidthPercentage;
         private double spot5HeightPercentage;
         private readonly uint spot5RGB;
-        private int spot5Y;
-        private int spot5X;
 
         //Detection spot 6
         private double spot6WidthPercentage;
         private double spot6HeightPercentage;
         private readonly uint spot6RGB;
-        private int spot6Y;
-        private int spot6X;
+
+        //List of detection spot X,Y coordinates
+        List<Point> detectionSpots;
+
+        //Viewports used for OCR
+        private List<Rectangle> OCRViewports;
+
+        // Frame locations for OCR
+        private double frame1PercentageLeft;
+        private double frame1PercentageTop;
+        private double frame2PercentageLeft;
+        private double frame2PercentageTop;
+        private double frameWidthPercentage;
+        private double frameHeightPercentage;
+
+        //Frame location points
+        Point frame1Location;
+        Point frame2Location;
+
+        // Frame size
+        private Size frameSize;
 
         //Used to check if the window size changed
         Size gameWindowSize = new Size(0, 0);
+
+        //The name of the window in question
+        private static readonly string WINDOW_NAME = "Temtem";
 
         //Maximum distance between the color I'm expecting and color from the screen
         private readonly int maxAllowedColorDistance;
@@ -134,95 +149,96 @@ namespace TemtemTracker.Controllers
 
         public void Detect()
         {
-            Bitmap gameWindow = WindowFinder.GetTemtemWindowScreenshot();
+            //Pointer to the Temtem Window
+            IntPtr temtemWindow;
 
-            //For loading the detection spots
-            ScreenConfig screenConfig;
+            //Get the currently focused window
+            IntPtr focused = User32.GetForegroundWindow();
 
-            if (gameWindow == null)
+            //If we're not focusing a window
+            if (focused == IntPtr.Zero)
             {
-                //If the game screen is null we've detected nothing
+                return;
+            }
+            //Check if the focused window is Temtem
+            StringBuilder windowName = new StringBuilder(100);
+            User32.GetWindowText(focused, windowName, 100);
+            User32.GetWindowThreadProcessId(focused, out uint focusedWindowProcessID); //Inline variable declaration
+            string focusedWindowProcessName = Process.GetProcessById((int)focusedWindowProcessID).ProcessName;
+            if (windowName.ToString().Equals(WINDOW_NAME) && focusedWindowProcessName.Equals(WINDOW_NAME))
+            {
+                temtemWindow = focused;
+            }
+            else
+            {
+                //We aren't in the right window
+                return;
+            }
+
+            IntPtr hdcWindow = User32.GetDC(temtemWindow);
+
+            User32.POINT lpPoint = new User32.POINT();
+
+            User32.GetClientRect(temtemWindow, out User32.RECT bounds);
+            User32.ClientToScreen(temtemWindow, ref lpPoint);
+
+            ////Release the device context
+            User32.ReleaseDC(temtemWindow, hdcWindow);
+
+            Rectangle gameWindowRect = new Rectangle(lpPoint.X, lpPoint.Y,(bounds.right - bounds.left), (bounds.bottom - bounds.top));
+
+            if (gameWindowRect.Height == 0 || gameWindowRect.Width == 0)
+            {
+                //If the rectangle is 0 high or wide, we've got a closing/closed window or an error
                 return;
             }
             //If the game window dimensions have changed we need to recalculate all the spots.
             //This shouldn't happen often
-            if (!gameWindow.Size.Equals(this.gameWindowSize))
+            if (!gameWindowRect.Size.Equals(this.gameWindowSize))
             {
-                gameWindowSize = gameWindow.Size;
-
-                screenConfig = ConfigLoader.GetConfigForAspectRatio(config, gameWindowSize);
-
-                spot1WidthPercentage = screenConfig.spot1WidthPercentage;
-                spot1HeightPercentage = screenConfig.spot1HeightPercentage;
-
-                spot2WidthPercentage = screenConfig.spot2WidthPercentage;
-                spot2HeightPercentage = screenConfig.spot2HeightPercentage;
-
-                spot3WidthPercentage = screenConfig.spot3WidthPercentage;
-                spot3HeightPercentage = screenConfig.spot3HeightPercentage;
-
-                spot4WidthPercentage = screenConfig.spot4WidthPercentage;
-                spot4HeightPercentage = screenConfig.spot4HeightPercentage;
-
-                spot5WidthPercentage = screenConfig.spot5WidthPercentage;
-                spot5HeightPercentage = screenConfig.spot5HeightPercentage;
-
-                spot6WidthPercentage = screenConfig.spot6WidthPercentage;
-                spot6HeightPercentage = screenConfig.spot6HeightPercentage;
-
-                spot1X = (int)Math.Ceiling(spot1WidthPercentage * gameWindow.Width);
-                spot1Y = (int)Math.Ceiling(spot1HeightPercentage * gameWindow.Height);
-
-                spot2X = (int)Math.Ceiling(spot2WidthPercentage * gameWindow.Width);
-                spot2Y = (int)Math.Ceiling(spot2HeightPercentage * gameWindow.Height);
-
-                spot3X = (int)Math.Ceiling(spot3WidthPercentage * gameWindow.Width);
-                spot3Y = (int)Math.Ceiling(spot3HeightPercentage * gameWindow.Height);
-
-                spot4X = (int)Math.Ceiling(spot4WidthPercentage * gameWindow.Width);
-                spot4Y = (int)Math.Ceiling(spot4HeightPercentage * gameWindow.Height);
-
-                spot5X = (int)Math.Ceiling(spot5WidthPercentage * gameWindow.Width);
-                spot5Y = (int)Math.Ceiling(spot5HeightPercentage * gameWindow.Height);
-
-                spot6X = (int)Math.Ceiling(spot6WidthPercentage * gameWindow.Width);
-                spot6Y = (int)Math.Ceiling(spot6HeightPercentage * gameWindow.Height);
+                gameWindowSize = gameWindowRect.Size;
+                RecalculateDetectionElements(gameWindowRect);
             }
 
-            //In-battle detection
-            Color pixel1RGB = gameWindow.GetPixel(spot1X, spot1Y);
-            Color pixel2RGB = gameWindow.GetPixel(spot2X, spot2Y);
-            Color pixel3RGB = gameWindow.GetPixel(spot3X, spot3Y);
-            Color pixel4RGB = gameWindow.GetPixel(spot4X, spot4Y);
+            
 
-            //Out-of-battle detection
-            Color pixel5RGB = gameWindow.GetPixel(spot5X, spot5Y);
-            Color pixel6RGB = gameWindow.GetPixel(spot6X, spot6Y);
-
-            if (detectedBattle == false &&
-               ((ColorDistance(pixel1RGB, spot1RGB) < maxAllowedColorDistance &&
-               ColorDistance(pixel2RGB, spot2RGB) < maxAllowedColorDistance) ||
-               (ColorDistance(pixel3RGB, spot3RGB) < maxAllowedColorDistance &&
-               ColorDistance(pixel4RGB, spot4RGB) < maxAllowedColorDistance)))
+            if (detectedBattle == false)
             {
-                detectedBattle = true;
-                //Do OCR operation
-                List<string> results = ocrController.DoOCR(gameWindow);
-                results.ForEach(result => {
-                    //Here we add the detected Temtem to the UI
-                    tableController.AddTemtem(result);
-                });
+                //We'll only test for battle if we aren't in a battle
+                List<Color> pixelColors = GetBattleDetectionColors(lpPoint);
+
+                //We'll also get the OCR reading spots right here. It's a waste of resources if we aren't detecting battle, but is faster and more reliable when we do
+                List<Bitmap> viewportImages = GetOCRViewportImages(lpPoint, OCRViewports);
+
+                if (((ColorDistance(pixelColors[0], spot1RGB) < maxAllowedColorDistance &&
+               ColorDistance(pixelColors[1], spot2RGB) < maxAllowedColorDistance) ||
+               (ColorDistance(pixelColors[2], spot3RGB) < maxAllowedColorDistance &&
+               ColorDistance(pixelColors[3], spot4RGB) < maxAllowedColorDistance)))
+                {
+                    detectedBattle = true;
+                    //Do OCR operation. The OCR controller will dispose of the images so we're ok
+                    List<string> results = ocrController.DoOCR(viewportImages);
+                    results.ForEach(result => {
+                        //Here we add the detected Temtem to the UI
+                        tableController.AddTemtem(result);
+                    });
+                }
+                
             }
-            else if (detectedBattle == true &&
-                    ColorDistance(pixel5RGB, spot5RGB) < maxAllowedColorDistance &&
-                    ColorDistance(pixel6RGB, spot6RGB) < maxAllowedColorDistance)
+            else if (detectedBattle == true)
             {
-                //Set battle to false
-                detectedBattle = false;
+                //If we're in battle we'll test for being out of battle
+                List<Color> pixelColors = GetOutOfBattleDetectionColors(lpPoint);
+
+                if(ColorDistance(pixelColors[0], spot5RGB) < maxAllowedColorDistance &&
+                    ColorDistance(pixelColors[1], spot6RGB) < maxAllowedColorDistance)
+                {
+                    //Set battle to false
+                    detectedBattle = false;
+                }
+                
             }
 
-            //Dispose of the game window at the very end of this loop
-            gameWindow.Dispose();
         }
 
         private int ColorDistance(Color rgb1, uint rgbInt)
@@ -244,6 +260,115 @@ namespace TemtemTracker.Controllers
                Math.Max((int)Math.Pow((b1 - b2), 2), (int)Math.Pow((b1 - b2 - a1 + a2), 2));
 
             return distance;
+        }
+
+        private List<Color> GetBattleDetectionColors(User32.POINT lpPoint)
+        {
+            List<Color> detectionSpotColors = new List<Color>();
+            using (Bitmap pixel = new Bitmap(1, 1, PixelFormat.Format32bppArgb))
+            {
+                using (Graphics g = Graphics.FromImage(pixel))
+                {
+                    for(int i = 0; i < 4; i++)
+                    {
+                        g.CopyFromScreen(new Point(lpPoint.X + detectionSpots[i].X, lpPoint.Y + detectionSpots[i].Y), new Point(0,0), pixel.Size);
+                        detectionSpotColors.Add(pixel.GetPixel(0, 0));
+                    }
+                }
+            }
+            return detectionSpotColors;
+        }
+
+        private List<Color> GetOutOfBattleDetectionColors(User32.POINT lpPoint)
+        {
+            List<Color> detectionSpotColors = new List<Color>();
+            using (Bitmap pixel = new Bitmap(1, 1, PixelFormat.Format32bppArgb))
+            {
+                using (Graphics g = Graphics.FromImage(pixel))
+                {
+                    for(int i = 4; i < 6; i++)
+                    {
+                        g.CopyFromScreen(new Point(lpPoint.X + detectionSpots[i].X, lpPoint.Y + detectionSpots[i].Y), new Point(0, 0), pixel.Size);
+                        detectionSpotColors.Add(pixel.GetPixel(0, 0));
+                    }
+                }
+            }
+            return detectionSpotColors;
+        }
+
+        private List<Bitmap> GetOCRViewportImages(User32.POINT lpPoint, List<Rectangle> OCRViewports)
+        {
+            List<Bitmap> viewportImages = new List<Bitmap>();
+            OCRViewports.ForEach(viewport => {
+                Bitmap viewportBitmap = new Bitmap(viewport.Width, viewport.Height, PixelFormat.Format32bppArgb);
+                using(Graphics g = Graphics.FromImage(viewportBitmap))
+                {
+                    g.CopyFromScreen(lpPoint.X + viewport.X, lpPoint.Y + viewport.Y, 0, 0, viewport.Size);
+                }
+                viewportImages.Add(viewportBitmap);
+            });
+            return viewportImages;
+        }
+
+        private void RecalculateDetectionElements(Rectangle gameWindowRect)
+        {
+            //For loading the detection spots
+            ScreenConfig screenConfig;
+
+            screenConfig = ConfigLoader.GetConfigForAspectRatio(config, gameWindowSize);
+
+            spot1WidthPercentage = screenConfig.spot1WidthPercentage;
+            spot1HeightPercentage = screenConfig.spot1HeightPercentage;
+
+            spot2WidthPercentage = screenConfig.spot2WidthPercentage;
+            spot2HeightPercentage = screenConfig.spot2HeightPercentage;
+
+            spot3WidthPercentage = screenConfig.spot3WidthPercentage;
+            spot3HeightPercentage = screenConfig.spot3HeightPercentage;
+
+            spot4WidthPercentage = screenConfig.spot4WidthPercentage;
+            spot4HeightPercentage = screenConfig.spot4HeightPercentage;
+
+            spot5WidthPercentage = screenConfig.spot5WidthPercentage;
+            spot5HeightPercentage = screenConfig.spot5HeightPercentage;
+
+            spot6WidthPercentage = screenConfig.spot6WidthPercentage;
+            spot6HeightPercentage = screenConfig.spot6HeightPercentage;
+
+            //Create points for the spots
+            detectionSpots = new List<Point>
+            {
+                new Point((int)Math.Ceiling(spot1WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot1HeightPercentage * gameWindowRect.Height)),
+                new Point((int)Math.Ceiling(spot2WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot2HeightPercentage * gameWindowRect.Height)),
+                new Point((int)Math.Ceiling(spot3WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot3HeightPercentage * gameWindowRect.Height)),
+                new Point((int)Math.Ceiling(spot4WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot4HeightPercentage * gameWindowRect.Height)),
+                new Point((int)Math.Ceiling(spot5WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot5HeightPercentage * gameWindowRect.Height)),
+                new Point((int)Math.Ceiling(spot6WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot6HeightPercentage * gameWindowRect.Height))
+            };
+
+            //Calculate frame locations and widths for the new size/aspect ratio
+            frame1PercentageLeft = screenConfig.frame1PercentageLeft;
+            frame1PercentageTop = screenConfig.frame1PercentageTop;
+
+            frame2PercentageLeft = screenConfig.frame2PercentageLeft;
+            frame2PercentageTop = screenConfig.frame2PercentageTop;
+
+            frameWidthPercentage = screenConfig.frameWidthPercentage;
+            frameHeightPercentage = screenConfig.frameHeightPercentage;
+
+            frameSize = new Size((int)Math.Ceiling(gameWindowSize.Width * frameWidthPercentage),
+                    (int)Math.Ceiling(gameWindowSize.Height * frameHeightPercentage));
+
+            frame1Location = new Point((int)Math.Ceiling(gameWindowSize.Width * frame1PercentageLeft),
+            (int)Math.Ceiling(gameWindowSize.Height * frame1PercentageTop));
+            frame2Location = new Point((int)Math.Ceiling(gameWindowSize.Width * frame2PercentageLeft),
+            (int)Math.Ceiling(gameWindowSize.Height * frame2PercentageTop));
+            //Create a new list of OCR viewports
+            OCRViewports = new List<Rectangle>
+            {
+                new Rectangle(frame1Location, frameSize),
+                new Rectangle(frame2Location, frameSize)
+            };
         }
 
     }
