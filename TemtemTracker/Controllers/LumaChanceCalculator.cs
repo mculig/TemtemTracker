@@ -9,8 +9,8 @@ namespace TemtemTracker.Controllers
 {
     public class LumaChanceCalculator
     {
-        private UserSettings userSettings;
-        private Config config;
+        private readonly UserSettings userSettings;
+        private readonly Config config;
 
         public LumaChanceCalculator(SettingsController settingsController, Config config)
         {

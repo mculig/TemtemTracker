@@ -125,17 +125,17 @@ namespace TemtemTracker
             
         }
 
-        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PropertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             settingsController.ShowSettingsWindow();
         }
 
-        private void resetTableToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ResetTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tableController.ResetTable();
         }
 
-        private void pauseTimerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PauseTimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool timerState = timerController.ToggleTimeTrackerTimerPaused();
             TogglePauseTimerUIIndication(timerState);
@@ -146,13 +146,15 @@ namespace TemtemTracker
             settingsController.SetMainWindowSize(this.Size);
         }
 
-        private void loadTableToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LoadTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.Filter = "json files (*.json)|*.json";
-            openFile.FilterIndex = 0;
-            openFile.RestoreDirectory = true;
-            if(openFile.ShowDialog() == DialogResult.OK)
+            OpenFileDialog openFile = new OpenFileDialog
+            {
+                Filter = "json files (*.json)|*.json",
+                FilterIndex = 0,
+                RestoreDirectory = true
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
             {
                 //Reset the table. This is necessary because loading adds elements to the UI
                 //so we need to clear the UI first
@@ -162,25 +164,29 @@ namespace TemtemTracker
             }
         }
 
-        private void saveTableToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "json files (*.json)|*.json";
-            saveDialog.FilterIndex = 0;
-            saveDialog.RestoreDirectory = true;
-            if(saveDialog.ShowDialog() == DialogResult.OK)
+            SaveFileDialog saveDialog = new SaveFileDialog
+            {
+                Filter = "json files (*.json)|*.json",
+                FilterIndex = 0,
+                RestoreDirectory = true
+            };
+            if (saveDialog.ShowDialog() == DialogResult.OK)
             {
                 tableController.SaveTableAs(saveDialog.FileName);
             }
         }
 
-        private void exportCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExportCSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog exportDialog = new SaveFileDialog();
-            exportDialog.Filter = "csv files (*.csv)|*.csv";
-            exportDialog.FilterIndex = 0;
-            exportDialog.RestoreDirectory = true;
-            if(exportDialog.ShowDialog() == DialogResult.OK)
+            SaveFileDialog exportDialog = new SaveFileDialog
+            {
+                Filter = "csv files (*.csv)|*.csv",
+                FilterIndex = 0,
+                RestoreDirectory = true
+            };
+            if (exportDialog.ShowDialog() == DialogResult.OK)
             {
                 tableController.ExportCSV(exportDialog.FileName);
             }

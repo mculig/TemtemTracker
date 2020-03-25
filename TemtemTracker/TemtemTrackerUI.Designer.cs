@@ -85,7 +85,7 @@
             this.resetTableToolStripMenuItem.ShortcutKeyDisplayString = "F6";
             this.resetTableToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.resetTableToolStripMenuItem.Text = "Reset Table";
-            this.resetTableToolStripMenuItem.Click += new System.EventHandler(this.resetTableToolStripMenuItem_Click);
+            this.resetTableToolStripMenuItem.Click += new System.EventHandler(this.ResetTableToolStripMenuItem_Click);
             // 
             // pauseTimerToolStripMenuItem
             // 
@@ -93,7 +93,7 @@
             this.pauseTimerToolStripMenuItem.ShortcutKeyDisplayString = "F8";
             this.pauseTimerToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.pauseTimerToolStripMenuItem.Text = "Pause Timer";
-            this.pauseTimerToolStripMenuItem.Click += new System.EventHandler(this.pauseTimerToolStripMenuItem_Click);
+            this.pauseTimerToolStripMenuItem.Click += new System.EventHandler(this.PauseTimerToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -105,14 +105,14 @@
             this.saveTableToolStripMenuItem.Name = "saveTableToolStripMenuItem";
             this.saveTableToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.saveTableToolStripMenuItem.Text = "Save As";
-            this.saveTableToolStripMenuItem.Click += new System.EventHandler(this.saveTableToolStripMenuItem_Click);
+            this.saveTableToolStripMenuItem.Click += new System.EventHandler(this.SaveTableToolStripMenuItem_Click);
             // 
             // loadTableToolStripMenuItem
             // 
             this.loadTableToolStripMenuItem.Name = "loadTableToolStripMenuItem";
             this.loadTableToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.loadTableToolStripMenuItem.Text = "Load";
-            this.loadTableToolStripMenuItem.Click += new System.EventHandler(this.loadTableToolStripMenuItem_Click);
+            this.loadTableToolStripMenuItem.Click += new System.EventHandler(this.LoadTableToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -124,7 +124,7 @@
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
             this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.propertiesToolStripMenuItem.Text = "Properties";
-            this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
+            this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.PropertiesToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -168,7 +168,7 @@
             this.exportCSVToolStripMenuItem.Name = "exportCSVToolStripMenuItem";
             this.exportCSVToolStripMenuItem.Size = new System.Drawing.Size(221, 30);
             this.exportCSVToolStripMenuItem.Text = "Export CSV";
-            this.exportCSVToolStripMenuItem.Click += new System.EventHandler(this.exportCSVToolStripMenuItem_Click);
+            this.exportCSVToolStripMenuItem.Click += new System.EventHandler(this.ExportCSVToolStripMenuItem_Click);
             // 
             // TemtemTrackerUI
             // 
