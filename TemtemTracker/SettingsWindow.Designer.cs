@@ -57,6 +57,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.buttonRemapResetTableHotkey = new System.Windows.Forms.Button();
             this.labelResetTableHotkey = new System.Windows.Forms.Label();
+            this.checkboxDarkMode = new System.Windows.Forms.CheckBox();
             this.settingsTabControl.SuspendLayout();
             this.windowTabPage.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -88,6 +89,7 @@
             // 
             // windowTabPage
             // 
+            this.windowTabPage.Controls.Add(this.checkboxDarkMode);
             this.windowTabPage.Controls.Add(this.groupBox3);
             this.windowTabPage.Location = new System.Drawing.Point(4, 29);
             this.windowTabPage.Name = "windowTabPage";
@@ -388,6 +390,17 @@
             this.labelResetTableHotkey.Text = "Modifier + Key";
             this.labelResetTableHotkey.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // checkboxDarkMode
+            // 
+            this.checkboxDarkMode.AutoSize = true;
+            this.checkboxDarkMode.Location = new System.Drawing.Point(12, 112);
+            this.checkboxDarkMode.Name = "checkboxDarkMode";
+            this.checkboxDarkMode.Size = new System.Drawing.Size(113, 24);
+            this.checkboxDarkMode.TabIndex = 6;
+            this.checkboxDarkMode.Text = "Dark Mode";
+            this.checkboxDarkMode.UseVisualStyleBackColor = true;
+            this.checkboxDarkMode.CheckedChanged += new System.EventHandler(this.checkboxDarkMode_CheckedChanged);
+            // 
             // SettingsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -402,6 +415,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsWindow_FormClosing);
             this.settingsTabControl.ResumeLayout(false);
             this.windowTabPage.ResumeLayout(false);
+            this.windowTabPage.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacityTrackBar)).EndInit();
@@ -453,5 +467,6 @@
         private System.Windows.Forms.RadioButton radioButtonLuma9999Percent;
         private System.Windows.Forms.RadioButton radioButtonLuma50Percent;
         private System.Windows.Forms.RadioButton radioButtonLuma75Percent;
+        private System.Windows.Forms.CheckBox checkboxDarkMode;
     }
 }

@@ -220,5 +220,10 @@ namespace TemtemTracker
                 settingsController.SetTimeToLumaProbability(0.9999);
             }
         }
+
+        private void checkboxDarkMode_CheckedChanged(object sender, EventArgs e)
+        {
+            settingsController.SetDarkMode(checkboxDarkMode.Checked);
+        }
     }
 }

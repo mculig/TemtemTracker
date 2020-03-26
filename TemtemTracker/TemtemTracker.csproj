@@ -55,6 +55,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>TemtemTracker.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Fastenshtein, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Fastenshtein.1.0.0.5\lib\net40-client\Fastenshtein.dll</HintPath>
@@ -231,6 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icon128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TemtemTracker.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Tesseract.4.1.0-beta1\build\Tesseract.targets" Condition="Exists('..\packages\Tesseract.4.1.0-beta1\build\Tesseract.targets')" />

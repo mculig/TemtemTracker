@@ -17,9 +17,10 @@ namespace TemtemTracker.Controllers
 
         private readonly string LANGUAGE = "eng";
         private readonly string TESS_DATAPATH = @"tessdata";
-        private readonly uint ARGB_BLACK = 0xFF000000;
-        private readonly uint ARGB_WHITE = 0xFFFFFFFF;
-        private readonly uint ARGB_RED = 0xFFFF0000;
+        private readonly uint ARGB_BLACK = 0xFF000000; //Text color
+        private readonly uint ARGB_WHITE = 0xFFFFFFFF; //Other color
+        private readonly uint ARGB_RED = 0xFFFF0000; //Color used when marking pixels in clusters we want to keep (letters)
+        private readonly uint ARGB_GREEN = 0xFF00FF00; //Color used when marking pixels in oversized clusters that are likely to be erroneously picked up clouds
 
         private readonly TesseractEngine tesseract;
         
@@ -32,6 +33,9 @@ namespace TemtemTracker.Controllers
         //Minimum width to resize image to before OCR Pre-processing
         private readonly int minimumOCRResizeWidth;
 
+        //Maximum number of pixels that can reasonably be expected in a resized letter
+        private readonly int maximumLetterPixelCount;
+
         //Tesseract character whitelist
         private readonly string OCRCharWhitelist;
 
@@ -41,6 +45,7 @@ namespace TemtemTracker.Controllers
             this.maxOCRSubpixelFFDistance = config.maxOCRSubpixelFFDistance;
             this.minimumOCRResizeWidth = config.minimumOCRResizeWidth;
             this.OCRCharWhitelist = config.OCRCharWhitelist;
+            this.maximumLetterPixelCount = config.maximumLetterPixelCount;
             tesseract = new TesseractEngine(TESS_DATAPATH, LANGUAGE);
             //Limit tesseract to alphabet only
             tesseract.SetVariable("tessedit_char_whitelist", OCRCharWhitelist);           
@@ -80,14 +85,8 @@ namespace TemtemTracker.Controllers
                         }
                         //Run the similarity metric and get the closest actual name
                         ocrTextResult = GetClosestActualTemtemName(ocrTextResult, speciesList.species);
-                        //Add the result to our results if it isn't the empty entry
-                        //The empty entry is here to pick up short noise that might
-                        //get interpreted as a character and will be closest in distance
-                        //to an empty string
-                        if (ocrTextResult != "")
-                        {
-                            results.Add(ocrTextResult);
-                        }
+
+                        results.Add(ocrTextResult);
                         
                     }
                 }
@@ -170,9 +169,9 @@ namespace TemtemTracker.Controllers
             {
                 int pixelI = pixelMap[PixelID];
 
-                if (whiteMask[pixelI,scanningLine] == ARGB_RED)
+                if (whiteMask[pixelI,scanningLine] == ARGB_RED || whiteMask[pixelI, scanningLine] == ARGB_GREEN)
                 {
-                    //We've already marked this pixel as a part of a middle cluster
+                    //We've already marked this pixel as a part of a letter (red pixels) OR part of an oversized cluster that isn't a letter (green pixels)
                     continue;
                 }
                 //Run the check on this pixel
@@ -233,11 +232,12 @@ namespace TemtemTracker.Controllers
 
         private void PixelCheck(int i, int j, uint[,] whiteMask, int imageHeight, int imageWidth)
         {
+            int objectPixelCount = 1;
             Queue<Tuple<int,int>> pixelStack = new Queue<Tuple<int, int>>();
             //Add the initial pixel coordinates
             pixelStack.Enqueue(Tuple.Create(i,j));
             //Proceess the queue
-            while (pixelStack.Count != 0)
+            while (pixelStack.Count != 0 && objectPixelCount<=maximumLetterPixelCount)
             {
                 //Get pixel coordinates from the stack
                 Tuple<int, int> coordinate = pixelStack.Dequeue();
@@ -262,6 +262,46 @@ namespace TemtemTracker.Controllers
                             if (!pixelStack.Contains(newTuple))
                             {
                                 pixelStack.Enqueue(newTuple);
+                                //Increase the count of pixels that are part of this object
+                                objectPixelCount++;
+                            }
+                        }
+                    }
+                }
+            }
+            if (objectPixelCount > maximumLetterPixelCount)
+            {
+                //We've reached critical mass, this is not a letter
+                //Continue the work of the stack, but now we're marking everything green
+                while(pixelStack.Count != 0)
+                {
+                    //Get pixel coordinates from the stack
+                    Tuple<int, int> coordinate = pixelStack.Dequeue();
+                    //Set that pixel red
+                    whiteMask[coordinate.Item1, coordinate.Item2] = ARGB_GREEN;
+                    //Check neighboring pixels
+                    foreach (int iOffset in new int[] { -1, 1 })
+                    {
+                        foreach (int jOffset in new int[] { -1, 1 })
+                        {
+                            if (coordinate.Item1 + iOffset >= imageWidth || coordinate.Item2 + jOffset >= imageHeight)
+                            {
+                                continue;
+                            }
+                            if (coordinate.Item1 + iOffset < 0 || coordinate.Item2 + jOffset < 0)
+                            {
+                                continue;
+                            }
+                            //Now instead of just black pixels we also want to re-mark the red ones
+                            if (whiteMask[coordinate.Item1 + iOffset, coordinate.Item2 + jOffset] == ARGB_BLACK || whiteMask[coordinate.Item1 + iOffset, coordinate.Item2 + jOffset] == ARGB_RED)
+                            {
+                                Tuple<int, int> newTuple = Tuple.Create(coordinate.Item1 + iOffset, coordinate.Item2 + jOffset);
+                                if (!pixelStack.Contains(newTuple))
+                                {
+                                    pixelStack.Enqueue(newTuple);
+                                    //Increase the count of pixels that are part of this object
+                                    objectPixelCount++;
+                                }
                             }
                         }
                     }

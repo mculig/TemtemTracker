@@ -189,9 +189,22 @@ namespace TemtemTracker
             }
         }
 
+        internal void SetLightMode()
+        {
+            this.BackColor = SystemColors.Control;
+            this.ForeColor = SystemColors.ControlText;
+        }
+
+        internal void SetDarkMode()
+        {
+            this.BackColor = Color.Black;
+            this.ForeColor = Color.White;
+        }
+
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             aboutWindow.Show();
         }
+
     }
 }

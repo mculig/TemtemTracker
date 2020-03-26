@@ -156,6 +156,16 @@ namespace TemtemTracker.Controllers
                 pauseTimerHotkeyModifiersString + kc.ConvertToString(userSettings.pauseTimerHotkey));
         }
 
-        
+        internal void SetDarkMode(bool darkMode)
+        {
+            if (darkMode)
+            {
+                trackerUI.SetDarkMode();
+            }
+            else
+            {
+                trackerUI.SetLightMode();
+            }
+        }
     }
 }
