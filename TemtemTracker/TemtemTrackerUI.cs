@@ -19,10 +19,12 @@ namespace TemtemTracker
         private SettingsController settingsController;
         private TemtemTableController tableController;
         private TimerController timerController;
+        private readonly AboutWindow aboutWindow;
 
         public TemtemTrackerUI()
         {
             InitializeComponent();
+            aboutWindow = new AboutWindow();
         }
 
         public void SetSettingsController(SettingsController settingsController)
@@ -120,11 +122,6 @@ namespace TemtemTracker
             timeTrackerUI1.TogglePausedVisualIndication(timerState);
         }
 
-        public void SetDarkMode()
-        {
-            
-        }
-
         private void PropertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             settingsController.ShowSettingsWindow();
@@ -190,6 +187,11 @@ namespace TemtemTracker
             {
                 tableController.ExportCSV(exportDialog.FileName);
             }
+        }
+
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            aboutWindow.Show();
         }
     }
 }
