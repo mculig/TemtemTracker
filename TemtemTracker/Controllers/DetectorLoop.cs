@@ -24,22 +24,22 @@ namespace TemtemTracker.Controllers
         //Detection spot 1
         private double spot1WidthPercentage;
         private double spot1HeightPercentage;
-        private readonly uint spot1RGB;
+        private readonly int spot1RGB;
 
         //Detection spot 2
         private double spot2WidthPercentage;
         private double spot2HeightPercentage;
-        private readonly uint spot2RGB;
+        private readonly int spot2RGB;
 
         //Detection spot 3
         private double spot3WidthPercentage;
         private double spot3HeightPercentage;
-        private readonly uint spot3RGB;
+        private readonly int spot3RGB;
 
         //Detection spot 4
         private double spot4WidthPercentage;
         private double spot4HeightPercentage;
-        private readonly uint spot4RGB;
+        private readonly int spot4RGB;
 
         //Spots for detecting out-of combat status
         //Detects 2 spots along the blue border of the minimap
@@ -47,12 +47,12 @@ namespace TemtemTracker.Controllers
         //Detection spot 5
         private double spot5WidthPercentage;
         private double spot5HeightPercentage;
-        private readonly uint spot5RGB;
+        private readonly int spot5RGB;
 
         //Detection spot 6
         private double spot6WidthPercentage;
         private double spot6HeightPercentage;
-        private readonly uint spot6RGB;
+        private readonly int spot6RGB;
 
         //List of detection spot X,Y coordinates
         List<Point> detectionSpots;
@@ -100,43 +100,12 @@ namespace TemtemTracker.Controllers
             this.tableController = tableController;
             this.ocrController = ocrController;
 
-            //Try and parse the rgb spots
-            if (!uint.TryParse(config.spot1RGB, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out this.spot1RGB))
-            {
-                new ErrorMessage("Unable to parse spot1RGB from config!", null);
-                loadFailed = true;
-                return;
-            }
-            if (!uint.TryParse(config.spot2RGB, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out this.spot2RGB))
-            {
-                new ErrorMessage("Unable to parse spot2RGB from config!", null);
-                loadFailed = true;
-                return;
-            }
-            if (!uint.TryParse(config.spot3RGB, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out this.spot3RGB))
-            {
-                new ErrorMessage("Unable to parse spot3RGB from config!", null);
-                loadFailed = true;
-                return;
-            }
-            if (!uint.TryParse(config.spot4RGB, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out this.spot4RGB))
-            {
-                new ErrorMessage("Unable to parse spot4RGB from config!", null);
-                loadFailed = true;
-                return;
-            }
-            if (!uint.TryParse(config.spot5RGB, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out this.spot5RGB))
-            {
-                new ErrorMessage("Unable to parse spot5RGB from config!", null);
-                loadFailed = true;
-                return;
-            }
-            if (!uint.TryParse(config.spot6RGB, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out this.spot6RGB))
-            {
-                new ErrorMessage("Unable to parse spot6RGB from config!", null);
-                loadFailed = true;
-                return;
-            }
+            spot1RGB = ColorTranslator.FromHtml(config.spot1RGB).ToArgb();
+            spot2RGB = ColorTranslator.FromHtml(config.spot2RGB).ToArgb();
+            spot3RGB = ColorTranslator.FromHtml(config.spot3RGB).ToArgb();
+            spot4RGB = ColorTranslator.FromHtml(config.spot4RGB).ToArgb();
+            spot5RGB = ColorTranslator.FromHtml(config.spot5RGB).ToArgb();
+            spot6RGB = ColorTranslator.FromHtml(config.spot6RGB).ToArgb();
 
             this.maxAllowedColorDistance = config.maxAllowedColorDistance;
             
@@ -241,14 +210,14 @@ namespace TemtemTracker.Controllers
 
         }
 
-        private int ColorDistance(Color rgb1, uint rgbInt)
+        private int ColorDistance(Color rgb1, int rgbInt)
         {
             byte a1 = rgb1.A;
             byte r1 = rgb1.R;
             byte g1 = rgb1.G;
             byte b1 = rgb1.B;
 
-            Color rgb2 = Color.FromArgb(unchecked((int)rgbInt));
+            Color rgb2 = Color.FromArgb(rgbInt);
 
             byte a2 = rgb2.A;
             byte r2 = rgb2.R;

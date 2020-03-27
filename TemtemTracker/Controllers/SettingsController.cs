@@ -16,12 +16,14 @@ namespace TemtemTracker.Controllers
         private readonly UserSettings userSettings;
         private readonly SettingsWindow settingsWindow;
         private readonly TemtemTrackerUI trackerUI;
+        private readonly Styles styles;
         TemtemTableController tableController;
         HotkeyController hotkeyController;
 
-        public SettingsController(Species species, UserSettings userSettings, TemtemTrackerUI trackerUI)
+        public SettingsController(Species species, UserSettings userSettings, Styles styles, TemtemTrackerUI trackerUI)
         {
             this.userSettings = userSettings;
+            this.styles = styles;
             this.trackerUI = trackerUI;
             this.settingsWindow = new SettingsWindow(this);
 
@@ -35,11 +37,16 @@ namespace TemtemTracker.Controllers
 
             //Populate settings window hotkey labels
             PopulateSettingsWindowHotkeyLabels();
+            //Populate settings window Style ComboBox
+            settingsWindow.PopulateStyleComboBox(styles, userSettings.windowStyle);
 
             //Set tracker UI dimensions
             trackerUI.Width = userSettings.mainWindowWidth;
             trackerUI.Height = userSettings.mainWindowHeight;
             trackerUI.Opacity = userSettings.mainWindowOpacity;
+
+            //Set tracker UI style
+            trackerUI.SetWindowStyle(styles.styles[userSettings.windowStyle]);
 
             //Set this as the settings controller in the UI
             trackerUI.SetSettingsController(this);
@@ -94,6 +101,12 @@ namespace TemtemTracker.Controllers
         {
             userSettings.mainWindowOpacity = opacityValue / (double) 100;
             trackerUI.Opacity = opacityValue / (double) 100;
+        }
+
+        public void SetWindowStyle(int windowStyle)
+        {
+            userSettings.windowStyle = windowStyle;
+            trackerUI.SetWindowStyle(styles.styles[windowStyle]);
         }
 
         public void SetMainWindowSize(Size mainWindowSize)
@@ -156,16 +169,5 @@ namespace TemtemTracker.Controllers
                 pauseTimerHotkeyModifiersString + kc.ConvertToString(userSettings.pauseTimerHotkey));
         }
 
-        internal void SetDarkMode(bool darkMode)
-        {
-            if (darkMode)
-            {
-                trackerUI.SetDarkMode();
-            }
-            else
-            {
-                trackerUI.SetLightMode();
-            }
-        }
     }
 }

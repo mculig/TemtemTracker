@@ -17,6 +17,7 @@ namespace TemtemTracker.Controllers
         private readonly Species species;
         private readonly Config config;
         private readonly UserSettings userSettings;
+        private readonly Styles styles;
 
         private bool loadFailed = false;
 
@@ -29,7 +30,7 @@ namespace TemtemTracker.Controllers
             }
             else
             {
-                new ErrorMessage("Failed to load config file: " + Paths.SPECIES_PATH,
+                new ErrorMessage("Cannot find config file: " + Paths.SPECIES_PATH,
                     SetFailedStatus);
             }
             if (File.Exists(Paths.CONFIG_PATH))
@@ -39,7 +40,7 @@ namespace TemtemTracker.Controllers
             }
             else
             {
-                new ErrorMessage("Failed to load config file: " + Paths.CONFIG_PATH,
+                new ErrorMessage("Cannot find config file: " + Paths.CONFIG_PATH,
                     SetFailedStatus);
             }
             if (File.Exists(Paths.USER_SETTINGS_PATH))
@@ -49,8 +50,52 @@ namespace TemtemTracker.Controllers
             }
             else
             {
-                new ErrorMessage("Failed to load config file: " + Paths.USER_SETTINGS_PATH,
+                new ErrorMessage("Cannot find config file: " + Paths.USER_SETTINGS_PATH,
                     SetFailedStatus);
+            }
+            if (File.Exists(Paths.STYLES_PATH))
+            {
+                string stylesJson = File.ReadAllText(Paths.STYLES_PATH);
+                try
+                {
+                    styles = JsonConvert.DeserializeObject<Styles>(stylesJson);
+                    //Validate the styles
+                    styles.styles.ForEach(style => {
+                        string styleName = style.styleName;
+                        try
+                        {
+                            ColorTranslator.FromHtml(style.menuStripBackground);
+                            ColorTranslator.FromHtml(style.menuStripForeground);
+                            ColorTranslator.FromHtml(style.menuItemSelected);
+                            ColorTranslator.FromHtml(style.trackerBackground);
+                            ColorTranslator.FromHtml(style.trackerForeground);
+                            ColorTranslator.FromHtml(style.timerForeground);
+                            ColorTranslator.FromHtml(style.timerPausedForeground);
+                            ColorTranslator.FromHtml(style.tableRowBackground1);
+                            ColorTranslator.FromHtml(style.tableRowBackground2);
+                            ColorTranslator.FromHtml(style.tableRowForeground1);
+                            ColorTranslator.FromHtml(style.tableRowForeground2);
+                            ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
+                            ColorTranslator.FromHtml(style.tableRowButtonBackground);
+                            ColorTranslator.FromHtml(style.tableRowButtonForeground);
+                        }
+                        catch
+                        {
+                            new ErrorMessage("Error in style " + styleName + ": Invalid color code",
+                                SetFailedStatus);
+                        }
+                    });
+                }
+                catch
+                {
+                    new ErrorMessage("Error reading styles file. Check that the file is " +
+                        "properly formatted or replace with valid styles.json file", SetFailedStatus);
+                }
+            }
+            else
+            {
+                new ErrorMessage("Cannot find styles: " + Paths.STYLES_PATH,
+                                    SetFailedStatus);
             }
         }
 
@@ -77,6 +122,11 @@ namespace TemtemTracker.Controllers
         public UserSettings GetUserSettings()
         {
             return this.userSettings;
+        }
+
+        public Styles GetStyles()
+        {
+            return this.styles;
         }
 
         public static ScreenConfig GetConfigForAspectRatio(Config config, Size gameWindowSize)

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TemtemTracker.Controllers;
+using TemtemTracker.Data;
 
 namespace TemtemTracker
 {
@@ -75,6 +76,12 @@ namespace TemtemTracker
                 //Also set this to 50% in the settings
                 settingsController.SetTimeToLumaProbability(0.5);
             }
+        }
+
+        public void PopulateStyleComboBox(Styles styles, int selectedStyle)
+        {
+            comboBoxStyleSelect.DataSource = styles.styles.Select(style=> style.styleName).ToList();
+            comboBoxStyleSelect.SelectedIndex = selectedStyle;
         }
 
         private void CheckBoxSaiparkMode_CheckedChanged(object sender, EventArgs e)
@@ -221,9 +228,9 @@ namespace TemtemTracker
             }
         }
 
-        private void checkboxDarkMode_CheckedChanged(object sender, EventArgs e)
+        private void ComboBoxStyleSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            settingsController.SetDarkMode(checkboxDarkMode.Checked);
+            settingsController.SetWindowStyle(comboBoxStyleSelect.SelectedIndex);
         }
     }
 }

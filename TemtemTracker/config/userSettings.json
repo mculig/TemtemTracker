@@ -1,5 +1,6 @@
 {
   "mainWindowOpacity": 1.0,
+  "windowStyle": 0,
   "mainWindowWidth": 865,
   "mainWindowHeight": 429,
   "timeToLumaProbability": 0.5,

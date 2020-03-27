@@ -26,6 +26,7 @@ namespace TemtemTracker
             this.controller = controller;
             UpdateRow();
             this.Dock = DockStyle.Top;
+            //Set delete button hover
         }
 
         public void UpdateRow()
@@ -44,6 +45,24 @@ namespace TemtemTracker
                 labelTimeToLuma.Text = MilisToHMS(row.timeToLuma);
             }
             
+        }
+
+        public void SetDark(Style style)
+        {
+            BackColor = ColorTranslator.FromHtml(style.tableRowBackground1);
+            ForeColor = ColorTranslator.FromHtml(style.tableRowForeground1);
+            deleteButton.BackColor = ColorTranslator.FromHtml(style.tableRowButtonBackground);
+            deleteButton.ForeColor = ColorTranslator.FromHtml(style.tableRowButtonForeground);
+            deleteButton.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
+        }
+
+        public void SetLight(Style style)
+        {
+            BackColor = ColorTranslator.FromHtml(style.tableRowBackground2);
+            ForeColor = ColorTranslator.FromHtml(style.tableRowForeground2);
+            deleteButton.BackColor = ColorTranslator.FromHtml(style.tableRowButtonBackground);
+            deleteButton.ForeColor = ColorTranslator.FromHtml(style.tableRowButtonForeground);
+            deleteButton.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
         }
 
         private String DoubleToPercent(double number)

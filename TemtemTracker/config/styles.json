@@ -1,0 +1,55 @@
+﻿{
+	"styles":[
+    {
+		"styleName":"Normal",
+        "menuStripBackground": "#F0F0F0",
+        "menuStripForeground": "#000000",
+        "menuItemSelected": "#D8EAF9",
+        "trackerBackground": "#F0F0F0",
+        "trackerForeground": "#000000",
+        "timerForeground": "#000000",
+        "timerPausedForeground": "#FF0000",
+        "tableRowBackground1": "#F0F0F0",
+        "tableRowBackground2": "#E3E3E3",
+        "tableRowForeground1": "#000000",
+        "tableRowForeground2": "#000000",
+        "tableRowButtonHoverColor": "#D8EAF9",
+        "tableRowButtonBackground": "#F0F0F0",
+        "tableRowButtonForeground": "#000000"
+	},
+	{
+		"styleName":"Dark",
+        "menuStripBackground": "#0F1A07",
+        "menuStripForeground": "#FFFFFF",
+        "menuItemSelected": "#3C661D",
+        "trackerBackground": "#0F1A07",
+        "trackerForeground": "#FFFFFF",
+        "timerForeground": "#FFFFFF",
+        "timerPausedForeground": "#FF0000",
+        "tableRowBackground1": "#0F1A07",
+        "tableRowBackground2": "#1E330E",
+        "tableRowForeground1": "#FFFFFF",
+        "tableRowForeground2": "#FFFFFF",
+        "tableRowButtonHoverColor": "#3C661D",
+        "tableRowButtonBackground": "#0F1A07",
+        "tableRowButtonForeground": "#FFFFFF"
+	},
+    {
+        "styleName":"Alice",
+        "menuStripBackground": "#4E3350",
+        "menuStripForeground": "#FF3873",
+        "menuItemSelected": "#FFD1DF",
+        "trackerBackground": "#4E3350",
+        "trackerForeground": "#FF3873",
+        "timerForeground": "#FF3873",
+        "timerPausedForeground": "#FFF252",
+        "tableRowBackground1": "#4E3350",
+        "tableRowBackground2": "#5A3B5C",
+        "tableRowForeground1": "#FF3873",
+        "tableRowForeground2": "#FF3873",
+        "tableRowButtonHoverColor": "#FFD1DF",
+        "tableRowButtonBackground": "#4E3350",
+        "tableRowButtonForeground": "#FF3873"
+	}
+	]
+}

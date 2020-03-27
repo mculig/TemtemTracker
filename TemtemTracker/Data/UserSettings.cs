@@ -9,6 +9,7 @@ namespace TemtemTracker.Data
     public class UserSettings
     {
         public double mainWindowOpacity;
+        public int windowStyle;
         public int mainWindowWidth;
         public int mainWindowHeight;
         public double timeToLumaProbability;

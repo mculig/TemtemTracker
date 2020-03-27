@@ -92,6 +92,7 @@
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ConfigLoader.cs" />
+    <Compile Include="Controllers\CustomMenuColorTable.cs" />
     <Compile Include="Controllers\DetectorLoop.cs" />
     <Compile Include="Controllers\ErrorMessage.cs" />
     <Compile Include="Controllers\HelperMethods.cs" />
@@ -105,6 +106,8 @@
     <Compile Include="Controllers\TimerController.cs" />
     <Compile Include="Controllers\User32.cs" />
     <Compile Include="Controllers\WindowFinder.cs" />
+    <Compile Include="Data\Style.cs" />
+    <Compile Include="Data\Styles.cs" />
     <Compile Include="Data\Config.cs" />
     <Compile Include="Data\Paths.cs" />
     <Compile Include="Data\ScreenConfig.cs" />
@@ -185,6 +188,9 @@
     </EmbeddedResource>
     <None Include="app.manifest">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="config\styles.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="config\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

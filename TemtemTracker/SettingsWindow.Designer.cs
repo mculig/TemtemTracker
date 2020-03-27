@@ -57,7 +57,8 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.buttonRemapResetTableHotkey = new System.Windows.Forms.Button();
             this.labelResetTableHotkey = new System.Windows.Forms.Label();
-            this.checkboxDarkMode = new System.Windows.Forms.CheckBox();
+            this.comboBoxStyleSelect = new System.Windows.Forms.ComboBox();
+            this.labelWindowStyle = new System.Windows.Forms.Label();
             this.settingsTabControl.SuspendLayout();
             this.windowTabPage.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -89,7 +90,8 @@
             // 
             // windowTabPage
             // 
-            this.windowTabPage.Controls.Add(this.checkboxDarkMode);
+            this.windowTabPage.Controls.Add(this.labelWindowStyle);
+            this.windowTabPage.Controls.Add(this.comboBoxStyleSelect);
             this.windowTabPage.Controls.Add(this.groupBox3);
             this.windowTabPage.Location = new System.Drawing.Point(4, 29);
             this.windowTabPage.Name = "windowTabPage";
@@ -390,16 +392,23 @@
             this.labelResetTableHotkey.Text = "Modifier + Key";
             this.labelResetTableHotkey.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkboxDarkMode
+            // comboBoxStyleSelect
             // 
-            this.checkboxDarkMode.AutoSize = true;
-            this.checkboxDarkMode.Location = new System.Drawing.Point(12, 112);
-            this.checkboxDarkMode.Name = "checkboxDarkMode";
-            this.checkboxDarkMode.Size = new System.Drawing.Size(113, 24);
-            this.checkboxDarkMode.TabIndex = 6;
-            this.checkboxDarkMode.Text = "Dark Mode";
-            this.checkboxDarkMode.UseVisualStyleBackColor = true;
-            this.checkboxDarkMode.CheckedChanged += new System.EventHandler(this.checkboxDarkMode_CheckedChanged);
+            this.comboBoxStyleSelect.FormattingEnabled = true;
+            this.comboBoxStyleSelect.Location = new System.Drawing.Point(122, 115);
+            this.comboBoxStyleSelect.Name = "comboBoxStyleSelect";
+            this.comboBoxStyleSelect.Size = new System.Drawing.Size(121, 28);
+            this.comboBoxStyleSelect.TabIndex = 6;
+            this.comboBoxStyleSelect.SelectedIndexChanged += new System.EventHandler(this.ComboBoxStyleSelect_SelectedIndexChanged);
+            // 
+            // labelWindowStyle
+            // 
+            this.labelWindowStyle.AutoSize = true;
+            this.labelWindowStyle.Location = new System.Drawing.Point(8, 118);
+            this.labelWindowStyle.Name = "labelWindowStyle";
+            this.labelWindowStyle.Size = new System.Drawing.Size(108, 20);
+            this.labelWindowStyle.TabIndex = 7;
+            this.labelWindowStyle.Text = "Window Style:";
             // 
             // SettingsWindow
             // 
@@ -467,6 +476,7 @@
         private System.Windows.Forms.RadioButton radioButtonLuma9999Percent;
         private System.Windows.Forms.RadioButton radioButtonLuma50Percent;
         private System.Windows.Forms.RadioButton radioButtonLuma75Percent;
-        private System.Windows.Forms.CheckBox checkboxDarkMode;
+        private System.Windows.Forms.Label labelWindowStyle;
+        private System.Windows.Forms.ComboBox comboBoxStyleSelect;
     }
 }

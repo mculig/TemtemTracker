@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace TemtemTracker
         private TemtemTableController tableController;
         private TimerController timerController;
         private readonly AboutWindow aboutWindow;
+        private Style style;
 
         public TemtemTrackerUI()
         {
@@ -52,27 +54,28 @@ namespace TemtemTracker
             else
             {
                 trackerTable.Controls.Add(row);
-                if(trackerTable.Controls.Count%2 == 0)
-                {
-                    row.BackColor = SystemColors.ControlLight;
-                }
+                RecolorTableRows();
             } 
         }
 
         public void RemoveRowFromTable(TemtemTableRowUI row)
         {
             trackerTable.Controls.Remove(row);
-            //Recolor all the controls to fit the intertwined colors scheme
+            RecolorTableRows();  
+        }
+
+        private void RecolorTableRows()
+        {
             int i = 1;
-            foreach(Control c in trackerTable.Controls)
+            foreach (TemtemTableRowUI r in trackerTable.Controls)
             {
                 if (i % 2 == 0)
                 {
-                    c.BackColor = SystemColors.ControlLight;
+                    r.SetLight(style);
                 }
                 else
                 {
-                    c.BackColor = SystemColors.Control;
+                    r.SetDark(style);
                 }
                 i++;
             }
@@ -119,7 +122,34 @@ namespace TemtemTracker
             {
                 pauseTimerToolStripMenuItem.Text = "Unpause timer";
             }
-            timeTrackerUI1.TogglePausedVisualIndication(timerState);
+            timeTrackerUI1.SetPausedVisualIndication(timerState);
+        }
+
+        public void SetWindowStyle(Style style)
+        {
+            //Set the style
+            this.style = style;
+            //Set the foreground and background colors
+            this.BackColor = ColorTranslator.FromHtml(style.trackerBackground);
+            this.ForeColor = ColorTranslator.FromHtml(style.trackerForeground);
+            //Create a custom color table for the menu and set the colors
+            CustomMenuColorTable colorTable = new CustomMenuColorTable(style);
+            menuStrip1.Renderer = new ToolStripProfessionalRenderer(colorTable);
+            menuStrip1.BackColor = ColorTranslator.FromHtml(style.menuStripBackground);
+            menuStrip1.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
+            //Set the colors of items in the menu strip
+            foreach(ToolStripMenuItem item in menuStrip1.Items)
+            {
+                foreach(ToolStripItem dropdownItem in item.DropDownItems)
+                {
+                    dropdownItem.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
+                }
+                item.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
+            }
+            //Recolor the table rows
+            RecolorTableRows();
+            //Set the time tracker UI style
+            timeTrackerUI1.SetStyle(style);
         }
 
         private void PropertiesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -187,18 +217,6 @@ namespace TemtemTracker
             {
                 tableController.ExportCSV(exportDialog.FileName);
             }
-        }
-
-        internal void SetLightMode()
-        {
-            this.BackColor = SystemColors.Control;
-            this.ForeColor = SystemColors.ControlText;
-        }
-
-        internal void SetDarkMode()
-        {
-            this.BackColor = Color.Black;
-            this.ForeColor = Color.White;
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)

@@ -11,5 +11,6 @@ namespace TemtemTracker.Data
         public static readonly string SPECIES_PATH = @"config\temtemSpecies.json";
         public static readonly string CONFIG_PATH = @"config\config.json";
         public static readonly string USER_SETTINGS_PATH = @"config\userSettings.json";
+        public static readonly string STYLES_PATH = @"config\styles.json";
     }
 }

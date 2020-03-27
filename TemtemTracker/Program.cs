@@ -27,7 +27,7 @@ namespace TemtemTracker
             //Create the main window and controller
             TemtemTrackerUI trackerUI = new TemtemTrackerUI();
             //Create the SettingsController
-            SettingsController settingsController = new SettingsController(configLoader.GetSpeciesList(), configLoader.GetUserSettings(), trackerUI);
+            SettingsController settingsController = new SettingsController(configLoader.GetSpeciesList(), configLoader.GetUserSettings(), configLoader.GetStyles(), trackerUI);
             //Create the Luma Calculator
             LumaChanceCalculator lumaCalculator = new LumaChanceCalculator(settingsController, configLoader.GetConfig());
             //Create the TemtemTableController
