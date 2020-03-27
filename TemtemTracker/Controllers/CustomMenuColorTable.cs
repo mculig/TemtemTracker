@@ -11,11 +11,11 @@ namespace TemtemTracker.Controllers
 {
     public class CustomMenuColorTable : ProfessionalColorTable
     {
-        private Color menuBorderColor;
-        private Color menuItemBorderColor;
-        private Color menuItemSelectedColor;
-        private Color menuStripColor;
-        private Color menuForegroundColor;
+        private readonly Color menuBorderColor;
+        private readonly Color menuItemBorderColor;
+        private readonly Color menuItemSelectedColor;
+        private readonly Color menuStripColor;
+        private readonly Color menuForegroundColor;
 
         public CustomMenuColorTable(Style style)
         {

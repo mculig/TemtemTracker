@@ -256,6 +256,12 @@ namespace TemtemTracker.Controllers
                         {
                             continue;
                         }
+                        if(whiteMask[coordinate.Item1 + iOffset, coordinate.Item2 + jOffset] == ARGB_GREEN)
+                        {
+                            //If we've found a green pixel in our neighbours we're part of a body of green pixels
+                            //We want to stop processing in this case
+                            objectPixelCount = maximumLetterPixelCount + 1;
+                        }
                         if(whiteMask[coordinate.Item1+iOffset, coordinate.Item2 + jOffset] == ARGB_BLACK)
                         {
                             Tuple<int,int> newTuple = Tuple.Create(coordinate.Item1 + iOffset, coordinate.Item2 + jOffset);
@@ -292,8 +298,8 @@ namespace TemtemTracker.Controllers
                             {
                                 continue;
                             }
-                            //Now instead of just black pixels we also want to re-mark the red ones
-                            if (whiteMask[coordinate.Item1 + iOffset, coordinate.Item2 + jOffset] == ARGB_BLACK || whiteMask[coordinate.Item1 + iOffset, coordinate.Item2 + jOffset] == ARGB_RED)
+                            //If the pixel is red we want to add it to our list to be marked green
+                            if (whiteMask[coordinate.Item1 + iOffset, coordinate.Item2 + jOffset] == ARGB_RED)
                             {
                                 Tuple<int, int> newTuple = Tuple.Create(coordinate.Item1 + iOffset, coordinate.Item2 + jOffset);
                                 if (!pixelStack.Contains(newTuple))

@@ -10,7 +10,7 @@
 	"maxAllowedColorDistance":500,
   "maxOCRSubpixelFFDistance": 15,
   "minimumOCRResizeWidth": 1300,
-  "maximumLetterPixelCount": 8500,
+  "maximumLetterPixelCount": 6500,
   "OCRCharWhitelist":  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
 	"aspectRatios":[{
 		"aspectRatio":"16:9",
