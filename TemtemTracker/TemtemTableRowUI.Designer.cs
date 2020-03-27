@@ -56,20 +56,22 @@
             this.tableLayoutPanel1.Controls.Add(this.labelTemtemName, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.deleteButton, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelTimeToLuma, 4, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(824, 38);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(549, 25);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // labelEncounteredPercent
             // 
             this.labelEncounteredPercent.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelEncounteredPercent.AutoSize = true;
-            this.labelEncounteredPercent.Location = new System.Drawing.Point(420, 9);
+            this.labelEncounteredPercent.Location = new System.Drawing.Point(279, 6);
+            this.labelEncounteredPercent.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelEncounteredPercent.Name = "labelEncounteredPercent";
-            this.labelEncounteredPercent.Size = new System.Drawing.Size(119, 20);
+            this.labelEncounteredPercent.Size = new System.Drawing.Size(79, 13);
             this.labelEncounteredPercent.TabIndex = 5;
             this.labelEncounteredPercent.Text = "Encountered %";
             // 
@@ -77,9 +79,10 @@
             // 
             this.labelChanceLuma.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelChanceLuma.AutoSize = true;
-            this.labelChanceLuma.Location = new System.Drawing.Point(288, 9);
+            this.labelChanceLuma.Location = new System.Drawing.Point(191, 6);
+            this.labelChanceLuma.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelChanceLuma.Name = "labelChanceLuma";
-            this.labelChanceLuma.Size = new System.Drawing.Size(108, 20);
+            this.labelChanceLuma.Size = new System.Drawing.Size(73, 13);
             this.labelChanceLuma.TabIndex = 4;
             this.labelChanceLuma.Text = "Chance Luma";
             // 
@@ -87,9 +90,10 @@
             // 
             this.labelEncounters.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelEncounters.AutoSize = true;
-            this.labelEncounters.Location = new System.Drawing.Point(160, 9);
+            this.labelEncounters.Location = new System.Drawing.Point(106, 6);
+            this.labelEncounters.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelEncounters.Name = "labelEncounters";
-            this.labelEncounters.Size = new System.Drawing.Size(91, 20);
+            this.labelEncounters.Size = new System.Drawing.Size(61, 13);
             this.labelEncounters.TabIndex = 3;
             this.labelEncounters.Text = "Encounters";
             // 
@@ -97,9 +101,10 @@
             // 
             this.labelTemtemName.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelTemtemName.AutoSize = true;
-            this.labelTemtemName.Location = new System.Drawing.Point(35, 9);
+            this.labelTemtemName.Location = new System.Drawing.Point(23, 6);
+            this.labelTemtemName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelTemtemName.Name = "labelTemtemName";
-            this.labelTemtemName.Size = new System.Drawing.Size(67, 20);
+            this.labelTemtemName.Size = new System.Drawing.Size(45, 13);
             this.labelTemtemName.TabIndex = 2;
             this.labelTemtemName.Text = "Temtem";
             // 
@@ -107,9 +112,10 @@
             // 
             this.deleteButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.deleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteButton.Location = new System.Drawing.Point(717, 4);
+            this.deleteButton.Location = new System.Drawing.Point(477, 2);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(75, 30);
+            this.deleteButton.Size = new System.Drawing.Size(50, 21);
             this.deleteButton.TabIndex = 0;
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -119,19 +125,21 @@
             // 
             this.labelTimeToLuma.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelTimeToLuma.AutoSize = true;
-            this.labelTimeToLuma.Location = new System.Drawing.Point(564, 9);
+            this.labelTimeToLuma.Location = new System.Drawing.Point(374, 6);
+            this.labelTimeToLuma.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelTimeToLuma.Name = "labelTimeToLuma";
-            this.labelTimeToLuma.Size = new System.Drawing.Size(105, 20);
+            this.labelTimeToLuma.Size = new System.Drawing.Size(71, 13);
             this.labelTimeToLuma.TabIndex = 1;
             this.labelTimeToLuma.Text = "Time to Luma";
             // 
             // TemtemTableRowUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "TemtemTableRowUI";
-            this.Size = new System.Drawing.Size(830, 44);
+            this.Size = new System.Drawing.Size(553, 29);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

@@ -45,9 +45,11 @@
             // 
             this.iconPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.iconPictureBox.Image = global::TemtemTracker.Properties.Resources.Icon128;
-            this.iconPictureBox.Location = new System.Drawing.Point(12, 12);
+            this.iconPictureBox.Location = new System.Drawing.Point(8, 8);
+            this.iconPictureBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.iconPictureBox.Name = "iconPictureBox";
-            this.iconPictureBox.Size = new System.Drawing.Size(133, 128);
+            this.iconPictureBox.Size = new System.Drawing.Size(89, 83);
+            this.iconPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.iconPictureBox.TabIndex = 0;
             this.iconPictureBox.TabStop = false;
             // 
@@ -55,9 +57,10 @@
             // 
             this.trackerNameLabel.AutoSize = true;
             this.trackerNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 26F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.trackerNameLabel.Location = new System.Drawing.Point(151, 12);
+            this.trackerNameLabel.Location = new System.Drawing.Point(101, 8);
+            this.trackerNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.trackerNameLabel.Name = "trackerNameLabel";
-            this.trackerNameLabel.Size = new System.Drawing.Size(391, 59);
+            this.trackerNameLabel.Size = new System.Drawing.Size(265, 39);
             this.trackerNameLabel.TabIndex = 1;
             this.trackerNameLabel.Text = "TemtemTracker";
             // 
@@ -65,17 +68,19 @@
             // 
             this.labelVersion.AutoSize = true;
             this.labelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVersion.Location = new System.Drawing.Point(153, 71);
+            this.labelVersion.Location = new System.Drawing.Point(102, 46);
+            this.labelVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(222, 46);
+            this.labelVersion.Size = new System.Drawing.Size(151, 31);
             this.labelVersion.TabIndex = 2;
             this.labelVersion.Text = "Version 3.0";
             // 
             // labelAboutText
             // 
-            this.labelAboutText.Location = new System.Drawing.Point(157, 117);
+            this.labelAboutText.Location = new System.Drawing.Point(105, 76);
+            this.labelAboutText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAboutText.Name = "labelAboutText";
-            this.labelAboutText.Size = new System.Drawing.Size(385, 68);
+            this.labelAboutText.Size = new System.Drawing.Size(257, 44);
             this.labelAboutText.TabIndex = 4;
             this.labelAboutText.Text = "TemtemTracker is a free, open source encounter tracking application for the popul" +
     "ar monster-catching MMORPG Temtem.";
@@ -83,18 +88,20 @@
             // labelAuthor
             // 
             this.labelAuthor.AutoSize = true;
-            this.labelAuthor.Location = new System.Drawing.Point(157, 185);
+            this.labelAuthor.Location = new System.Drawing.Point(105, 120);
+            this.labelAuthor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAuthor.Name = "labelAuthor";
-            this.labelAuthor.Size = new System.Drawing.Size(211, 20);
+            this.labelAuthor.Size = new System.Drawing.Size(143, 13);
             this.labelAuthor.TabIndex = 6;
             this.labelAuthor.Text = "Code by: Mislav (Silber) Culig";
             // 
             // linkGithub
             // 
             this.linkGithub.AutoSize = true;
-            this.linkGithub.Location = new System.Drawing.Point(157, 219);
+            this.linkGithub.Location = new System.Drawing.Point(105, 142);
+            this.linkGithub.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkGithub.Name = "linkGithub";
-            this.linkGithub.Size = new System.Drawing.Size(184, 20);
+            this.linkGithub.Size = new System.Drawing.Size(130, 13);
             this.linkGithub.TabIndex = 7;
             this.linkGithub.TabStop = true;
             this.linkGithub.Text = "https://github.com/mculig";
@@ -103,18 +110,20 @@
             // labelIconBy
             // 
             this.labelIconBy.AutoSize = true;
-            this.labelIconBy.Location = new System.Drawing.Point(157, 251);
+            this.labelIconBy.Location = new System.Drawing.Point(105, 163);
+            this.labelIconBy.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelIconBy.Name = "labelIconBy";
-            this.labelIconBy.Size = new System.Drawing.Size(216, 20);
+            this.labelIconBy.Size = new System.Drawing.Size(146, 13);
             this.labelIconBy.TabIndex = 8;
             this.labelIconBy.Text = "Icons by: Alice (Parou) Peters";
             // 
             // linkAlice1
             // 
             this.linkAlice1.AutoSize = true;
-            this.linkAlice1.Location = new System.Drawing.Point(157, 281);
+            this.linkAlice1.Location = new System.Drawing.Point(105, 183);
+            this.linkAlice1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkAlice1.Name = "linkAlice1";
-            this.linkAlice1.Size = new System.Drawing.Size(160, 20);
+            this.linkAlice1.Size = new System.Drawing.Size(114, 13);
             this.linkAlice1.TabIndex = 9;
             this.linkAlice1.TabStop = true;
             this.linkAlice1.Text = "https://alicepeters.de/";
@@ -123,9 +132,10 @@
             // linkAlice2
             // 
             this.linkAlice2.AutoSize = true;
-            this.linkAlice2.Location = new System.Drawing.Point(157, 311);
+            this.linkAlice2.Location = new System.Drawing.Point(105, 202);
+            this.linkAlice2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkAlice2.Name = "linkAlice2";
-            this.linkAlice2.Size = new System.Drawing.Size(137, 20);
+            this.linkAlice2.Size = new System.Drawing.Size(98, 13);
             this.linkAlice2.TabIndex = 10;
             this.linkAlice2.TabStop = true;
             this.linkAlice2.Text = "https://parou.moe/";
@@ -133,9 +143,9 @@
             // 
             // AboutWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 348);
+            this.ClientSize = new System.Drawing.Size(369, 226);
             this.Controls.Add(this.linkAlice2);
             this.Controls.Add(this.linkAlice1);
             this.Controls.Add(this.labelIconBy);
@@ -147,6 +157,7 @@
             this.Controls.Add(this.iconPictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "AboutWindow";
             this.Text = "About";
             this.TopMost = true;
