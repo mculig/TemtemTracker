@@ -177,7 +177,6 @@ namespace TemtemTracker.Controllers
                 //Run the check on this pixel
                 PixelCheck(pixelI, scanningLine, whiteMask, imageHeight, imageWidth);
             }
-
             //Set red pixels to black and rest to white
             for (int i = 0; i < imageWidth; i++)
             {
@@ -233,7 +232,18 @@ namespace TemtemTracker.Controllers
         private void PixelCheck(int i, int j, uint[,] whiteMask, int imageHeight, int imageWidth)
         {
             int objectPixelCount = 1;
-            Queue<Tuple<int,int>> pixelStack = new Queue<Tuple<int, int>>();
+            //List of relative coordinates of pixels around a target pixel used 
+            List<Tuple<int, int>> pixelOffsets = new List<Tuple<int, int>> {
+                Tuple.Create(-1,-1),
+                Tuple.Create(0,-1),
+                Tuple.Create(1,-1),
+                Tuple.Create(-1,0),
+                Tuple.Create(1,0),
+                Tuple.Create(-1,1),
+                Tuple.Create(0,1),
+                Tuple.Create(1,1)
+            };
+            Queue<Tuple<int, int>> pixelStack = new Queue<Tuple<int, int>>();
             //Add the initial pixel coordinates
             pixelStack.Enqueue(Tuple.Create(i,j));
             //Proceess the queue
@@ -244,33 +254,34 @@ namespace TemtemTracker.Controllers
                 //Set that pixel red
                 whiteMask[coordinate.Item1, coordinate.Item2] = ARGB_RED;
                 //Check neighboring pixels
-                foreach (int iOffset in new int[] { -1, 1 })
+                foreach(Tuple<int,int> offset in pixelOffsets)
                 {
-                    foreach (int jOffset in new int[] { -1, 1 })
+                    if (coordinate.Item1 + offset.Item1 >= imageWidth || coordinate.Item2 + offset.Item2 >= imageHeight)
                     {
-                        if(coordinate.Item1+iOffset >= imageWidth || coordinate.Item2+jOffset >= imageHeight)
+                        //We shouldn't reach the edge with our letters, so we can also say we've exceeded the count here too
+                        objectPixelCount = maximumLetterPixelCount + 1;
+                        continue;
+                    }
+                    if (coordinate.Item1 + offset.Item1 < 0 || coordinate.Item2 + offset.Item2 < 0)
+                    {
+                        //We shouldn't reach the edge with our letters, so we can also say we've exceeded the count here too
+                        objectPixelCount = maximumLetterPixelCount + 1;
+                        continue;
+                    }
+                    if (whiteMask[coordinate.Item1 + offset.Item1, coordinate.Item2 + offset.Item2] == ARGB_GREEN)
+                    {
+                        //If we've found a green pixel in our neighbours we're part of a body of green pixels
+                        //We want to stop processing in this case
+                        objectPixelCount = maximumLetterPixelCount + 1;
+                    }
+                    if (whiteMask[coordinate.Item1 + offset.Item1, coordinate.Item2 + offset.Item2] == ARGB_BLACK)
+                    {
+                        Tuple<int, int> newTuple = Tuple.Create(coordinate.Item1 + offset.Item1, coordinate.Item2 + offset.Item2);
+                        if (!pixelStack.Contains(newTuple))
                         {
-                            continue;
-                        }
-                        if(coordinate.Item1+iOffset < 0 || coordinate.Item2+jOffset < 0)
-                        {
-                            continue;
-                        }
-                        if(whiteMask[coordinate.Item1 + iOffset, coordinate.Item2 + jOffset] == ARGB_GREEN)
-                        {
-                            //If we've found a green pixel in our neighbours we're part of a body of green pixels
-                            //We want to stop processing in this case
-                            objectPixelCount = maximumLetterPixelCount + 1;
-                        }
-                        if(whiteMask[coordinate.Item1+iOffset, coordinate.Item2 + jOffset] == ARGB_BLACK)
-                        {
-                            Tuple<int,int> newTuple = Tuple.Create(coordinate.Item1 + iOffset, coordinate.Item2 + jOffset);
-                            if (!pixelStack.Contains(newTuple))
-                            {
-                                pixelStack.Enqueue(newTuple);
-                                //Increase the count of pixels that are part of this object
-                                objectPixelCount++;
-                            }
+                            pixelStack.Enqueue(newTuple);
+                            //Increase the count of pixels that are part of this object
+                            objectPixelCount++;
                         }
                     }
                 }
@@ -286,28 +297,24 @@ namespace TemtemTracker.Controllers
                     //Set that pixel red
                     whiteMask[coordinate.Item1, coordinate.Item2] = ARGB_GREEN;
                     //Check neighboring pixels
-                    foreach (int iOffset in new int[] { -1, 1 })
+                    foreach (Tuple<int, int> offset in pixelOffsets)
                     {
-                        foreach (int jOffset in new int[] { -1, 1 })
+                        if (coordinate.Item1 + offset.Item1 >= imageWidth || coordinate.Item2 + offset.Item2 >= imageHeight)
                         {
-                            if (coordinate.Item1 + iOffset >= imageWidth || coordinate.Item2 + jOffset >= imageHeight)
+                            continue;
+                        }
+                        if (coordinate.Item1 + offset.Item1 < 0 || coordinate.Item2 + offset.Item2 < 0)
+                        {
+                            continue;
+                        }
+                        if (whiteMask[coordinate.Item1 + offset.Item1, coordinate.Item2 + offset.Item2] == ARGB_RED)
+                        {
+                            Tuple<int, int> newTuple = Tuple.Create(coordinate.Item1 + offset.Item1, coordinate.Item2 + offset.Item2);
+                            if (!pixelStack.Contains(newTuple))
                             {
-                                continue;
-                            }
-                            if (coordinate.Item1 + iOffset < 0 || coordinate.Item2 + jOffset < 0)
-                            {
-                                continue;
-                            }
-                            //If the pixel is red we want to add it to our list to be marked green
-                            if (whiteMask[coordinate.Item1 + iOffset, coordinate.Item2 + jOffset] == ARGB_RED)
-                            {
-                                Tuple<int, int> newTuple = Tuple.Create(coordinate.Item1 + iOffset, coordinate.Item2 + jOffset);
-                                if (!pixelStack.Contains(newTuple))
-                                {
-                                    pixelStack.Enqueue(newTuple);
-                                    //Increase the count of pixels that are part of this object
-                                    objectPixelCount++;
-                                }
+                                pixelStack.Enqueue(newTuple);
+                                //Increase the count of pixels that are part of this object
+                                objectPixelCount++;
                             }
                         }
                     }
