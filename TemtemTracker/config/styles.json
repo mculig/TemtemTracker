@@ -67,6 +67,23 @@
         "tableRowButtonHoverColor": "#BF0030",
         "tableRowButtonBackground": "#800020",
         "tableRowButtonForeground": "#FFFFFF"
+	},
+    {
+        "styleName":"Rexey",
+        "menuStripBackground": "#FFBDD9",
+        "menuStripForeground": "#402F36",
+        "menuItemSelected": "#FF91D9",
+        "trackerBackground": "#FFBDD9",
+        "trackerForeground": "#402F36",
+        "timerForeground": "#402F36",
+        "timerPausedForeground": "#FF00D9",
+        "tableRowBackground1": "#FFBDD9",
+        "tableRowBackground2": "#FFAED9",
+        "tableRowForeground1": "#402F36",
+        "tableRowForeground2": "#402F36",
+        "tableRowButtonHoverColor": "#FF91D9",
+        "tableRowButtonBackground": "#FFBDD9",
+        "tableRowButtonForeground": "#402F36"
 	}
 	]
 }
