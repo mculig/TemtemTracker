@@ -120,7 +120,6 @@ namespace TemtemTracker.Controllers
             if (Interlocked.CompareExchange(ref _TimerLock, 1, 0) != 0) return;
             try
             {
-                Console.WriteLine("I'm detecting!");
                 detectorLoop.Detect();
             }
             finally
@@ -140,7 +139,6 @@ namespace TemtemTracker.Controllers
             if (Interlocked.CompareExchange(ref _AutosaveLock, 1, 0) != 0) return;
             try
             {
-                Console.WriteLine("Autosaving...");
                 tableController.SaveTable();
             }
             finally
