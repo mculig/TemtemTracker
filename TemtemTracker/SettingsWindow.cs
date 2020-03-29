@@ -16,6 +16,7 @@ namespace TemtemTracker
     {
 
         private readonly SettingsController settingsController;
+        private bool disableEventHandlers = false;
 
         public SettingsWindow(SettingsController settingsController)
         {
@@ -30,6 +31,16 @@ namespace TemtemTracker
                 e.Cancel = true;
                 Hide();
             }
+        }
+
+        public void DisableEventHandlers()
+        {
+            this.disableEventHandlers = true;
+        }
+
+        public void EnableEventHandlers()
+        {
+            this.disableEventHandlers = false;
         }
 
         public void PopulateHotkeySettings(string resetTableHotkeyString, string pauseTimerHotkeyString)
@@ -84,34 +95,62 @@ namespace TemtemTracker
             comboBoxStyleSelect.SelectedIndex = selectedStyle;
         }
 
+        public void SetDisableDetectionCheckboxChecked(bool isChecked)
+        {
+            checkBoxDisableWhileTimer.Checked = isChecked;
+        }
+
+        public void SetAutosaveInterval(int intervalMinutes)
+        {
+            autosaveInterval.Value = intervalMinutes;
+        }
+
         private void CheckBoxSaiparkMode_CheckedChanged(object sender, EventArgs e)
         {
-            settingsController.SetSaiparkMode(checkBoxSaiparkMode.Checked);
+            if(!disableEventHandlers)
+            {
+                settingsController.SetSaiparkMode(checkBoxSaiparkMode.Checked);
+            }               
         }
 
         private void Temtem1NameSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            settingsController.SetTemtem1Name((string) temtem1NameSelect.SelectedItem);
+            if (!disableEventHandlers)
+            {
+                settingsController.SetTemtem1Name((string)temtem1NameSelect.SelectedItem);
+            }       
         }
 
         private void Temtem2NameSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            settingsController.SetTemtem2Name((string) temtem2NameSelect.SelectedItem);
+            if (!disableEventHandlers)
+            {
+                settingsController.SetTemtem2Name((string)temtem2NameSelect.SelectedItem);
+            }
         }
 
         private void Temtem1Multiplier_ValueChanged(object sender, EventArgs e)
         {
-            settingsController.SetTemtem1Multiplier(Convert.ToDouble(temtem1Multiplier.Value));
+            if (!disableEventHandlers)
+            {
+                settingsController.SetTemtem1Multiplier(Convert.ToDouble(temtem1Multiplier.Value));
+            }
         }
 
         private void Temtem2Multiplier_ValueChanged(object sender, EventArgs e)
         {
-            settingsController.SetTemtem2Multiplier(Convert.ToDouble(temtem2Multiplier.Value));
+            if (!disableEventHandlers)
+            {
+                settingsController.SetTemtem2Multiplier(Convert.ToDouble(temtem2Multiplier.Value));
+            }
         }
 
         private void OpacityTrackBar_Scroll(object sender, EventArgs e)
         {
-            settingsController.SetMainWindowOpacity(opacityTrackBar.Value);
+            if (!disableEventHandlers)
+            {
+                settingsController.SetMainWindowOpacity(opacityTrackBar.Value);
+            }
         }
 
         private void ButtonRemapResetTableHotkey_Click(object sender, EventArgs e)
@@ -206,31 +245,61 @@ namespace TemtemTracker
 
         private void RadioButtonLuma50Percent_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonLuma50Percent.Checked)
+            if (!disableEventHandlers)
             {
-                settingsController.SetTimeToLumaProbability(0.5);
+                if (radioButtonLuma50Percent.Checked)
+                {
+                    settingsController.SetTimeToLumaProbability(0.5);
+                }
             }
         }
 
         private void RadioButtonLuma75Percent_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonLuma75Percent.Checked)
+            if (!disableEventHandlers)
             {
-                settingsController.SetTimeToLumaProbability(0.75);
+                if (radioButtonLuma75Percent.Checked)
+                {
+                    settingsController.SetTimeToLumaProbability(0.75);
+                }
             }
         }
 
         private void RadioButtonLuma9999Percent_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonLuma9999Percent.Checked)
+            if (!disableEventHandlers)
             {
-                settingsController.SetTimeToLumaProbability(0.9999);
+                if (radioButtonLuma9999Percent.Checked)
+                {
+                    settingsController.SetTimeToLumaProbability(0.9999);
+                }
             }
         }
 
         private void ComboBoxStyleSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            settingsController.SetWindowStyle(comboBoxStyleSelect.SelectedIndex);
+            if (!disableEventHandlers)
+            {
+                settingsController.SetWindowStyle(comboBoxStyleSelect.SelectedIndex);
+            }
+            
+        }
+
+        private void CheckBoxDisableWhileTimer_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!disableEventHandlers)
+            {
+                settingsController.SetDetectionDisabled(checkBoxDisableWhileTimer.Checked);
+            }
+
+        }
+
+        private void AutosaveInterval_ValueChanged(object sender, EventArgs e)
+        {
+            if (!disableEventHandlers)
+            {
+                settingsController.SetAutosaveInterval((int)autosaveInterval.Value);
+            }
         }
     }
 }

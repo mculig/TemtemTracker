@@ -39,7 +39,7 @@ namespace TemtemTracker
                 return;
             }
             //The timer controller
-            TimerController timerController = new TimerController(trackerUI, tableController, loop, configLoader.GetConfig());
+            TimerController timerController = new TimerController(trackerUI, tableController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
             timerController.StartTimers();
             //The hotkey controller
             HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, timerController, tableController);

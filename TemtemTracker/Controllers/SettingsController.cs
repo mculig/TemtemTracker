@@ -19,6 +19,7 @@ namespace TemtemTracker.Controllers
         private readonly Styles styles;
         TemtemTableController tableController;
         HotkeyController hotkeyController;
+        TimerController timerController;
 
         public SettingsController(Species species, UserSettings userSettings, Styles styles, TemtemTrackerUI trackerUI)
         {
@@ -27,18 +28,28 @@ namespace TemtemTracker.Controllers
             this.trackerUI = trackerUI;
             this.settingsWindow = new SettingsWindow(this);
 
+            //Disable settings window events to avoid every change triggering its onChange event
+            settingsWindow.DisableEventHandlers();
+            //Populate the SaiparkSettings window
             settingsWindow.PopulateSaiparkSettings(species.species, userSettings.saiparkMode, 
                 userSettings.saiparkTemtem1, userSettings.saiparkTemtem2, 
                 userSettings.saiparkTemtem1ChanceMultiplyer, userSettings.saiparkTemtem2ChanceMultiplyer);
-
+            //Populate the window settings
             settingsWindow.PopulateWindowSettings(userSettings.mainWindowOpacity);
-
+            //Populate the time to luma settings
             settingsWindow.SetTimeToLumaRadioButton(userSettings.timeToLumaProbability);
 
             //Populate settings window hotkey labels
             PopulateSettingsWindowHotkeyLabels();
             //Populate settings window Style ComboBox
             settingsWindow.PopulateStyleComboBox(styles, userSettings.windowStyle);
+            //Populate settings window disabled detection while timer paused checkbox
+            settingsWindow.SetDisableDetectionCheckboxChecked(userSettings.disableDetectionWhileTimerPaused);
+            //Populate settings window autosave interval
+            settingsWindow.SetAutosaveInterval(userSettings.autosaveInterval);
+
+            //Enable events again
+            settingsWindow.EnableEventHandlers();
 
             //Set tracker UI dimensions
             trackerUI.Width = userSettings.mainWindowWidth;
@@ -50,6 +61,11 @@ namespace TemtemTracker.Controllers
 
             //Set this as the settings controller in the UI
             trackerUI.SetSettingsController(this);
+        }
+
+        internal void SetTimerController(TimerController timerController)
+        {
+            this.timerController = timerController;
         }
 
         public void SetTableController(TemtemTableController tableController)
@@ -107,6 +123,19 @@ namespace TemtemTracker.Controllers
         {
             userSettings.windowStyle = windowStyle;
             trackerUI.SetWindowStyle(styles.styles[windowStyle]);
+        }
+
+        public void SetAutosaveInterval(int intervalMinutes)
+        {
+            userSettings.autosaveInterval = intervalMinutes;
+            timerController.SetAutosaveTimeInterval(intervalMinutes);
+        }
+
+        public void SetDetectionDisabled(bool detectionDisabled)
+        {
+            userSettings.disableDetectionWhileTimerPaused = detectionDisabled;
+            //To do this we simply pause the detection loop
+            timerController.SetDisableDetectionOnTimerPause(detectionDisabled);
         }
 
         public void SetMainWindowSize(Size mainWindowSize)

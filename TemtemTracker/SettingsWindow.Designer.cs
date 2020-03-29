@@ -31,6 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
             this.settingsTabControl = new System.Windows.Forms.TabControl();
             this.windowTabPage = new System.Windows.Forms.TabPage();
+            this.labelAutosaveInterval = new System.Windows.Forms.Label();
+            this.autosaveInterval = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxDisableWhileTimer = new System.Windows.Forms.CheckBox();
+            this.labelWindowStyle = new System.Windows.Forms.Label();
+            this.comboBoxStyleSelect = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.opacityTrackBar = new System.Windows.Forms.TrackBar();
             this.lumaChanceTabPage = new System.Windows.Forms.TabPage();
@@ -57,10 +62,9 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.buttonRemapResetTableHotkey = new System.Windows.Forms.Button();
             this.labelResetTableHotkey = new System.Windows.Forms.Label();
-            this.comboBoxStyleSelect = new System.Windows.Forms.ComboBox();
-            this.labelWindowStyle = new System.Windows.Forms.Label();
             this.settingsTabControl.SuspendLayout();
             this.windowTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.autosaveInterval)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacityTrackBar)).BeginInit();
             this.lumaChanceTabPage.SuspendLayout();
@@ -90,6 +94,9 @@
             // 
             // windowTabPage
             // 
+            this.windowTabPage.Controls.Add(this.labelAutosaveInterval);
+            this.windowTabPage.Controls.Add(this.autosaveInterval);
+            this.windowTabPage.Controls.Add(this.checkBoxDisableWhileTimer);
             this.windowTabPage.Controls.Add(this.labelWindowStyle);
             this.windowTabPage.Controls.Add(this.comboBoxStyleSelect);
             this.windowTabPage.Controls.Add(this.groupBox3);
@@ -98,8 +105,69 @@
             this.windowTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.windowTabPage.Size = new System.Drawing.Size(334, 402);
             this.windowTabPage.TabIndex = 2;
-            this.windowTabPage.Text = "Window";
+            this.windowTabPage.Text = "General";
             this.windowTabPage.UseVisualStyleBackColor = true;
+            // 
+            // labelAutosaveInterval
+            // 
+            this.labelAutosaveInterval.AutoSize = true;
+            this.labelAutosaveInterval.Location = new System.Drawing.Point(8, 188);
+            this.labelAutosaveInterval.Name = "labelAutosaveInterval";
+            this.labelAutosaveInterval.Size = new System.Drawing.Size(150, 20);
+            this.labelAutosaveInterval.TabIndex = 10;
+            this.labelAutosaveInterval.Text = "Autosave (minutes):";
+            // 
+            // autosaveInterval
+            // 
+            this.autosaveInterval.Location = new System.Drawing.Point(160, 186);
+            this.autosaveInterval.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.autosaveInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.autosaveInterval.Name = "autosaveInterval";
+            this.autosaveInterval.Size = new System.Drawing.Size(83, 26);
+            this.autosaveInterval.TabIndex = 9;
+            this.autosaveInterval.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.autosaveInterval.ValueChanged += new System.EventHandler(this.AutosaveInterval_ValueChanged);
+            // 
+            // checkBoxDisableWhileTimer
+            // 
+            this.checkBoxDisableWhileTimer.AutoSize = true;
+            this.checkBoxDisableWhileTimer.Location = new System.Drawing.Point(6, 149);
+            this.checkBoxDisableWhileTimer.Name = "checkBoxDisableWhileTimer";
+            this.checkBoxDisableWhileTimer.Size = new System.Drawing.Size(293, 24);
+            this.checkBoxDisableWhileTimer.TabIndex = 8;
+            this.checkBoxDisableWhileTimer.Text = "Disable detection while timer paused";
+            this.checkBoxDisableWhileTimer.UseVisualStyleBackColor = true;
+            this.checkBoxDisableWhileTimer.CheckedChanged += new System.EventHandler(this.CheckBoxDisableWhileTimer_CheckedChanged);
+            // 
+            // labelWindowStyle
+            // 
+            this.labelWindowStyle.AutoSize = true;
+            this.labelWindowStyle.Location = new System.Drawing.Point(8, 118);
+            this.labelWindowStyle.Name = "labelWindowStyle";
+            this.labelWindowStyle.Size = new System.Drawing.Size(108, 20);
+            this.labelWindowStyle.TabIndex = 7;
+            this.labelWindowStyle.Text = "Window Style:";
+            // 
+            // comboBoxStyleSelect
+            // 
+            this.comboBoxStyleSelect.FormattingEnabled = true;
+            this.comboBoxStyleSelect.Location = new System.Drawing.Point(122, 115);
+            this.comboBoxStyleSelect.Name = "comboBoxStyleSelect";
+            this.comboBoxStyleSelect.Size = new System.Drawing.Size(121, 28);
+            this.comboBoxStyleSelect.TabIndex = 6;
+            this.comboBoxStyleSelect.SelectedIndexChanged += new System.EventHandler(this.ComboBoxStyleSelect_SelectedIndexChanged);
             // 
             // groupBox3
             // 
@@ -392,24 +460,6 @@
             this.labelResetTableHotkey.Text = "Modifier + Key";
             this.labelResetTableHotkey.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // comboBoxStyleSelect
-            // 
-            this.comboBoxStyleSelect.FormattingEnabled = true;
-            this.comboBoxStyleSelect.Location = new System.Drawing.Point(122, 115);
-            this.comboBoxStyleSelect.Name = "comboBoxStyleSelect";
-            this.comboBoxStyleSelect.Size = new System.Drawing.Size(121, 28);
-            this.comboBoxStyleSelect.TabIndex = 6;
-            this.comboBoxStyleSelect.SelectedIndexChanged += new System.EventHandler(this.ComboBoxStyleSelect_SelectedIndexChanged);
-            // 
-            // labelWindowStyle
-            // 
-            this.labelWindowStyle.AutoSize = true;
-            this.labelWindowStyle.Location = new System.Drawing.Point(8, 118);
-            this.labelWindowStyle.Name = "labelWindowStyle";
-            this.labelWindowStyle.Size = new System.Drawing.Size(108, 20);
-            this.labelWindowStyle.TabIndex = 7;
-            this.labelWindowStyle.Text = "Window Style:";
-            // 
             // SettingsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -425,6 +475,7 @@
             this.settingsTabControl.ResumeLayout(false);
             this.windowTabPage.ResumeLayout(false);
             this.windowTabPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.autosaveInterval)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacityTrackBar)).EndInit();
@@ -478,5 +529,8 @@
         private System.Windows.Forms.RadioButton radioButtonLuma75Percent;
         private System.Windows.Forms.Label labelWindowStyle;
         private System.Windows.Forms.ComboBox comboBoxStyleSelect;
+        private System.Windows.Forms.CheckBox checkBoxDisableWhileTimer;
+        private System.Windows.Forms.Label labelAutosaveInterval;
+        private System.Windows.Forms.NumericUpDown autosaveInterval;
     }
 }
