@@ -18,9 +18,9 @@ If your tracker isn't working at all, it may be due to you lacking the required 
 
 **TemtemTracker V3 requires .NET 4.5.2  and Visual C++ Redistributable 2017 in order to work.** 
 
-Windows 10 users most likely already have .NET 4.7, as it is part of the Windows 10 Creators Update.
+Windows 10 users most likely already have .NET, as it is part of the Windows 10 Creators Update.
 
-.NET 4.5.2 can be found here: [.NET 4.5.2](https://www.microsoft.com/en-us/download/details.aspx?id=42642);
+.NET 4.5.2 For Win 8.1 and lower can be found here: [.NET 4.5.2](https://www.microsoft.com/en-us/download/details.aspx?id=42642);
 
 Visual C++ Redistributable 2017 can be downloaded here: 
 
