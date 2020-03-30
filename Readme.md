@@ -16,7 +16,7 @@ The tracker:
 
 If your tracker isn't working at all, it may be due to you lacking the required software packages.
 
-TemtemTracker V2 requires **.NET 4.5.2**  and **Visual C++ Redistributable 2017** in order to work. 
+**TemtemTracker V3 requires .NET 4.5.2  and Visual C++ Redistributable 2017 in order to work.** 
 
 Windows 10 users most likely already have .NET 4.7, as it is part of the Windows 10 Creators Update.
 
@@ -67,7 +67,7 @@ Version 3 is a port to C# with optimizations, rewrites and cleanup
 - Autosave. PC crashed? No worries! Your tracking data is automatically saved now.
 - Save/Load. Want to track multiple things? Save your current table and refresh the timer. Load it later and continue tracking!
 - Don't want the tracker showing you caught a Temtem when it was paused? There's an option for that in the settings.
-- Sexy icons by Alice (Parou) Peters [alicepeters.de](alicepeters.de) [parou.moe](parou.moe)
+- Sexy icons by Alice (Parou) Peters [alicepeters.de](https://alicepeters.de), [parou.moe](https://parou.moe)
 - Added about window with a little info
 - Pause and Reset now also show up in menu with shortcuts shown, in case you forget.
 - Added error messages for certain problems, you will hopefully never see these :)
@@ -103,7 +103,7 @@ The ARGB values the application tests for can also be found in the config file:
 
 * spotXRGB
 
-The application has been tested to work at 3840x2160, 1920x1080 and 1600x900 resolutions without the need to modify the spot locations in the config file.
+The application has been tested to work at common 16:9 and 16:10 resolutions in windowed, borderless and fullscreen mode without the need to modify the spot locations in the config file.
 
 The OCR Frames location and dimensions are determined by the values:
 
@@ -112,7 +112,7 @@ The OCR Frames location and dimensions are determined by the values:
 * frameWidthPercentage
 * frameHeightPercentage
 
-The application interface can be seen on the following image: 
+The application interface (Tsukki theme) can be seen on the following image: 
 
 ![Application Interface](Images/Window.png)
 
