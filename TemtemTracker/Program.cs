@@ -18,6 +18,8 @@ namespace TemtemTracker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledExceptionHandler.HandleUnhandledException);
             //Load configs
             ConfigLoader configLoader = new ConfigLoader();
             if (configLoader.LoadFailed())

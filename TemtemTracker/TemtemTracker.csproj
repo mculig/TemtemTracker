@@ -104,6 +104,7 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TemtemTableController.cs" />
     <Compile Include="Controllers\TimerController.cs" />
+    <Compile Include="Controllers\UnhandledExceptionHandler.cs" />
     <Compile Include="Controllers\User32.cs" />
     <Compile Include="Controllers\WindowFinder.cs" />
     <Compile Include="Data\Style.cs" />
