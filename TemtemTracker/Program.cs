@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TemtemTracker.Controllers;
@@ -20,6 +21,7 @@ namespace TemtemTracker
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledExceptionHandler.HandleUnhandledException);
+            Application.ThreadException += new ThreadExceptionEventHandler(UnhandledExceptionHandler.HandleUnhandledThreadException);
             //Load configs
             ConfigLoader configLoader = new ConfigLoader();
             if (configLoader.LoadFailed())
