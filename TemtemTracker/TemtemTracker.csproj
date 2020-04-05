@@ -114,6 +114,7 @@
     <Compile Include="Data\Species.cs" />
     <Compile Include="Data\TemtemDataRow.cs" />
     <Compile Include="Data\TemtemDataTable.cs" />
+    <Compile Include="Data\TemtemWindowData.cs" />
     <Compile Include="Data\TimerData.cs" />
     <Compile Include="Data\UserSettings.cs" />
     <Compile Include="SettingsWindow.cs">

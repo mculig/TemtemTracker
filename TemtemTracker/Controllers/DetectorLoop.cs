@@ -14,69 +14,38 @@ namespace TemtemTracker.Controllers
 {
     public class DetectorLoop
     {
+
+        //A dictionary used to bind temtem process IDs to spot locations and dimensions of windows
+        //Technically a user could spawn indefinite windows and keep closing them, filling this up
+        //That would reduce performance as well as increase memory usage and constitutes a memory leak
+        //However in practice this will never reach a critical amount of consumption and is irrelevant
+        //Checking if processes in here exist would consume valuable CPU resources for a non-issue
+        //Thus this isn't addressed
+        Dictionary<uint, TemtemWindowData> temtemWindows;
+
         //Spots for detecting in-combat status
         //Detects the orange and blue switch Temtem and Wait buttons
 
-        //The colors could just as well be int since the bit values are important and not the actual values of the integers
-        //But Java bitches when parsing something that would overflow into negative integers from a hex string
-        //So everything is unnecessarily long. This has no impact on the performance. It's just annoying.
-
         //Detection spot 1
-        private double spot1WidthPercentage;
-        private double spot1HeightPercentage;
         private readonly int spot1RGB;
 
         //Detection spot 2
-        private double spot2WidthPercentage;
-        private double spot2HeightPercentage;
         private readonly int spot2RGB;
 
         //Detection spot 3
-        private double spot3WidthPercentage;
-        private double spot3HeightPercentage;
         private readonly int spot3RGB;
 
         //Detection spot 4
-        private double spot4WidthPercentage;
-        private double spot4HeightPercentage;
         private readonly int spot4RGB;
 
         //Spots for detecting out-of combat status
         //Detects 2 spots along the blue border of the minimap
 
         //Detection spot 5
-        private double spot5WidthPercentage;
-        private double spot5HeightPercentage;
         private readonly int spot5RGB;
 
         //Detection spot 6
-        private double spot6WidthPercentage;
-        private double spot6HeightPercentage;
         private readonly int spot6RGB;
-
-        //List of detection spot X,Y coordinates
-        List<Point> detectionSpots;
-
-        //Viewports used for OCR
-        private List<Rectangle> OCRViewports;
-
-        // Frame locations for OCR
-        private double frame1PercentageLeft;
-        private double frame1PercentageTop;
-        private double frame2PercentageLeft;
-        private double frame2PercentageTop;
-        private double frameWidthPercentage;
-        private double frameHeightPercentage;
-
-        //Frame location points
-        Point frame1Location;
-        Point frame2Location;
-
-        // Frame size
-        private Size frameSize;
-
-        //Used to check if the window size changed
-        Size gameWindowSize = new Size(0, 0);
 
         //The name of the window in question
         private static readonly string WINDOW_NAME = "Temtem";
@@ -85,8 +54,6 @@ namespace TemtemTracker.Controllers
         private readonly int maxAllowedColorDistance;
 
         private readonly Config config;
-
-        private bool detectedBattle=false;
 
         private readonly TemtemTableController tableController;
         private readonly OCRController ocrController;
@@ -108,7 +75,8 @@ namespace TemtemTracker.Controllers
             spot6RGB = ColorTranslator.FromHtml(config.spot6RGB).ToArgb();
 
             this.maxAllowedColorDistance = config.maxAllowedColorDistance;
-            
+
+            temtemWindows = new Dictionary<uint, TemtemWindowData>();            
         }
 
         public bool LoadFailed()
@@ -137,6 +105,16 @@ namespace TemtemTracker.Controllers
             if (windowName.ToString().Equals(WINDOW_NAME) && focusedWindowProcessName.Equals(WINDOW_NAME))
             {
                 temtemWindow = focused;
+                //Here we check if this is one of our already detected windows and if not we add it
+                if (!temtemWindows.ContainsKey(focusedWindowProcessID))
+                {
+                    temtemWindows.Add(focusedWindowProcessID, new TemtemWindowData {
+                        detectionSpots = new List<Point>(),
+                        OCRViewports = new List<Rectangle>(),
+                        gameWindowSize = new Size(0,0),
+                        detectedBattle = false
+                    });
+                }
             }
             else
             {
@@ -163,28 +141,28 @@ namespace TemtemTracker.Controllers
             }
             //If the game window dimensions have changed we need to recalculate all the spots.
             //This shouldn't happen often
-            if (!gameWindowRect.Size.Equals(this.gameWindowSize))
+            if (!gameWindowRect.Size.Equals(temtemWindows[focusedWindowProcessID].gameWindowSize))
             {
-                gameWindowSize = gameWindowRect.Size;
-                RecalculateDetectionElements(gameWindowRect);
+                temtemWindows[focusedWindowProcessID].gameWindowSize = gameWindowRect.Size;
+                RecalculateDetectionElements(temtemWindows[focusedWindowProcessID], gameWindowRect);
             }
 
             
 
-            if (detectedBattle == false)
+            if (temtemWindows[focusedWindowProcessID].detectedBattle == false)
             {
                 //We'll only test for battle if we aren't in a battle
-                List<Color> pixelColors = GetBattleDetectionColors(lpPoint);
+                List<Color> pixelColors = GetBattleDetectionColors(temtemWindows[focusedWindowProcessID], lpPoint);
 
                 //We'll also get the OCR reading spots right here. It's a waste of resources if we aren't detecting battle, but is faster and more reliable when we do
-                List<Bitmap> viewportImages = GetOCRViewportImages(lpPoint, OCRViewports);
+                List<Bitmap> viewportImages = GetOCRViewportImages(lpPoint, temtemWindows[focusedWindowProcessID].OCRViewports);
 
                 if (((ColorDistance(pixelColors[0], spot1RGB) < maxAllowedColorDistance &&
                ColorDistance(pixelColors[1], spot2RGB) < maxAllowedColorDistance) ||
                (ColorDistance(pixelColors[2], spot3RGB) < maxAllowedColorDistance &&
                ColorDistance(pixelColors[3], spot4RGB) < maxAllowedColorDistance)))
                 {
-                    detectedBattle = true;
+                    temtemWindows[focusedWindowProcessID].detectedBattle = true;
                     //Do OCR operation. The OCR controller will dispose of the images so we're ok
                     List<string> results = ocrController.DoOCR(viewportImages);
                     results.ForEach(result => {
@@ -194,16 +172,16 @@ namespace TemtemTracker.Controllers
                 }
                 
             }
-            else if (detectedBattle == true)
+            else if (temtemWindows[focusedWindowProcessID].detectedBattle == true)
             {
                 //If we're in battle we'll test for being out of battle
-                List<Color> pixelColors = GetOutOfBattleDetectionColors(lpPoint);
+                List<Color> pixelColors = GetOutOfBattleDetectionColors(temtemWindows[focusedWindowProcessID], lpPoint);
 
                 if(ColorDistance(pixelColors[0], spot5RGB) < maxAllowedColorDistance &&
                     ColorDistance(pixelColors[1], spot6RGB) < maxAllowedColorDistance)
                 {
                     //Set battle to false
-                    detectedBattle = false;
+                    temtemWindows[focusedWindowProcessID].detectedBattle = false;
                 }
                 
             }
@@ -231,7 +209,7 @@ namespace TemtemTracker.Controllers
             return distance;
         }
 
-        private List<Color> GetBattleDetectionColors(User32.POINT lpPoint)
+        private List<Color> GetBattleDetectionColors(TemtemWindowData windowData, User32.POINT lpPoint)
         {
             List<Color> detectionSpotColors = new List<Color>();
             using (Bitmap pixel = new Bitmap(1, 1, PixelFormat.Format32bppArgb))
@@ -240,7 +218,7 @@ namespace TemtemTracker.Controllers
                 {
                     for(int i = 0; i < 4; i++)
                     {
-                        g.CopyFromScreen(new Point(lpPoint.X + detectionSpots[i].X, lpPoint.Y + detectionSpots[i].Y), new Point(0,0), pixel.Size);
+                        g.CopyFromScreen(new Point(lpPoint.X + windowData.detectionSpots[i].X, lpPoint.Y + windowData.detectionSpots[i].Y), new Point(0,0), pixel.Size);
                         detectionSpotColors.Add(pixel.GetPixel(0, 0));
                     }
                 }
@@ -248,7 +226,7 @@ namespace TemtemTracker.Controllers
             return detectionSpotColors;
         }
 
-        private List<Color> GetOutOfBattleDetectionColors(User32.POINT lpPoint)
+        private List<Color> GetOutOfBattleDetectionColors(TemtemWindowData windowData, User32.POINT lpPoint)
         {
             List<Color> detectionSpotColors = new List<Color>();
             using (Bitmap pixel = new Bitmap(1, 1, PixelFormat.Format32bppArgb))
@@ -257,7 +235,7 @@ namespace TemtemTracker.Controllers
                 {
                     for(int i = 4; i < 6; i++)
                     {
-                        g.CopyFromScreen(new Point(lpPoint.X + detectionSpots[i].X, lpPoint.Y + detectionSpots[i].Y), new Point(0, 0), pixel.Size);
+                        g.CopyFromScreen(new Point(lpPoint.X + windowData.detectionSpots[i].X, lpPoint.Y + windowData.detectionSpots[i].Y), new Point(0, 0), pixel.Size);
                         detectionSpotColors.Add(pixel.GetPixel(0, 0));
                     }
                 }
@@ -279,33 +257,33 @@ namespace TemtemTracker.Controllers
             return viewportImages;
         }
 
-        private void RecalculateDetectionElements(Rectangle gameWindowRect)
+        private void RecalculateDetectionElements(TemtemWindowData windowData, Rectangle gameWindowRect)
         {
             //For loading the detection spots
             ScreenConfig screenConfig;
 
-            screenConfig = ConfigLoader.GetConfigForAspectRatio(config, gameWindowSize);
+            screenConfig = ConfigLoader.GetConfigForAspectRatio(config, windowData.gameWindowSize);
 
-            spot1WidthPercentage = screenConfig.spot1WidthPercentage;
-            spot1HeightPercentage = screenConfig.spot1HeightPercentage;
+            double spot1WidthPercentage = screenConfig.spot1WidthPercentage;
+            double spot1HeightPercentage = screenConfig.spot1HeightPercentage;
 
-            spot2WidthPercentage = screenConfig.spot2WidthPercentage;
-            spot2HeightPercentage = screenConfig.spot2HeightPercentage;
+            double spot2WidthPercentage = screenConfig.spot2WidthPercentage;
+            double spot2HeightPercentage = screenConfig.spot2HeightPercentage;
 
-            spot3WidthPercentage = screenConfig.spot3WidthPercentage;
-            spot3HeightPercentage = screenConfig.spot3HeightPercentage;
+            double spot3WidthPercentage = screenConfig.spot3WidthPercentage;
+            double spot3HeightPercentage = screenConfig.spot3HeightPercentage;
 
-            spot4WidthPercentage = screenConfig.spot4WidthPercentage;
-            spot4HeightPercentage = screenConfig.spot4HeightPercentage;
+            double spot4WidthPercentage = screenConfig.spot4WidthPercentage;
+            double spot4HeightPercentage = screenConfig.spot4HeightPercentage;
 
-            spot5WidthPercentage = screenConfig.spot5WidthPercentage;
-            spot5HeightPercentage = screenConfig.spot5HeightPercentage;
+            double spot5WidthPercentage = screenConfig.spot5WidthPercentage;
+            double spot5HeightPercentage = screenConfig.spot5HeightPercentage;
 
-            spot6WidthPercentage = screenConfig.spot6WidthPercentage;
-            spot6HeightPercentage = screenConfig.spot6HeightPercentage;
+            double spot6WidthPercentage = screenConfig.spot6WidthPercentage;
+            double spot6HeightPercentage = screenConfig.spot6HeightPercentage;
 
             //Create points for the spots
-            detectionSpots = new List<Point>
+            windowData.detectionSpots = new List<Point>
             {
                 new Point((int)Math.Ceiling(spot1WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot1HeightPercentage * gameWindowRect.Height)),
                 new Point((int)Math.Ceiling(spot2WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot2HeightPercentage * gameWindowRect.Height)),
@@ -316,24 +294,24 @@ namespace TemtemTracker.Controllers
             };
 
             //Calculate frame locations and widths for the new size/aspect ratio
-            frame1PercentageLeft = screenConfig.frame1PercentageLeft;
-            frame1PercentageTop = screenConfig.frame1PercentageTop;
+            double frame1PercentageLeft = screenConfig.frame1PercentageLeft;
+            double frame1PercentageTop = screenConfig.frame1PercentageTop;
 
-            frame2PercentageLeft = screenConfig.frame2PercentageLeft;
-            frame2PercentageTop = screenConfig.frame2PercentageTop;
+            double frame2PercentageLeft = screenConfig.frame2PercentageLeft;
+            double frame2PercentageTop = screenConfig.frame2PercentageTop;
 
-            frameWidthPercentage = screenConfig.frameWidthPercentage;
-            frameHeightPercentage = screenConfig.frameHeightPercentage;
+            double frameWidthPercentage = screenConfig.frameWidthPercentage;
+            double frameHeightPercentage = screenConfig.frameHeightPercentage;
 
-            frameSize = new Size((int)Math.Ceiling(gameWindowSize.Width * frameWidthPercentage),
-                    (int)Math.Ceiling(gameWindowSize.Height * frameHeightPercentage));
+            Size frameSize = new Size((int)Math.Ceiling(gameWindowRect.Size.Width * frameWidthPercentage),
+                    (int)Math.Ceiling(gameWindowRect.Size.Height * frameHeightPercentage));
 
-            frame1Location = new Point((int)Math.Ceiling(gameWindowSize.Width * frame1PercentageLeft),
-            (int)Math.Ceiling(gameWindowSize.Height * frame1PercentageTop));
-            frame2Location = new Point((int)Math.Ceiling(gameWindowSize.Width * frame2PercentageLeft),
-            (int)Math.Ceiling(gameWindowSize.Height * frame2PercentageTop));
+            Point frame1Location = new Point((int)Math.Ceiling(gameWindowRect.Size.Width * frame1PercentageLeft),
+            (int)Math.Ceiling(gameWindowRect.Size.Height * frame1PercentageTop));
+            Point frame2Location = new Point((int)Math.Ceiling(gameWindowRect.Size.Width * frame2PercentageLeft),
+            (int)Math.Ceiling(gameWindowRect.Size.Height * frame2PercentageTop));
             //Create a new list of OCR viewports
-            OCRViewports = new List<Rectangle>
+            windowData.OCRViewports = new List<Rectangle>
             {
                 new Rectangle(frame1Location, frameSize),
                 new Rectangle(frame2Location, frameSize)
