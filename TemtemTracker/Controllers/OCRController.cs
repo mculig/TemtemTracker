@@ -73,9 +73,9 @@ namespace TemtemTracker.Controllers
             //Process the images
             foreach(Task<Bitmap> processingTask in taskList)
             {
-                using(Bitmap processingResult = processingTask.Result)
+                using (processingTask.Result)
                 {
-                    using (Page result = tesseract.Process(processingResult))
+                    using (Page result = tesseract.Process(processingTask.Result))
                     {
                         string ocrTextResult = result.GetText();
                         //Ignore any noise OR empty strings
@@ -87,7 +87,6 @@ namespace TemtemTracker.Controllers
                         ocrTextResult = GetClosestActualTemtemName(ocrTextResult, speciesList.species);
 
                         results.Add(ocrTextResult);
-                        
                     }
                 }
             }
@@ -97,28 +96,29 @@ namespace TemtemTracker.Controllers
 
         private Bitmap ImageProcessingTask(Bitmap image)
         {
-            int resizedHeight = (int)Math.Ceiling((minimumOCRResizeWidth / (double)image.Width) * image.Height);
-            Bitmap resizedCrop = new Bitmap(minimumOCRResizeWidth, resizedHeight);
-            using (Graphics graphics = Graphics.FromImage(resizedCrop))
+            using (image)
             {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (ImageAttributes wrapMode = new ImageAttributes())
+                int resizedHeight = (int)Math.Ceiling((minimumOCRResizeWidth / (double)image.Width) * image.Height);
+                Bitmap resizedCrop = new Bitmap(minimumOCRResizeWidth, resizedHeight);
+                using (Graphics graphics = Graphics.FromImage(resizedCrop))
                 {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, new Rectangle(0, 0, resizedCrop.Width, resizedCrop.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                    graphics.CompositingMode = CompositingMode.SourceCopy;
+                    graphics.CompositingQuality = CompositingQuality.HighQuality;
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    graphics.SmoothingMode = SmoothingMode.HighQuality;
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                    using (ImageAttributes wrapMode = new ImageAttributes())
+                    {
+                        wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                        graphics.DrawImage(image, new Rectangle(0, 0, resizedCrop.Width, resizedCrop.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                    }
                 }
+                //Process the resize
+                ProcessImage(resizedCrop);
+                //Return the resized image
+                return resizedCrop;
             }
-            //Process the resize
-            ProcessImage(resizedCrop);
-            //Dispose the provided image
-            image.Dispose();
-            //Return the resized image
-            return resizedCrop;
         }
 
         private void ProcessImage(Bitmap image)
