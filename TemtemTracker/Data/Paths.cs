@@ -12,5 +12,6 @@ namespace TemtemTracker.Data
         public static readonly string CONFIG_PATH = @"config\config.json";
         public static readonly string USER_SETTINGS_PATH = @"config\userSettings.json";
         public static readonly string STYLES_PATH = @"config\styles.json";
+        public static readonly string TABLE_FILE = @"savedData\table.json";
     }
 }

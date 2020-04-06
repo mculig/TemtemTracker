@@ -13,9 +13,6 @@ namespace TemtemTracker.Controllers
     public class TemtemTableController
     {
 
-        //Locations of things
-        static readonly string tableFile = @"savedData\table.json";
-
         //The Luma calculator
         private readonly LumaChanceCalculator lumaCalculator;
 
@@ -40,7 +37,7 @@ namespace TemtemTracker.Controllers
 
             UIRows = new Dictionary<TemtemDataRow, TemtemTableRowUI>();
 
-            LoadTableFromFile(tableFile);
+            LoadTableFromFile(Paths.TABLE_FILE);
 
             //Set this as the table controller in the UI
             trackerUI.SetTableController(this);
@@ -234,7 +231,7 @@ namespace TemtemTracker.Controllers
                 //Save table to the default auto-save and auto-load location
                 Directory.CreateDirectory("savedData"); //Creates folder if it's missing
                 String jsonTable = JsonConvert.SerializeObject(dataTable);
-                File.WriteAllText(tableFile, jsonTable);
+                File.WriteAllText(Paths.TABLE_FILE, jsonTable);
             }       
         }
 
