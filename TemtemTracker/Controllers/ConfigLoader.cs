@@ -12,12 +12,10 @@ namespace TemtemTracker.Controllers
 {
     public class ConfigLoader
     {
-        
-
         private readonly Species species;
         private readonly Config config;
         private readonly UserSettings userSettings;
-        private readonly Styles styles;
+        private readonly List<Style> styles;
 
         private bool loadFailed = false;
 
@@ -53,49 +51,100 @@ namespace TemtemTracker.Controllers
                 new ErrorMessage("Cannot find config file: " + Paths.USER_SETTINGS_PATH,
                     SetFailedStatus);
             }
-            if (File.Exists(Paths.STYLES_PATH))
+            if (Directory.Exists(Paths.STYLES_PATH)) 
             {
-                string stylesJson = File.ReadAllText(Paths.STYLES_PATH);
-                try
+                //Create the style list and add the default style
+                this.styles = new List<Style>()
                 {
-                    styles = JsonConvert.DeserializeObject<Styles>(stylesJson);
-                    //Validate the styles
-                    styles.styles.ForEach(style => {
-                        string styleName = style.styleName;
+                    SharedDefaults.DEFAULT_STYLE
+                };
+                List<string> errorNames = new List<string>(); //The names of styles that had an error
+                List<string> incompatibleStyles = new List<string>(); //The names of styles that are an old version
+                List<string> malformedStyles = new List<string>(); //Styles with malformed manifest json
+                string[] subdirectories = Directory.GetDirectories(Paths.STYLES_PATH);
+                foreach(string subdirectory in subdirectories)
+                {
+                    if(File.Exists(subdirectory + @"/Manifest.json"))
+                    {
+                        string styleJSON = File.ReadAllText(subdirectory + @"/Manifest.json");
                         try
                         {
-                            ColorTranslator.FromHtml(style.menuStripBackground);
-                            ColorTranslator.FromHtml(style.menuStripForeground);
-                            ColorTranslator.FromHtml(style.menuItemSelected);
-                            ColorTranslator.FromHtml(style.trackerBackground);
-                            ColorTranslator.FromHtml(style.trackerForeground);
-                            ColorTranslator.FromHtml(style.timerForeground);
-                            ColorTranslator.FromHtml(style.timerPausedForeground);
-                            ColorTranslator.FromHtml(style.tableRowBackground1);
-                            ColorTranslator.FromHtml(style.tableRowBackground2);
-                            ColorTranslator.FromHtml(style.tableRowForeground1);
-                            ColorTranslator.FromHtml(style.tableRowForeground2);
-                            ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
-                            ColorTranslator.FromHtml(style.tableRowButtonBackground);
-                            ColorTranslator.FromHtml(style.tableRowButtonForeground);
+                            Style style = JsonConvert.DeserializeObject<Style>(styleJSON);
+                            if (style.styleVersion == SharedDefaults.CURRENT_STYLE_VERSION)
+                            {
+                                try
+                                {
+                                    ColorTranslator.FromHtml(style.menuStripBackground);
+                                    ColorTranslator.FromHtml(style.menuStripForeground);
+                                    ColorTranslator.FromHtml(style.menuItemSelected);
+                                    ColorTranslator.FromHtml(style.trackerBackground);
+                                    ColorTranslator.FromHtml(style.trackerForeground);
+                                    ColorTranslator.FromHtml(style.timerForeground);
+                                    ColorTranslator.FromHtml(style.timerPausedForeground);
+                                    ColorTranslator.FromHtml(style.tableRowBackground1);
+                                    ColorTranslator.FromHtml(style.tableRowBackground2);
+                                    ColorTranslator.FromHtml(style.tableRowForeground1);
+                                    ColorTranslator.FromHtml(style.tableRowForeground2);
+                                    ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
+                                    ColorTranslator.FromHtml(style.tableRowButtonBackground);
+                                    ColorTranslator.FromHtml(style.tableRowButtonForeground);
+                                    styles.Add(style); //If everything goes fine, we add this to the list of styles
+                                }
+                                catch
+                                {
+                                    //If we had an exception, we catch it here and add it to the list of errors
+                                    errorNames.Add(subdirectory);
+                                }
+                            }
+                            else
+                            {
+                                incompatibleStyles.Add(subdirectory);
+                            }
                         }
                         catch
                         {
-                            new ErrorMessage("Error in style " + styleName + ": Invalid color code",
-                                SetFailedStatus);
-                        }
-                    });
+                            malformedStyles.Add(subdirectory);
+                        }                  
+                    }
+                    else
+                    {
+                        malformedStyles.Add(subdirectory);
+                    }
                 }
-                catch
+                if(errorNames.Count>0 || incompatibleStyles.Count>0 || malformedStyles.Count > 0)
                 {
-                    new ErrorMessage("Error reading styles file. Check that the file is " +
-                        "properly formatted or replace with valid styles.json file", SetFailedStatus);
+                    string styleParsingErrorMessage = "";
+                    if (malformedStyles.Count > 0)
+                    {
+                        styleParsingErrorMessage += "The following style(s) in the styles directory are missing a Manifest.json file, or the file is malformed: \n";
+                        malformedStyles.ForEach(style =>
+                        {
+                            styleParsingErrorMessage += style + "\n";
+                        });
+                    }
+                    if (errorNames.Count > 0)
+                    {
+                        styleParsingErrorMessage += "The following style(s) in the styles directory contain improper values for one or more properties in Manifest.json: \n";
+                        errorNames.ForEach(style =>
+                        {
+                            styleParsingErrorMessage += style + "\n";
+                        });
+                    }
+                    if (incompatibleStyles.Count > 0)
+                    {
+                        styleParsingErrorMessage += "The following style(s) in the styles directory are an old version not compatible with the current version: \n";
+                        incompatibleStyles.ForEach(style => 
+                        {
+                            styleParsingErrorMessage += style + "\n";
+                        });
+                    }
+                    
+                    new ErrorMessage(styleParsingErrorMessage, null);
                 }
             }
             else
             {
-                new ErrorMessage("Cannot find styles: " + Paths.STYLES_PATH,
-                                    SetFailedStatus);
+                new ErrorMessage("Cannot find styles folder " + Paths.STYLES_PATH, null);
             }
         }
 
@@ -124,7 +173,7 @@ namespace TemtemTracker.Controllers
             return this.userSettings;
         }
 
-        public Styles GetStyles()
+        public List<Style> GetStyles()
         {
             return this.styles;
         }

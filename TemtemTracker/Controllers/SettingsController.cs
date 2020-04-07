@@ -16,12 +16,12 @@ namespace TemtemTracker.Controllers
         private readonly UserSettings userSettings;
         private readonly SettingsWindow settingsWindow;
         private readonly TemtemTrackerUI trackerUI;
-        private readonly Styles styles;
+        private readonly List<Style> styles;
         TemtemTableController tableController;
         HotkeyController hotkeyController;
         TimerController timerController;
 
-        public SettingsController(Species species, UserSettings userSettings, Styles styles, TemtemTrackerUI trackerUI)
+        public SettingsController(Species species, UserSettings userSettings, List<Style> styles, TemtemTrackerUI trackerUI)
         {
             this.userSettings = userSettings;
             this.styles = styles;
@@ -57,7 +57,7 @@ namespace TemtemTracker.Controllers
             trackerUI.Opacity = userSettings.mainWindowOpacity;
 
             //Set tracker UI style
-            trackerUI.SetWindowStyle(styles.styles[userSettings.windowStyle]);
+            SetWindowStyle(userSettings.windowStyle);
 
             //Set this as the settings controller in the UI
             trackerUI.SetSettingsController(this);
@@ -119,10 +119,27 @@ namespace TemtemTracker.Controllers
             trackerUI.Opacity = opacityValue / (double) 100;
         }
 
-        public void SetWindowStyle(int windowStyle)
+        public void SetWindowStyle(string windowStyle) //Used on initialization to set the style using its name
         {
-            userSettings.windowStyle = windowStyle;
-            trackerUI.SetWindowStyle(styles.styles[windowStyle]);
+            Style requestedStyle = HelperMethods.GetStyleByName(styles, windowStyle);
+            if (requestedStyle != null)
+            {
+                userSettings.windowStyle = windowStyle;
+                trackerUI.SetWindowStyle(requestedStyle);
+            }
+            else
+            {
+                userSettings.windowStyle = SharedDefaults.DEFAULT_STYLE_NAME;
+                trackerUI.SetWindowStyle(HelperMethods.GetStyleByName(styles, SharedDefaults.DEFAULT_STYLE_NAME));
+            }
+            
+        }
+
+        public void SetWindowStyle(int styleIndex) //Used
+        {
+            Style requestedStyle = styles[styleIndex];
+            userSettings.windowStyle = styles[styleIndex].styleName;
+            trackerUI.SetWindowStyle(requestedStyle);
         }
 
         public void SetAutosaveInterval(int intervalMinutes)

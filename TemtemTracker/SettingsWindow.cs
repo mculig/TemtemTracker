@@ -89,10 +89,10 @@ namespace TemtemTracker
             }
         }
 
-        public void PopulateStyleComboBox(Styles styles, int selectedStyle)
+        public void PopulateStyleComboBox(List<Style> styles, string selectedStyleName)
         {
-            comboBoxStyleSelect.DataSource = styles.styles.Select(style=> style.styleName).ToList();
-            comboBoxStyleSelect.SelectedIndex = selectedStyle;
+            comboBoxStyleSelect.DataSource = styles.Select(style=> style.styleName).ToList();
+            comboBoxStyleSelect.SelectedIndex = styles.IndexOf(HelperMethods.GetStyleByName(styles, selectedStyleName));
         }
 
         public void SetDisableDetectionCheckboxChecked(bool isChecked)
@@ -281,8 +281,7 @@ namespace TemtemTracker
             if (!disableEventHandlers)
             {
                 settingsController.SetWindowStyle(comboBoxStyleSelect.SelectedIndex);
-            }
-            
+            }           
         }
 
         private void CheckBoxDisableWhileTimer_CheckedChanged(object sender, EventArgs e)

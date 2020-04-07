@@ -1,6 +1,6 @@
 {
   "mainWindowOpacity": 1.0,
-  "windowStyle": 0,
+  "windowStyle": "Default",
   "mainWindowWidth": 865,
   "mainWindowHeight": 429,
   "autosaveInterval": 10,

@@ -107,8 +107,8 @@
     <Compile Include="Controllers\UnhandledExceptionHandler.cs" />
     <Compile Include="Controllers\User32.cs" />
     <Compile Include="Controllers\WindowFinder.cs" />
+    <Compile Include="Data\SharedDefaults.cs" />
     <Compile Include="Data\Style.cs" />
-    <Compile Include="Data\Styles.cs" />
     <Compile Include="Data\Config.cs" />
     <Compile Include="Data\Paths.cs" />
     <Compile Include="Data\ScreenConfig.cs" />
@@ -191,9 +191,6 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="config\styles.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="config\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -213,6 +210,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="styles\Alice\Manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="styles\ClumsyBlaze\Manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="styles\Dark\Manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="styles\Marshmaillow\Manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="styles\Rexey\Manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="styles\Tsukki\Manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="tessdata\eng.traineddata">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -9,6 +9,7 @@ namespace TemtemTracker.Data
 {
     public class Style
     {
+        public int styleVersion;
         public string styleName;
         public string menuStripBackground;
         public string menuStripForeground;

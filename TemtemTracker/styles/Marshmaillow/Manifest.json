@@ -1,0 +1,18 @@
+﻿{
+        "styleVersion": 2,
+		"styleName":"Marshmaillow",
+        "menuStripBackground": "#FFFFE1",
+        "menuStripForeground": "#D81A4D",
+        "menuItemSelected": "#CDF2FF",
+        "trackerBackground": "#FFFFE1",
+        "trackerForeground": "#D81A4D",
+        "timerForeground": "#D81A4D",
+        "timerPausedForeground": "#08769D",
+        "tableRowBackground1": "#FFFFE1",
+        "tableRowBackground2": "#FFFFF9",
+        "tableRowForeground1": "#D81A4D",
+        "tableRowForeground2": "#D81A4D",
+        "tableRowButtonHoverColor": "#CDF2FF",
+        "tableRowButtonBackground": "#FFFFE1",
+        "tableRowButtonForeground": "#D81A4D"
+	}

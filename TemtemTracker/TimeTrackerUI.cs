@@ -34,7 +34,16 @@ namespace TemtemTracker
             if(this.InvokeRequired)
             {
                 SafeTimeUpdateDelegate d = new SafeTimeUpdateDelegate(UpdateTime);
-                this.Invoke(d, new object[] { timeMilis });
+                try
+                {
+                    this.Invoke(d, new object[] { timeMilis });
+                }
+                catch
+                {
+                    //An exception here will only happen if the object no longer exists. This will rarely happen on application close.
+                    //No action necessary. This is just to prevent issues
+                }
+                
             }
             else
             {

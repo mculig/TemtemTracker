@@ -1,0 +1,18 @@
+﻿{
+        "styleVersion": 2,
+		"styleName":"Tsukki",
+        "menuStripBackground": "#800020",
+        "menuStripForeground": "#FFFFFF",
+        "menuItemSelected": "#BF0030",
+        "trackerBackground": "#800020",
+        "trackerForeground": "#FFFFFF",
+        "timerForeground": "#FFFFFF",
+        "timerPausedForeground": "#FFF200",
+        "tableRowBackground1": "#800020",
+        "tableRowBackground2": "#940025",
+        "tableRowForeground1": "#FFFFFF",
+        "tableRowForeground2": "#FFFFFF",
+        "tableRowButtonHoverColor": "#BF0030",
+        "tableRowButtonBackground": "#800020",
+        "tableRowButtonForeground": "#FFFFFF"
+	}

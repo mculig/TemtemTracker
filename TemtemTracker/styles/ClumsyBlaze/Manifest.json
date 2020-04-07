@@ -1,0 +1,19 @@
+﻿
+{
+        "styleVersion": 2,
+		"styleName":"ClumsyBlaze",
+        "menuStripBackground": "#1F1F21",
+        "menuStripForeground": "#E63900",
+        "menuItemSelected": "#000000",
+        "trackerBackground": "#1F1F21",
+        "trackerForeground": "#E63900",
+        "timerForeground": "#E63900",
+        "timerPausedForeground": "#FFFFFF",
+        "tableRowBackground1": "#1F1F21",
+        "tableRowBackground2": "#2B2B2E",
+        "tableRowForeground1": "#E63900",
+        "tableRowForeground2": "#E63900",
+        "tableRowButtonHoverColor": "#000000",
+        "tableRowButtonBackground": "#1F1F21",
+        "tableRowButtonForeground": "#E63900"
+	}

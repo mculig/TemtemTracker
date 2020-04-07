@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TemtemTracker.Data;
 
 namespace TemtemTracker.Controllers
 {
@@ -20,6 +21,26 @@ namespace TemtemTracker.Controllers
                 modifierKeysString += "+";
             }
             return modifierKeysString;
+        }
+
+        public static Style GetStyleByName(List<Style> styles, string name)
+        {
+            Style requestedStyle = null;
+            styles.ForEach(style => { 
+                if(style.styleName == name)
+                {
+                    requestedStyle = style;
+                }
+            });
+            return requestedStyle;
+        }
+
+        public static Style GetDefaultStyle()
+        {
+            return new Style { 
+            
+            };
+
         }
     }
 }
