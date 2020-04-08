@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TemtemTracker.Data;
 using Newtonsoft.Json;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace TemtemTracker.Controllers
 {
@@ -16,6 +17,7 @@ namespace TemtemTracker.Controllers
         private readonly Config config;
         private readonly UserSettings userSettings;
         private readonly List<Style> styles;
+        private Regex htmlColorRegex = new Regex(@"^#[a-fA-F0-9]{6}$"); //Regex for testing the colors in styles
 
         private bool loadFailed = false;
 
@@ -72,23 +74,37 @@ namespace TemtemTracker.Controllers
                             Style style = JsonConvert.DeserializeObject<Style>(styleJSON);
                             if (style.styleVersion == SharedDefaults.CURRENT_STYLE_VERSION)
                             {
+
+                                if (htmlColorRegex.IsMatch(style.menuStripBackground))
+                                {
+
+                                }
                                 try
                                 {
-                                    ColorTranslator.FromHtml(style.menuStripBackground);
-                                    ColorTranslator.FromHtml(style.menuStripForeground);
-                                    ColorTranslator.FromHtml(style.menuItemSelected);
-                                    ColorTranslator.FromHtml(style.trackerBackground);
-                                    ColorTranslator.FromHtml(style.trackerForeground);
-                                    ColorTranslator.FromHtml(style.timerForeground);
-                                    ColorTranslator.FromHtml(style.timerPausedForeground);
-                                    ColorTranslator.FromHtml(style.tableRowBackground1);
-                                    ColorTranslator.FromHtml(style.tableRowBackground2);
-                                    ColorTranslator.FromHtml(style.tableRowForeground1);
-                                    ColorTranslator.FromHtml(style.tableRowForeground2);
-                                    ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
-                                    ColorTranslator.FromHtml(style.tableRowButtonBackground);
-                                    ColorTranslator.FromHtml(style.tableRowButtonForeground);
-                                    styles.Add(style); //If everything goes fine, we add this to the list of styles
+                                    //Validate all the colors
+                                    bool colorsAreFine = htmlColorRegex.IsMatch(style.menuStripBackground) &&
+                                    htmlColorRegex.IsMatch(style.menuStripForeground) &&
+                                    htmlColorRegex.IsMatch(style.menuItemSelected) &&
+                                    htmlColorRegex.IsMatch(style.trackerBackground) &&
+                                    htmlColorRegex.IsMatch(style.trackerForeground) &&
+                                    htmlColorRegex.IsMatch(style.timerForeground) &&
+                                    htmlColorRegex.IsMatch(style.timerPausedForeground) &&
+                                    htmlColorRegex.IsMatch(style.tableRowBackground1) &&
+                                    htmlColorRegex.IsMatch(style.tableRowBackground2) &&
+                                    htmlColorRegex.IsMatch(style.tableRowForeground1) &&
+                                    htmlColorRegex.IsMatch(style.tableRowForeground2) &&
+                                    htmlColorRegex.IsMatch(style.tableRowButtonHoverColor) &&
+                                    htmlColorRegex.IsMatch(style.tableRowButtonBackground) &&
+                                    htmlColorRegex.IsMatch(style.tableRowButtonForeground);
+                                    if (colorsAreFine)
+                                    {
+                                        styles.Add(style); //If everything goes fine, we add this to the list of styles
+                                    }
+                                    else
+                                    {
+                                        errorNames.Add(subdirectory);
+                                    }
+                                    
                                 }
                                 catch
                                 {
