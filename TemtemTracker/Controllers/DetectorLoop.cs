@@ -58,9 +58,6 @@ namespace TemtemTracker.Controllers
         private readonly TemtemTableController tableController;
         private readonly OCRController ocrController;
 
-        //For errors
-        private readonly bool loadFailed = false;
-
         public DetectorLoop(Config config, TemtemTableController tableController, OCRController ocrController)
         {
             this.config = config;
@@ -76,12 +73,8 @@ namespace TemtemTracker.Controllers
 
             this.maxAllowedColorDistance = config.maxAllowedColorDistance;
 
-            temtemWindows = new Dictionary<uint, TemtemWindowData>();            
-        }
+            temtemWindows = new Dictionary<uint, TemtemWindowData>();
 
-        public bool LoadFailed()
-        {
-            return loadFailed;
         }
 
         public void Detect()
@@ -146,8 +139,6 @@ namespace TemtemTracker.Controllers
                 temtemWindows[focusedWindowProcessID].gameWindowSize = gameWindowRect.Size;
                 RecalculateDetectionElements(temtemWindows[focusedWindowProcessID], gameWindowRect);
             }
-
-            
 
             if (temtemWindows[focusedWindowProcessID].detectedBattle == false)
             {

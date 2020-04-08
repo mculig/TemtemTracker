@@ -38,10 +38,6 @@ namespace TemtemTracker
             TemtemTableController tableController = new TemtemTableController(trackerUI, lumaCalculator, settingsController);
             OCRController ocr = new OCRController(configLoader.GetConfig(), configLoader.GetSpeciesList());
             DetectorLoop loop = new DetectorLoop(configLoader.GetConfig(), tableController, ocr);
-            if (loop.LoadFailed())
-            {
-                return;
-            }
             //The timer controller
             TimerController timerController = new TimerController(trackerUI, tableController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
             timerController.StartTimers();
