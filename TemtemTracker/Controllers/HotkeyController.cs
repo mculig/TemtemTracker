@@ -72,6 +72,7 @@ namespace TemtemTracker.Controllers
                     //Toggle the tracker time
                     bool timerState = timerController.ToggleTimeTrackerTimerPaused();
                     trackerUI.TogglePauseTimerUIIndication(timerState);
+                    tableController.SetLastChangeTime(); //On unpause we want to reset the inactivity timer
                 }
             }
         }

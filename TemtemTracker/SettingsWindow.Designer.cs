@@ -31,6 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
             this.settingsTabControl = new System.Windows.Forms.TabControl();
             this.windowTabPage = new System.Windows.Forms.TabPage();
+            this.inactivitySettings = new System.Windows.Forms.GroupBox();
+            this.labelInactivityPauseAfter = new System.Windows.Forms.Label();
+            this.inactivityTreshold = new System.Windows.Forms.NumericUpDown();
+            this.checkboxInactivity = new System.Windows.Forms.CheckBox();
             this.labelAutosaveInterval = new System.Windows.Forms.Label();
             this.autosaveInterval = new System.Windows.Forms.NumericUpDown();
             this.checkBoxDisableWhileTimer = new System.Windows.Forms.CheckBox();
@@ -64,6 +68,8 @@
             this.labelResetTableHotkey = new System.Windows.Forms.Label();
             this.settingsTabControl.SuspendLayout();
             this.windowTabPage.SuspendLayout();
+            this.inactivitySettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.inactivityTreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.autosaveInterval)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacityTrackBar)).BeginInit();
@@ -94,6 +100,7 @@
             // 
             // windowTabPage
             // 
+            this.windowTabPage.Controls.Add(this.inactivitySettings);
             this.windowTabPage.Controls.Add(this.labelAutosaveInterval);
             this.windowTabPage.Controls.Add(this.autosaveInterval);
             this.windowTabPage.Controls.Add(this.checkBoxDisableWhileTimer);
@@ -107,6 +114,68 @@
             this.windowTabPage.TabIndex = 2;
             this.windowTabPage.Text = "General";
             this.windowTabPage.UseVisualStyleBackColor = true;
+            // 
+            // inactivitySettings
+            // 
+            this.inactivitySettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.inactivitySettings.Controls.Add(this.labelInactivityPauseAfter);
+            this.inactivitySettings.Controls.Add(this.inactivityTreshold);
+            this.inactivitySettings.Controls.Add(this.checkboxInactivity);
+            this.inactivitySettings.Location = new System.Drawing.Point(3, 218);
+            this.inactivitySettings.Name = "inactivitySettings";
+            this.inactivitySettings.Size = new System.Drawing.Size(323, 94);
+            this.inactivitySettings.TabIndex = 11;
+            this.inactivitySettings.TabStop = false;
+            this.inactivitySettings.Text = "Inactivity";
+            // 
+            // labelInactivityPauseAfter
+            // 
+            this.labelInactivityPauseAfter.AutoSize = true;
+            this.labelInactivityPauseAfter.Location = new System.Drawing.Point(6, 57);
+            this.labelInactivityPauseAfter.Name = "labelInactivityPauseAfter";
+            this.labelInactivityPauseAfter.Size = new System.Drawing.Size(165, 20);
+            this.labelInactivityPauseAfter.TabIndex = 13;
+            this.labelInactivityPauseAfter.Text = "Pause after (minutes):";
+            // 
+            // inactivityTreshold
+            // 
+            this.inactivityTreshold.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.inactivityTreshold.Location = new System.Drawing.Point(177, 55);
+            this.inactivityTreshold.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.inactivityTreshold.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.inactivityTreshold.Name = "inactivityTreshold";
+            this.inactivityTreshold.Size = new System.Drawing.Size(83, 26);
+            this.inactivityTreshold.TabIndex = 12;
+            this.inactivityTreshold.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.inactivityTreshold.ValueChanged += new System.EventHandler(this.inactivityTreshold_ValueChanged);
+            // 
+            // checkboxInactivity
+            // 
+            this.checkboxInactivity.AutoSize = true;
+            this.checkboxInactivity.Location = new System.Drawing.Point(6, 25);
+            this.checkboxInactivity.Name = "checkboxInactivity";
+            this.checkboxInactivity.Size = new System.Drawing.Size(218, 24);
+            this.checkboxInactivity.TabIndex = 0;
+            this.checkboxInactivity.Text = "Pause timer when inactive";
+            this.checkboxInactivity.UseVisualStyleBackColor = true;
+            this.checkboxInactivity.CheckedChanged += new System.EventHandler(this.checkboxInactivity_CheckedChanged);
             // 
             // labelAutosaveInterval
             // 
@@ -475,6 +544,9 @@
             this.settingsTabControl.ResumeLayout(false);
             this.windowTabPage.ResumeLayout(false);
             this.windowTabPage.PerformLayout();
+            this.inactivitySettings.ResumeLayout(false);
+            this.inactivitySettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.inactivityTreshold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.autosaveInterval)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -532,5 +604,9 @@
         private System.Windows.Forms.CheckBox checkBoxDisableWhileTimer;
         private System.Windows.Forms.Label labelAutosaveInterval;
         private System.Windows.Forms.NumericUpDown autosaveInterval;
+        private System.Windows.Forms.GroupBox inactivitySettings;
+        private System.Windows.Forms.NumericUpDown inactivityTreshold;
+        private System.Windows.Forms.CheckBox checkboxInactivity;
+        private System.Windows.Forms.Label labelInactivityPauseAfter;
     }
 }

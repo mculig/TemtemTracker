@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Timers;
 using TemtemTracker.Data;
 
 namespace TemtemTracker.Controllers
@@ -12,18 +13,23 @@ namespace TemtemTracker.Controllers
 
         
         private static readonly int TIME_TRACKER_INTERVAL = 1000;
+        private static readonly int INACTIVITY_CHECK_INTERVAL = 1000;
         private readonly int detectionLoopInterval;
 
         private readonly System.Timers.Timer detectionLoopTimer;
         private readonly System.Timers.Timer timeTrackerTimer;
         private readonly System.Timers.Timer autosaveTimer;
+        private readonly System.Timers.Timer inactivityTimer;
 
         private readonly TemtemTableController tableController;
         private readonly DetectorLoop detectorLoop;
+        private readonly TemtemTrackerUI trackerUI;
 
         private bool disableDetectionOnTimerPause;
 
-        //To prevent reentrancy 
+        private UserSettings userSettings;
+
+        //To prevent reentrancy in the detector loop
         int _TimerLock = 0;
         int _AutosaveLock = 0;
 
@@ -33,24 +39,30 @@ namespace TemtemTracker.Controllers
             this.detectorLoop = detectorLoop;
             this.detectionLoopInterval = config.detectionLoopInterval;
             this.disableDetectionOnTimerPause = userSettings.disableDetectionWhileTimerPaused;
+            this.userSettings = userSettings;
+            this.trackerUI = trackerUI;
 
             settingsController.SetTimerController(this);
 
             detectionLoopTimer = new System.Timers.Timer(detectionLoopInterval);
             timeTrackerTimer = new System.Timers.Timer(TIME_TRACKER_INTERVAL);
             autosaveTimer = new System.Timers.Timer();
+            inactivityTimer = new System.Timers.Timer(INACTIVITY_CHECK_INTERVAL);
 
             //Set the interval for the autosave timer from the user settings
             //The interval is in minutes, the timer accepts miliseconds, the function converts
             SetAutosaveTimeInterval(userSettings.autosaveInterval);
 
+
             detectionLoopTimer.Elapsed += DetectionLoopListener;
             timeTrackerTimer.Elapsed += TimeTrackerListener;
             autosaveTimer.Elapsed += AutosaveListener;
+            inactivityTimer.Elapsed += InactivityListener;
 
             detectionLoopTimer.AutoReset = true;
             timeTrackerTimer.AutoReset = true;
             autosaveTimer.AutoReset = true;
+            inactivityTimer.AutoReset = true;
 
             //Set this as the timer controller in the UI
             trackerUI.SetTimerController(this);
@@ -61,6 +73,12 @@ namespace TemtemTracker.Controllers
             detectionLoopTimer.Start();
             timeTrackerTimer.Start();
             autosaveTimer.Start();
+            if (userSettings.pauseWhenInactive == true)
+            {
+                //We only want to enable this if the setting states it should be enabled
+                inactivityTimer.Start();
+            }
+            
         }
 
         public bool ToggleTimeTrackerTimerPaused()
@@ -91,11 +109,18 @@ namespace TemtemTracker.Controllers
             timeTrackerTimer.Dispose();
             autosaveTimer.Stop();
             autosaveTimer.Dispose();
+            inactivityTimer.Stop();
+            inactivityTimer.Dispose();
         }
 
         public void SetAutosaveTimeInterval(int intervalMinutes)
         {
             autosaveTimer.Interval = intervalMinutes * 60000;
+        }
+
+        public void SetInactivityTimerEnabled(bool enabled)
+        {
+            inactivityTimer.Enabled = enabled;
         }
 
         public void SetDisableDetectionOnTimerPause(bool detectionDisabled)
@@ -147,5 +172,19 @@ namespace TemtemTracker.Controllers
             }
         }
 
+        private void InactivityListener(object sender, ElapsedEventArgs e)
+        {
+            //TO-DO: Figure out how to evaluate inactivity
+            DateTime currentTime = DateTime.Now;
+            DateTime lastChange = tableController.GetLastChangeTime();
+            if (currentTime.Subtract(lastChange).TotalMinutes > userSettings.inactivityTreshold)
+            {
+                if (timeTrackerTimer.Enabled)
+                {
+                    timeTrackerTimer.Stop();
+                    trackerUI.TogglePauseTimerUIIndication(timeTrackerTimer.Enabled);
+                }
+            }
+        }
     }
 }

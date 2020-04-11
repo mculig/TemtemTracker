@@ -38,7 +38,8 @@ namespace TemtemTracker.Controllers
             settingsWindow.PopulateWindowSettings(userSettings.mainWindowOpacity);
             //Populate the time to luma settings
             settingsWindow.SetTimeToLumaRadioButton(userSettings.timeToLumaProbability);
-
+            //Populate inactivity settings
+            settingsWindow.PopulateInactivitySettings(userSettings.pauseWhenInactive, userSettings.inactivityTreshold);
             //Populate settings window hotkey labels
             PopulateSettingsWindowHotkeyLabels();
             //Populate settings window Style ComboBox
@@ -200,6 +201,17 @@ namespace TemtemTracker.Controllers
             
         }
 
+        public void SetPauseWhenInactive(bool checkboxValue)
+        {
+            userSettings.pauseWhenInactive = checkboxValue;
+            timerController.SetInactivityTimerEnabled(checkboxValue);
+        }
+
+        public void SetPauseWhenInactiveInterval(int intervalMinutes)
+        {
+            userSettings.inactivityTreshold = intervalMinutes;
+        }
+
         public void SaveSettings()
         {
             String settingsJson = JsonConvert.SerializeObject(userSettings);
@@ -214,6 +226,7 @@ namespace TemtemTracker.Controllers
             settingsWindow.PopulateHotkeySettings(resetTableHotkeyModifiersString + kc.ConvertToString(userSettings.resetTableHotkey),
                 pauseTimerHotkeyModifiersString + kc.ConvertToString(userSettings.pauseTimerHotkey));
         }
+
 
     }
 }

@@ -24,5 +24,7 @@ namespace TemtemTracker.Data
         public int resetTableHotkey;
         public int pauseTimerHotkeyModifier;
         public int pauseTimerHotkey;
+        public bool pauseWhenInactive;
+        public int inactivityTreshold;
     }
 }

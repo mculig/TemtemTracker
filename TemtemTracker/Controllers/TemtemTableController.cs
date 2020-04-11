@@ -28,6 +28,9 @@ namespace TemtemTracker.Controllers
         //An object to be used as a lock for the auto-save feature
         private static readonly object saveLock = new object();
 
+        //The time of the last change used to track activity/inactivity
+        private DateTime lastChangeTime;
+
         public TemtemTableController(TemtemTrackerUI trackerUI, LumaChanceCalculator lumaCalculator, SettingsController settingsController)
         {
             this.trackerUI = trackerUI;
@@ -41,6 +44,8 @@ namespace TemtemTracker.Controllers
 
             //Set this as the table controller in the UI
             trackerUI.SetTableController(this);
+
+            SetLastChangeTime();
         }
 
         public void LoadTableFromFile(string fileName)
@@ -60,7 +65,7 @@ namespace TemtemTracker.Controllers
                         new ErrorMessage("The previous auto-save file is corrupted. Generating new file!", null);
                         CreateNewTable();
                     }
-                    
+
                 }
                 else
                 {
@@ -79,7 +84,7 @@ namespace TemtemTracker.Controllers
                 trackerUI.UpdateTime(dataTable.timer.durationTime);
                 UpdateTemtemH();
             }
-            
+
         }
 
         public void RemoveRow(TemtemDataRow row)
@@ -103,7 +108,9 @@ namespace TemtemTracker.Controllers
                     entry.Key.encounteredPercent = entry.Key.encountered / (double)dataTable.total.encountered;
                     entry.Value.UpdateRow();
                 }
-            }           
+
+                SetLastChangeTime();
+            }
         }
 
         public void AddTemtem(string temtemName)
@@ -148,7 +155,8 @@ namespace TemtemTracker.Controllers
                     entry.Value.UpdateRow();
                 }
                 UpdateTemtemH();
-            }          
+                SetLastChangeTime();
+            }
         }
 
         public void ResetTable()
@@ -167,7 +175,8 @@ namespace TemtemTracker.Controllers
                 trackerUI.UpdateTotal();
                 trackerUI.UpdateTemtemH(0);
                 trackerUI.UpdateTime(0);
-            }         
+                SetLastChangeTime();
+            }
         }
 
         public void UpdateLumaTimes()
@@ -182,7 +191,7 @@ namespace TemtemTracker.Controllers
                 dataTable.total.timeToLuma = lumaCalculator.GetTimeToLuma(dataTable.total.encountered, dataTable.timer.durationTime, dataTable.total.name);
                 trackerUI.UpdateTotal();
             }
-            
+
         }
 
         public void IncrementTimer()
@@ -191,7 +200,18 @@ namespace TemtemTracker.Controllers
             {
                 dataTable.timer.durationTime += 1000;
                 trackerUI.UpdateTime(dataTable.timer.durationTime);
-            }      
+            }
+        }
+
+        public DateTime GetLastChangeTime()
+        {
+            return lastChangeTime;
+        }
+
+        public void SetLastChangeTime()
+        {
+            //Sets the datetime of the last change so we can track activity
+            lastChangeTime = DateTime.Now;
         }
 
         private void CreateNewTable()

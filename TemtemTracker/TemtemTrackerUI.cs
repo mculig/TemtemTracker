@@ -16,7 +16,8 @@ namespace TemtemTracker
 {
     public partial class TemtemTrackerUI : Form
     {
-        private delegate void SafeCallDelegate(TemtemTableRowUI row);
+        private delegate void AddRowDelegate(TemtemTableRowUI row);
+        private delegate void TimerPauseDelegate(bool TimerState);
         private SettingsController settingsController;
         private TemtemTableController tableController;
         private TimerController timerController;
@@ -48,7 +49,7 @@ namespace TemtemTracker
         {
             if (this.InvokeRequired)
             {
-                SafeCallDelegate d = new SafeCallDelegate(AddRowToTable);
+                AddRowDelegate d = new AddRowDelegate(AddRowToTable);
                 this.Invoke(d, new object[] { row });
             }
             else
@@ -114,15 +115,24 @@ namespace TemtemTracker
 
         public void TogglePauseTimerUIIndication(bool timerState)
         {
-            if (timerState)
+            if (this.InvokeRequired)
             {
-                pauseTimerToolStripMenuItem.Text = "Pause timer";               
+                TimerPauseDelegate d = new TimerPauseDelegate(TogglePauseTimerUIIndication);
+                this.Invoke(d, new object[] { timerState });
             }
             else
             {
-                pauseTimerToolStripMenuItem.Text = "Unpause timer";
+                if (timerState)
+                {
+                    pauseTimerToolStripMenuItem.Text = "Pause timer";
+                }
+                else
+                {
+                    pauseTimerToolStripMenuItem.Text = "Unpause timer";
+                }
+                timeTrackerUI1.SetPausedVisualIndication(timerState);
             }
-            timeTrackerUI1.SetPausedVisualIndication(timerState);
+            
         }
 
         public void SetWindowStyle(Style style)

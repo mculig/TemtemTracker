@@ -105,6 +105,12 @@ namespace TemtemTracker
             autosaveInterval.Value = intervalMinutes;
         }
 
+        public void PopulateInactivitySettings(bool inactivityTimerEnabled, int intervalMinutes)
+        {
+            checkboxInactivity.Checked = inactivityTimerEnabled;
+            inactivityTreshold.Value = intervalMinutes;
+        }
+
         private void CheckBoxSaiparkMode_CheckedChanged(object sender, EventArgs e)
         {
             if(!disableEventHandlers)
@@ -298,6 +304,22 @@ namespace TemtemTracker
             if (!disableEventHandlers)
             {
                 settingsController.SetAutosaveInterval((int)autosaveInterval.Value);
+            }
+        }
+
+        private void checkboxInactivity_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!disableEventHandlers)
+            {
+                settingsController.SetPauseWhenInactive(checkboxInactivity.Checked);
+            }
+        }
+
+        private void inactivityTreshold_ValueChanged(object sender, EventArgs e)
+        {
+            if (!disableEventHandlers)
+            {
+                settingsController.SetPauseWhenInactiveInterval((int)inactivityTreshold.Value);
             }
         }
     }

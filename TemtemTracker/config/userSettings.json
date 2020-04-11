@@ -14,5 +14,7 @@
   "resetTableHotkeyModifier": 262144,
   "resetTableHotkey": 116,
   "pauseTimerHotkeyModifier": 262144,
-  "pauseTimerHotkey": 119
+  "pauseTimerHotkey": 119,
+  "pauseWhenInactive": true,
+  "inactivityTreshold": 5
 }
