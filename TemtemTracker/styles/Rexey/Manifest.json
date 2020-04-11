@@ -3,6 +3,7 @@
 		"styleName":"Rexey",
         "menuStripBackground": "#FFBDD9",
         "menuStripForeground": "#402F36",
+        "toolStripBackground": "#FFBDD9",
         "menuItemSelected": "#FF91D9",
         "trackerBackground": "#FFBDD9",
         "trackerForeground": "#402F36",
@@ -14,5 +15,6 @@
         "tableRowForeground2": "#402F36",
         "tableRowButtonHoverColor": "#FF91D9",
         "tableRowButtonBackground": "#FFBDD9",
-        "tableRowButtonForeground": "#402F36"
+        "tableRowButtonForeground": "#402F36",
+        "tableRowButtonBorderColor": "#402F36" 
 	}

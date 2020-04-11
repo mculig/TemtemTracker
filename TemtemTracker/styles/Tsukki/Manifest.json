@@ -3,6 +3,7 @@
 		"styleName":"Tsukki",
         "menuStripBackground": "#800020",
         "menuStripForeground": "#FFFFFF",
+        "toolStripBackground": "#800020",
         "menuItemSelected": "#BF0030",
         "trackerBackground": "#800020",
         "trackerForeground": "#FFFFFF",
@@ -14,5 +15,6 @@
         "tableRowForeground2": "#FFFFFF",
         "tableRowButtonHoverColor": "#BF0030",
         "tableRowButtonBackground": "#800020",
-        "tableRowButtonForeground": "#FFFFFF"
+        "tableRowButtonForeground": "#FFFFFF",
+        "tableRowButtonBorderColor": "#FFFFFF" 
 	}

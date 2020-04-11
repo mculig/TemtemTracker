@@ -13,6 +13,7 @@ namespace TemtemTracker.Data
         public string styleName;
         public string menuStripBackground;
         public string menuStripForeground;
+        public string toolStripBackground;
         public string menuItemSelected;
         public string trackerBackground;
         public string trackerForeground;
@@ -25,5 +26,6 @@ namespace TemtemTracker.Data
         public string tableRowButtonHoverColor;
         public string tableRowButtonBackground;
         public string tableRowButtonForeground;
+        public string tableRowButtonBorderColor;
     }
 }

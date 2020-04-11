@@ -4,6 +4,7 @@
 		"styleName":"ClumsyBlaze",
         "menuStripBackground": "#1F1F21",
         "menuStripForeground": "#E63900",
+        "toolStripBackground": "#1F1F21",
         "menuItemSelected": "#000000",
         "trackerBackground": "#1F1F21",
         "trackerForeground": "#E63900",
@@ -15,5 +16,6 @@
         "tableRowForeground2": "#E63900",
         "tableRowButtonHoverColor": "#000000",
         "tableRowButtonBackground": "#1F1F21",
-        "tableRowButtonForeground": "#E63900"
+        "tableRowButtonForeground": "#E63900",
+        "tableRowButtonBorderColor": "#E63900" 
 	}

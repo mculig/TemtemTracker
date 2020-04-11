@@ -54,6 +54,7 @@ namespace TemtemTracker
             deleteButton.BackColor = ColorTranslator.FromHtml(style.tableRowButtonBackground);
             deleteButton.ForeColor = ColorTranslator.FromHtml(style.tableRowButtonForeground);
             deleteButton.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
+            deleteButton.FlatAppearance.BorderColor = ColorTranslator.FromHtml(style.tableRowButtonBorderColor);
         }
 
         public void SetLight(Style style)
@@ -63,6 +64,7 @@ namespace TemtemTracker
             deleteButton.BackColor = ColorTranslator.FromHtml(style.tableRowButtonBackground);
             deleteButton.ForeColor = ColorTranslator.FromHtml(style.tableRowButtonForeground);
             deleteButton.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
+            deleteButton.FlatAppearance.BorderColor = ColorTranslator.FromHtml(style.tableRowButtonBorderColor);
         }
 
         private String DoubleToPercent(double number)

@@ -16,6 +16,7 @@ namespace TemtemTracker.Data
             styleName = SharedDefaults.DEFAULT_STYLE_NAME,
             menuStripBackground = "#F0F0F0",
             menuStripForeground = "#000000",
+            toolStripBackground = "#F0F0F0",
             menuItemSelected = "#D8EAF9",
             trackerBackground = "#F0F0F0",
             trackerForeground = "#000000",
@@ -27,7 +28,8 @@ namespace TemtemTracker.Data
             tableRowForeground2 = "#000000",
             tableRowButtonHoverColor = "#D8EAF9",
             tableRowButtonBackground = "#F0F0F0",
-            tableRowButtonForeground = "#000000"
+            tableRowButtonForeground = "#000000",
+            tableRowButtonBorderColor = "#000000"
         };
     }
 }

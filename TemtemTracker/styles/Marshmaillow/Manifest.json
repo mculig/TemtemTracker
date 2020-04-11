@@ -3,6 +3,7 @@
 		"styleName":"Marshmaillow",
         "menuStripBackground": "#FFFFE1",
         "menuStripForeground": "#D81A4D",
+        "toolStripBackground": "#FFFFE1",
         "menuItemSelected": "#CDF2FF",
         "trackerBackground": "#FFFFE1",
         "trackerForeground": "#D81A4D",
@@ -14,5 +15,6 @@
         "tableRowForeground2": "#D81A4D",
         "tableRowButtonHoverColor": "#CDF2FF",
         "tableRowButtonBackground": "#FFFFE1",
-        "tableRowButtonForeground": "#D81A4D"
+        "tableRowButtonForeground": "#D81A4D",
+        "tableRowButtonBorderColor": "#D81A4D" 
 	}

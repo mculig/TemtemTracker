@@ -3,6 +3,7 @@
         "styleName":"Alice",
         "menuStripBackground": "#4E3350",
         "menuStripForeground": "#FF3873",
+        "toolStripBackground": "#4E3350",
         "menuItemSelected": "#FFD1DF",
         "trackerBackground": "#4E3350",
         "trackerForeground": "#FF3873",
@@ -14,5 +15,6 @@
         "tableRowForeground2": "#FF3873",
         "tableRowButtonHoverColor": "#FFD1DF",
         "tableRowButtonBackground": "#4E3350",
-        "tableRowButtonForeground": "#FF3873"
+        "tableRowButtonForeground": "#FF3873",
+        "tableRowButtonBorderColor": "#FF3873" 
 	}

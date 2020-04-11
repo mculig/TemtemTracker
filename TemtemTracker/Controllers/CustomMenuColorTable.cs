@@ -14,7 +14,7 @@ namespace TemtemTracker.Controllers
         private readonly Color menuBorderColor;
         private readonly Color menuItemBorderColor;
         private readonly Color menuItemSelectedColor;
-        private readonly Color menuStripColor;
+        private readonly Color toolStripBackgroundColor;
         private readonly Color menuForegroundColor;
 
         public CustomMenuColorTable(Style style)
@@ -23,7 +23,7 @@ namespace TemtemTracker.Controllers
             base.UseSystemColors = false;
             menuBorderColor = ColorTranslator.FromHtml(style.menuStripForeground);
             menuItemBorderColor = ColorTranslator.FromHtml(style.menuStripForeground);
-            menuStripColor = ColorTranslator.FromHtml(style.menuStripBackground);
+            toolStripBackgroundColor = ColorTranslator.FromHtml(style.toolStripBackground);
             menuItemSelectedColor = ColorTranslator.FromHtml(style.menuItemSelected);
             menuForegroundColor = ColorTranslator.FromHtml(style.trackerForeground);
         }
@@ -67,20 +67,20 @@ namespace TemtemTracker.Controllers
         //This controls the margin on the left in the dropdown
         public override Color ImageMarginGradientBegin
         {
-           get { return menuStripColor; }
+           get { return toolStripBackgroundColor; }
         }
         public override Color ImageMarginGradientMiddle
         {
-           get { return menuStripColor; }
+           get { return toolStripBackgroundColor; }
         }
         public override Color ImageMarginGradientEnd
         {
-            get { return menuStripColor; }
+            get { return toolStripBackgroundColor; }
         }
         //Thic controls the dropdown itself
         public override Color ToolStripDropDownBackground
         {
-            get { return menuStripColor; }
+            get { return toolStripBackgroundColor; }
         }
         //This controls the separator lines in the dropdown
         public override Color SeparatorDark

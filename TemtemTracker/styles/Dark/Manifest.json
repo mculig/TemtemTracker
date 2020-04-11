@@ -3,6 +3,7 @@
 		"styleName":"Dark",
         "menuStripBackground": "#0F1A07",
         "menuStripForeground": "#FFFFFF",
+        "toolStripBackground": "#0F1A07",
         "menuItemSelected": "#3C661D",
         "trackerBackground": "#0F1A07",
         "trackerForeground": "#FFFFFF",
@@ -14,5 +15,6 @@
         "tableRowForeground2": "#FFFFFF",
         "tableRowButtonHoverColor": "#3C661D",
         "tableRowButtonBackground": "#0F1A07",
-        "tableRowButtonForeground": "#FFFFFF"
+        "tableRowButtonForeground": "#FFFFFF",
+        "tableRowButtonBorderColor": "#FFFFFF" 
 	}
