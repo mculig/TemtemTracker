@@ -22,8 +22,8 @@ namespace TemtemTracker.Controllers
         //The data table we load from JSON or set up
         TemtemDataTable dataTable;
 
-        //A hash map between UI rows and data elements used when inserting or deleting elements
-        private readonly Dictionary<TemtemDataRow, TemtemTableRowUI> UIRows;
+        //A hash map between UI elements and data elements used when inserting or deleting elements
+        private readonly Dictionary<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>> UIElements;
 
         //An object to be used as a lock for the auto-save feature
         private static readonly object saveLock = new object();
@@ -36,14 +36,15 @@ namespace TemtemTracker.Controllers
             this.trackerUI = trackerUI;
             this.lumaCalculator = lumaCalculator;
 
-            settingsController.SetTableController(this);
-
-            UIRows = new Dictionary<TemtemDataRow, TemtemTableRowUI>();
+            UIElements = new Dictionary<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>>();
 
             LoadTableFromFile(Paths.TABLE_FILE);
 
             //Set this as the table controller in the UI
             trackerUI.SetTableController(this);
+
+            //Add event listener(s) for settings updates
+            ApplicationStateController.Instance.UserSettingsChanged += UpdateLumaTimes;
 
             SetLastChangeTime();
         }
@@ -75,7 +76,8 @@ namespace TemtemTracker.Controllers
                 foreach (TemtemDataRow row in dataTable.rows)
                 {
                     TemtemTableRowUI rowUI = new TemtemTableRowUI(row, this);
-                    UIRows[row] = rowUI;
+                    IndividualTrackerWindow window = new IndividualTrackerWindow(row);   
+                    UIElements[row] = new Tuple<TemtemTableRowUI, IndividualTrackerWindow>(rowUI, window);
                     trackerUI.AddRowToTable(rowUI);
                 }
                 //Set up the total
@@ -92,9 +94,11 @@ namespace TemtemTracker.Controllers
             lock (saveLock)
             {
                 //Remove UI element from UI
-                trackerUI.RemoveRowFromTable(UIRows[row]);
+                trackerUI.RemoveRowFromTable(UIElements[row].Item1);
+                //Close individual window
+                UIElements[row].Item2.Close();
                 //Remove UI <-> data binding from hash map
-                UIRows.Remove(row);
+                UIElements.Remove(row);
                 //Remove row info from total
                 dataTable.total.encountered -= row.encountered;
                 dataTable.total.lumaChance = lumaCalculator.CalculateChance(dataTable.total.encountered, "");
@@ -103,14 +107,20 @@ namespace TemtemTracker.Controllers
                 //Remove data from dataTable
                 dataTable.rows.Remove(row);
                 //Recalculate encountered %
-                foreach (KeyValuePair<TemtemDataRow, TemtemTableRowUI> entry in UIRows)
+                foreach (KeyValuePair<TemtemDataRow, Tuple<TemtemTableRowUI,IndividualTrackerWindow>> entry in UIElements)
                 {
                     entry.Key.encounteredPercent = entry.Key.encountered / (double)dataTable.total.encountered;
-                    entry.Value.UpdateRow();
+                    entry.Value.Item1.UpdateRow();
+                    entry.Value.Item2.UpdateWindow();
                 }
 
                 SetLastChangeTime();
             }
+        }
+
+        public void ShowIndividualWindow(TemtemDataRow row)
+        {
+            UIElements[row].Item2.Show();
         }
 
         public void AddTemtem(string temtemName)
@@ -135,8 +145,8 @@ namespace TemtemTracker.Controllers
                         encountered = 0
                     };
                     dataTable.rows.Add(targetRow);
-                    UIRows[targetRow] = new TemtemTableRowUI(targetRow, this);
-                    trackerUI.AddRowToTable(UIRows[targetRow]);
+                    UIElements[targetRow] = new Tuple<TemtemTableRowUI, IndividualTrackerWindow>(new TemtemTableRowUI(targetRow, this), new IndividualTrackerWindow(targetRow));
+                    trackerUI.AddRowToTable(UIElements[targetRow].Item1);
                 }
                 //Calculate stuff
                 dataTable.total.encountered++;
@@ -146,13 +156,15 @@ namespace TemtemTracker.Controllers
                 targetRow.lumaChance = lumaCalculator.CalculateChance(targetRow.encountered, targetRow.name);
                 targetRow.timeToLuma = lumaCalculator.GetTimeToLuma(targetRow.encountered, dataTable.timer.durationTime, targetRow.name);
                 targetRow.encounteredPercent = targetRow.encountered / (double)dataTable.total.encountered;
-                UIRows[targetRow].UpdateRow();
+                UIElements[targetRow].Item1.UpdateRow();
+                UIElements[targetRow].Item2.UpdateWindow();
                 trackerUI.UpdateTotal();
                 //Recalculate encountered %
-                foreach (KeyValuePair<TemtemDataRow, TemtemTableRowUI> entry in UIRows)
+                foreach (KeyValuePair<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>> entry in UIElements)
                 {
                     entry.Key.encounteredPercent = entry.Key.encountered / (double)dataTable.total.encountered;
-                    entry.Value.UpdateRow();
+                    entry.Value.Item1.UpdateRow();
+                    entry.Value.Item2.UpdateWindow();
                 }
                 UpdateTemtemH();
                 SetLastChangeTime();
@@ -165,7 +177,12 @@ namespace TemtemTracker.Controllers
             {
                 dataTable.rows.Clear();
                 trackerUI.RemoveAllTableRows();
-                UIRows.Clear();
+                //Close all windows
+                foreach (KeyValuePair<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>> entry in UIElements)
+                {
+                    entry.Value.Item2.Close();
+                }
+                UIElements.Clear();
                 dataTable.timer.durationTime = 0;
                 dataTable.timer.temtemCount = 0;
                 dataTable.total.encountered = 0;
@@ -179,19 +196,19 @@ namespace TemtemTracker.Controllers
             }
         }
 
-        public void UpdateLumaTimes()
+        public void UpdateLumaTimes(object sender, UserSettings userSettings)
         {
             lock (saveLock)
             {
-                foreach (KeyValuePair<TemtemDataRow, TemtemTableRowUI> entry in UIRows)
+                foreach (KeyValuePair<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>> entry in UIElements)
                 {
                     entry.Key.timeToLuma = lumaCalculator.GetTimeToLuma(entry.Key.encountered, dataTable.timer.durationTime, entry.Key.name);
-                    entry.Value.UpdateRow();
+                    entry.Value.Item1.UpdateRow();
+                    entry.Value.Item2.UpdateWindow();
                 }
                 dataTable.total.timeToLuma = lumaCalculator.GetTimeToLuma(dataTable.total.encountered, dataTable.timer.durationTime, dataTable.total.name);
                 trackerUI.UpdateTotal();
             }
-
         }
 
         public void IncrementTimer()
@@ -200,6 +217,10 @@ namespace TemtemTracker.Controllers
             {
                 dataTable.timer.durationTime += 1000;
                 trackerUI.UpdateTime(dataTable.timer.durationTime);
+                foreach (KeyValuePair<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>> entry in UIElements)
+                {
+                    entry.Value.Item2.UpdateTime(dataTable.timer.durationTime);
+                }
             }
         }
 
@@ -240,7 +261,12 @@ namespace TemtemTracker.Controllers
             lock (saveLock)
             {
                 dataTable.timer.temtemCount = dataTable.total.encountered;
-                trackerUI.UpdateTemtemH(dataTable.timer.temtemCount / ((double)dataTable.timer.durationTime / 3600000));
+                double temtemH = dataTable.timer.temtemCount / ((double)dataTable.timer.durationTime / 3600000);
+                trackerUI.UpdateTemtemH(temtemH);
+                foreach (KeyValuePair<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>> entry in UIElements)
+                {
+                    entry.Value.Item2.UpdateTemtemH(temtemH);
+                }
             }
         }
 

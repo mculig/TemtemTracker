@@ -164,7 +164,7 @@
             0,
             0,
             0});
-            this.inactivityTreshold.ValueChanged += new System.EventHandler(this.inactivityTreshold_ValueChanged);
+            this.inactivityTreshold.ValueChanged += new System.EventHandler(this.InactivityTreshold_ValueChanged);
             // 
             // checkboxInactivity
             // 
@@ -175,7 +175,7 @@
             this.checkboxInactivity.TabIndex = 0;
             this.checkboxInactivity.Text = "Pause timer when inactive";
             this.checkboxInactivity.UseVisualStyleBackColor = true;
-            this.checkboxInactivity.CheckedChanged += new System.EventHandler(this.checkboxInactivity_CheckedChanged);
+            this.checkboxInactivity.CheckedChanged += new System.EventHandler(this.CheckboxInactivity_CheckedChanged);
             // 
             // labelAutosaveInterval
             // 

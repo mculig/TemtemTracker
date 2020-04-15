@@ -18,16 +18,25 @@ namespace TemtemTracker
     {
         private delegate void AddRowDelegate(TemtemTableRowUI row);
         private delegate void TimerPauseDelegate(bool TimerState);
+        private delegate void StyleChangeDelegate(object sender, Style windowStyle);
+        private delegate void OpacityChangeDelegate(object sender, double opacity);
         private SettingsController settingsController;
         private TemtemTableController tableController;
         private TimerController timerController;
         private readonly AboutWindow aboutWindow;
         private Style style;
 
-        public TemtemTrackerUI()
+        public TemtemTrackerUI(SettingsController settingsController)
         {
             InitializeComponent();
             aboutWindow = new AboutWindow();
+            this.Width = ApplicationStateController.Instance.GetUserSettings().mainWindowWidth;
+            this.Height = ApplicationStateController.Instance.GetUserSettings().mainWindowHeight;
+            this.Opacity = ApplicationStateController.Instance.GetUserSettings().mainWindowOpacity;
+            this.settingsController = settingsController;
+            ApplicationStateController.Instance.StyleChanged += SetWindowStyle;
+            ApplicationStateController.Instance.MainWindowOpacityChanged += SetWindowOpacity;
+            SetWindowStyle(null, ApplicationStateController.Instance.GetWindowStyle());
         }
 
         public void SetSettingsController(SettingsController settingsController)
@@ -63,6 +72,19 @@ namespace TemtemTracker
         {
             trackerTable.Controls.Remove(row);
             RecolorTableRows();  
+        }
+
+        private void SetWindowOpacity(object sender, double opacity)
+        {
+            if (this.InvokeRequired)
+            {
+                OpacityChangeDelegate d = new OpacityChangeDelegate(SetWindowOpacity);
+                this.Invoke(d, new object[] { sender, opacity });
+            }
+            else
+            {
+                this.Opacity = opacity;
+            }         
         }
 
         private void RecolorTableRows()
@@ -135,31 +157,39 @@ namespace TemtemTracker
             
         }
 
-        public void SetWindowStyle(Style style)
+        private void SetWindowStyle(object sender, Style style)
         {
-            //Set the style
-            this.style = style;
-            //Set the foreground and background colors
-            this.BackColor = ColorTranslator.FromHtml(style.trackerBackground);
-            this.ForeColor = ColorTranslator.FromHtml(style.trackerForeground);
-            //Create a custom color table for the menu and set the colors
-            CustomMenuColorTable colorTable = new CustomMenuColorTable(style);
-            menuStrip1.Renderer = new ToolStripProfessionalRenderer(colorTable);
-            menuStrip1.BackColor = ColorTranslator.FromHtml(style.menuStripBackground);
-            menuStrip1.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
-            //Set the colors of items in the menu strip
-            foreach(ToolStripMenuItem item in menuStrip1.Items)
+            if (this.InvokeRequired)
             {
-                foreach(ToolStripItem dropdownItem in item.DropDownItems)
-                {
-                    dropdownItem.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
-                }
-                item.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
+                StyleChangeDelegate d = new StyleChangeDelegate(SetWindowStyle);
+                this.Invoke(d, new object[] { sender, style });
             }
-            //Recolor the table rows
-            RecolorTableRows();
-            //Set the time tracker UI style
-            timeTrackerUI1.SetStyle(style);
+            else
+            {
+                //Set the style
+                this.style = style;
+                //Set the foreground and background colors
+                this.BackColor = ColorTranslator.FromHtml(style.trackerBackground);
+                this.ForeColor = ColorTranslator.FromHtml(style.trackerForeground);
+                //Create a custom color table for the menu and set the colors
+                CustomMenuColorTable colorTable = new CustomMenuColorTable(style);
+                menuStrip1.Renderer = new ToolStripProfessionalRenderer(colorTable);
+                menuStrip1.BackColor = ColorTranslator.FromHtml(style.menuStripBackground);
+                menuStrip1.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
+                //Set the colors of items in the menu strip
+                foreach (ToolStripMenuItem item in menuStrip1.Items)
+                {
+                    foreach (ToolStripItem dropdownItem in item.DropDownItems)
+                    {
+                        dropdownItem.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
+                    }
+                    item.ForeColor = ColorTranslator.FromHtml(style.menuStripForeground);
+                }
+                //Recolor the table rows
+                RecolorTableRows();
+                //Set the time tracker UI style
+                timeTrackerUI1.SetStyle(style);
+            }          
         }
 
         private void PropertiesToolStripMenuItem_Click(object sender, EventArgs e)

@@ -11,7 +11,7 @@ namespace TemtemTracker.Controllers
     class UnhandledExceptionHandler
     {
 
-        private static string exceptionOutputFile = @"crashLog.txt";
+        private static readonly string exceptionOutputFile = @"crashLog.txt";
 
         public static void HandleUnhandledException(object source, UnhandledExceptionEventArgs args)
         {

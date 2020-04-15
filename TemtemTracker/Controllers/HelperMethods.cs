@@ -42,5 +42,15 @@ namespace TemtemTracker.Controllers
             };
 
         }
+        public static String DoubleToPercentage(double number)
+        {
+            return number.ToString("P");
+        }
+
+        public static String MilisToHMS(long milis)
+        {
+            TimeSpan ts = TimeSpan.FromMilliseconds(milis);
+            return ((int)ts.TotalHours).ToString("00") + ts.ToString(@"\:mm\:ss");
+        }
     }
 }

@@ -91,6 +91,7 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\ApplicationStateController.cs" />
     <Compile Include="Controllers\ConfigLoader.cs" />
     <Compile Include="Controllers\CustomMenuColorTable.cs" />
     <Compile Include="Controllers\DetectorLoop.cs" />
@@ -118,6 +119,12 @@
     <Compile Include="Data\TemtemWindowData.cs" />
     <Compile Include="Data\TimerData.cs" />
     <Compile Include="Data\UserSettings.cs" />
+    <Compile Include="IndividualTrackerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualTrackerWindow.Designer.cs">
+      <DependentUpon>IndividualTrackerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +165,9 @@
     </Compile>
     <EmbeddedResource Include="AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualTrackerWindow.resx">
+      <DependentUpon>IndividualTrackerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsWindow.resx">
       <DependentUpon>SettingsWindow.cs</DependentUpon>

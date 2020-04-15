@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TemtemTracker.Controllers;
+using TemtemTracker.Data;
 
 namespace TemtemTracker
 {
@@ -28,10 +29,10 @@ namespace TemtemTracker
             {
                 return;
             }
-            //Create the main window and controller
-            TemtemTrackerUI trackerUI = new TemtemTrackerUI();
             //Create the SettingsController
-            SettingsController settingsController = new SettingsController(configLoader.GetSpeciesList(), configLoader.GetUserSettings(), configLoader.GetStyles(), trackerUI);
+            SettingsController settingsController = new SettingsController(configLoader.GetSpeciesList());
+            //Create the main window and controller
+            TemtemTrackerUI trackerUI = new TemtemTrackerUI(settingsController);
             //Create the Luma Calculator
             LumaChanceCalculator lumaCalculator = new LumaChanceCalculator(settingsController, configLoader.GetConfig());
             //Create the TemtemTableController

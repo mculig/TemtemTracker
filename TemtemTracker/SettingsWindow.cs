@@ -307,7 +307,7 @@ namespace TemtemTracker
             }
         }
 
-        private void checkboxInactivity_CheckedChanged(object sender, EventArgs e)
+        private void CheckboxInactivity_CheckedChanged(object sender, EventArgs e)
         {
             if (!disableEventHandlers)
             {
@@ -315,7 +315,7 @@ namespace TemtemTracker
             }
         }
 
-        private void inactivityTreshold_ValueChanged(object sender, EventArgs e)
+        private void InactivityTreshold_ValueChanged(object sender, EventArgs e)
         {
             if (!disableEventHandlers)
             {

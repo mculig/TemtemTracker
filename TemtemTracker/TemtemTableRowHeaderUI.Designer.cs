@@ -121,11 +121,11 @@
             this.labelDelete.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelDelete.AutoSize = true;
             this.labelDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelete.Location = new System.Drawing.Point(729, 12);
+            this.labelDelete.Location = new System.Drawing.Point(722, 12);
             this.labelDelete.Name = "labelDelete";
-            this.labelDelete.Size = new System.Drawing.Size(62, 20);
+            this.labelDelete.Size = new System.Drawing.Size(76, 20);
             this.labelDelete.TabIndex = 6;
-            this.labelDelete.Text = "Delete";
+            this.labelDelete.Text = "Controls";
             // 
             // TemtemTableRowHeaderUI
             // 

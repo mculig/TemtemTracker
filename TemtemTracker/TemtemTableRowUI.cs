@@ -55,6 +55,10 @@ namespace TemtemTracker
             deleteButton.ForeColor = ColorTranslator.FromHtml(style.tableRowButtonForeground);
             deleteButton.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
             deleteButton.FlatAppearance.BorderColor = ColorTranslator.FromHtml(style.tableRowButtonBorderColor);
+            buttonShowIndividualWindow.BackColor = ColorTranslator.FromHtml(style.tableRowButtonBackground);
+            buttonShowIndividualWindow.ForeColor = ColorTranslator.FromHtml(style.tableRowButtonForeground);
+            buttonShowIndividualWindow.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
+            buttonShowIndividualWindow.FlatAppearance.BorderColor = ColorTranslator.FromHtml(style.tableRowButtonBorderColor);
         }
 
         public void SetLight(Style style)
@@ -65,6 +69,10 @@ namespace TemtemTracker
             deleteButton.ForeColor = ColorTranslator.FromHtml(style.tableRowButtonForeground);
             deleteButton.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
             deleteButton.FlatAppearance.BorderColor = ColorTranslator.FromHtml(style.tableRowButtonBorderColor);
+            buttonShowIndividualWindow.BackColor = ColorTranslator.FromHtml(style.tableRowButtonBackground);
+            buttonShowIndividualWindow.ForeColor = ColorTranslator.FromHtml(style.tableRowButtonForeground);
+            buttonShowIndividualWindow.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(style.tableRowButtonHoverColor);
+            buttonShowIndividualWindow.FlatAppearance.BorderColor = ColorTranslator.FromHtml(style.tableRowButtonBorderColor);
         }
 
         private String DoubleToPercent(double number)
@@ -78,9 +86,14 @@ namespace TemtemTracker
             return ((int) ts.TotalHours).ToString("00") + ts.ToString(@"\:mm\:ss");
         }
 
-        private void DeleteButtonClick(object sender, EventArgs e)
+        private void DeleteButton_Click(object sender, EventArgs e)
         {
             controller.RemoveRow(row);
+        }
+
+        private void ButtonShowIndividualWindow_Click(object sender, EventArgs e)
+        {
+            controller.ShowIndividualWindow(row);
         }
     }
 }

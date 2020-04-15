@@ -17,7 +17,7 @@ namespace TemtemTracker.Controllers
         private readonly Config config;
         private readonly UserSettings userSettings;
         private readonly List<Style> styles;
-        private Regex htmlColorRegex = new Regex(@"^#[a-fA-F0-9]{6}$"); //Regex for testing the colors in styles
+        private readonly Regex htmlColorRegex = new Regex(@"^#[a-fA-F0-9]{6}$"); //Regex for testing the colors in styles
 
         private bool loadFailed = false;
 
@@ -47,6 +47,7 @@ namespace TemtemTracker.Controllers
             {
                 string userSettingsJson = File.ReadAllText(Paths.USER_SETTINGS_PATH);
                 userSettings = JsonConvert.DeserializeObject<UserSettings>(userSettingsJson);
+                ApplicationStateController.Instance.SetUserSettings(userSettings);
             }
             else
             {
@@ -157,6 +158,8 @@ namespace TemtemTracker.Controllers
                     
                     new ErrorMessage(styleParsingErrorMessage, null);
                 }
+                //Load the styles into the application state
+                ApplicationStateController.Instance.SetStyles(styles);
             }
             else
             {
