@@ -16,5 +16,5 @@
   "pauseTimerHotkeyModifier": 262144,
   "pauseTimerHotkey": 119,
   "pauseWhenInactive": true,
-  "inactivityTreshold": 5
+  "inactivityTreshold": 10
 }
