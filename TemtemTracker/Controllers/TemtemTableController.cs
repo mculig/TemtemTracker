@@ -113,7 +113,7 @@ namespace TemtemTracker.Controllers
                     entry.Value.Item1.UpdateRow();
                     entry.Value.Item2.UpdateWindow();
                 }
-
+                UpdateTemtemH();
                 SetLastChangeTime();
             }
         }

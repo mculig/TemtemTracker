@@ -74,12 +74,14 @@ namespace TemtemTracker.Controllers
         public void ChangeStyle(Style style)
         {
             currentWindowStyle = style;
+            userSettings.windowStyle = style.styleName;
             OnStyleChanged(currentWindowStyle);
         }
 
         public void ChangeStyle(int index)
         {
             currentWindowStyle = loadedStyles[index];
+            userSettings.windowStyle = currentWindowStyle.styleName;
             OnStyleChanged(currentWindowStyle);
         }
 
