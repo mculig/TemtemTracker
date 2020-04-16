@@ -91,7 +91,6 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ApplicationStateController.cs" />
     <Compile Include="Controllers\ConfigLoader.cs" />
     <Compile Include="Controllers\CustomMenuColorTable.cs" />
     <Compile Include="Controllers\DetectorLoop.cs" />

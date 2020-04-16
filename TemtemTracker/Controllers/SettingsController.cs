@@ -15,13 +15,15 @@ namespace TemtemTracker.Controllers
     {
         private readonly UserSettings userSettings;
         private readonly SettingsWindow settingsWindow;
-        HotkeyController hotkeyController;
-        TimerController timerController;
+        private readonly List<Style> loadedStyles = null;
+        private Style currentWindowStyle = null;
+        private bool timeTrackerTimerEnabled = true;
 
-        public SettingsController(Species species)
+        public SettingsController(Species species, List<Style> styles, UserSettings userSettings)
         {
             this.settingsWindow = new SettingsWindow(this);
-            this.userSettings = ApplicationStateController.Instance.GetUserSettings();
+            this.userSettings = userSettings;
+            this.loadedStyles = styles;
 
             //Disable settings window events to avoid every change triggering its onChange event
             settingsWindow.DisableEventHandlers();
@@ -38,27 +40,19 @@ namespace TemtemTracker.Controllers
             //Populate settings window hotkey labels
             PopulateSettingsWindowHotkeyLabels();
             //Populate settings window Style ComboBox
-            settingsWindow.PopulateStyleComboBox(ApplicationStateController.Instance.GetStyleList(), userSettings.windowStyle);
+            settingsWindow.PopulateStyleComboBox(loadedStyles, userSettings.windowStyle);
             //Populate settings window disabled detection while timer paused checkbox
             settingsWindow.SetDisableDetectionCheckboxChecked(userSettings.disableDetectionWhileTimerPaused);
             //Populate settings window autosave interval
             settingsWindow.SetAutosaveInterval(userSettings.autosaveInterval);
             //Enable events again
             settingsWindow.EnableEventHandlers();
+            //Initialize styles
+            InitializeStyle();
 
         }
 
-        internal void SetTimerController(TimerController timerController)
-        {
-            this.timerController = timerController;
-        }
-
-        public void SetHotkeyController(HotkeyController hotkeyController)
-        {
-            this.hotkeyController = hotkeyController;
-        }
-
-        public UserSettings GetSettings()
+        public UserSettings GetUserSettings()
         {
             return this.userSettings;
         }
@@ -95,26 +89,63 @@ namespace TemtemTracker.Controllers
 
         public void SetMainWindowOpacity(int opacityValue)
         {
-            ApplicationStateController.Instance.ChangeMainWindowOpacity(opacityValue / (double)100);
+            double opacity = opacityValue / (double)100;
+            userSettings.mainWindowOpacity = opacity;
+            MainWindowOpacityChanged?.Invoke(this, opacity);
+        }
+
+        public event EventHandler<double> MainWindowOpacityChanged;
+
+        public Style GetWindowStyle()
+        {
+            return currentWindowStyle;
         }
 
         public void SetWindowStyle(int styleIndex) //Used
         {
-            ApplicationStateController.Instance.ChangeStyle(styleIndex);
+            currentWindowStyle = loadedStyles[styleIndex];
+            userSettings.windowStyle = currentWindowStyle.styleName;
+            StyleChanged?.Invoke(this, currentWindowStyle);
         }
+
+        public void SetWindowStyle(Style style)
+        {
+            currentWindowStyle = style;
+            userSettings.windowStyle = currentWindowStyle.styleName;
+            StyleChanged?.Invoke(this, currentWindowStyle);
+        }
+
+        public void InitializeStyle()
+        {
+            Style requestedStyle = HelperMethods.GetStyleByName(loadedStyles, userSettings.windowStyle);
+            if (requestedStyle != null)
+            {
+                SetWindowStyle(requestedStyle);
+            }
+            else
+            {
+                userSettings.windowStyle = SharedDefaults.DEFAULT_STYLE_NAME;
+                SetWindowStyle(HelperMethods.GetStyleByName(loadedStyles, SharedDefaults.DEFAULT_STYLE_NAME));
+            }
+        }
+
+        public event EventHandler<Style> StyleChanged;
 
         public void SetAutosaveInterval(int intervalMinutes)
         {
             userSettings.autosaveInterval = intervalMinutes;
-            timerController.SetAutosaveTimeInterval(intervalMinutes);
+            AutosaveIntervalChanged?.Invoke(this, intervalMinutes);
         }
+
+        public event EventHandler<int> AutosaveIntervalChanged;
 
         public void SetDetectionDisabled(bool detectionDisabled)
         {
             userSettings.disableDetectionWhileTimerPaused = detectionDisabled;
-            //To do this we simply pause the detection loop
-            timerController.SetDisableDetectionOnTimerPause(detectionDisabled);
+            DetectionDisabledChanged?.Invoke(this, detectionDisabled);
         }
+
+        public event EventHandler<bool> DetectionDisabledChanged;
 
         public void SetMainWindowSize(Size mainWindowSize)
         {
@@ -122,43 +153,66 @@ namespace TemtemTracker.Controllers
             userSettings.mainWindowHeight = mainWindowSize.Height;
         }
 
+        public bool GetTimeTrackerTimerEnabled()
+        {
+            return timeTrackerTimerEnabled;
+        }
+
+        public void ToggleTimerPaused()
+        {
+            timeTrackerTimerEnabled = !timeTrackerTimerEnabled;
+            TimerPausedToggled?.Invoke(this, timeTrackerTimerEnabled);
+        }
+
+        public event EventHandler<bool> TimerPausedToggled;
+
         public void DisableHotkeys()
         {
-            hotkeyController.DisableHotkeys();
-        }
+            ToggleHotkeysEnabled?.Invoke(this, false);
+        }      
 
         public void EnableHotkeys()
         {
-            hotkeyController.EnableHotkeys();
+            ToggleHotkeysEnabled?.Invoke(this, true);
         }
+
+        public event EventHandler<bool> ToggleHotkeysEnabled;
 
         public void RemapResetTableHotkey(Keys modifiers, Keys newKey)
         {
             userSettings.resetTableHotkeyModifier = (int) modifiers;
             userSettings.resetTableHotkey = (int) newKey;
-            hotkeyController.ReloadResetTableHotkey();
+            ResetTableHotkeyChanged?.Invoke(this, EventArgs.Empty);
             PopulateSettingsWindowHotkeyLabels();
         }
+
+        public event EventHandler ResetTableHotkeyChanged;
 
         public void RemapPauseTimerHotkey(Keys modifiers, Keys newKey)
         {
             userSettings.pauseTimerHotkeyModifier = (int)modifiers;
             userSettings.pauseTimerHotkey = (int) newKey;
-            hotkeyController.ReloadPauseTimerHotkey();
+            PauseTimerHotkeyChanged?.Invoke(this, EventArgs.Empty);
             PopulateSettingsWindowHotkeyLabels();
         }
+
+        public event EventHandler PauseTimerHotkeyChanged;
 
         public void SetTimeToLumaProbability(double probability)
         {
             userSettings.timeToLumaProbability = probability;
-            ApplicationStateController.Instance.UpdateUserSettings();
+            TimeToLumaProbabilityChanged?.Invoke(this, probability);
         }
+
+        public event EventHandler<double> TimeToLumaProbabilityChanged;
 
         public void SetPauseWhenInactive(bool checkboxValue)
         {
             userSettings.pauseWhenInactive = checkboxValue;
-            timerController.SetInactivityTimerEnabled(checkboxValue);
+            InactivityTimerEnabledChanged?.Invoke(this, checkboxValue);
         }
+
+        public event EventHandler<bool> InactivityTimerEnabledChanged;
 
         public void SetPauseWhenInactiveInterval(int intervalMinutes)
         {

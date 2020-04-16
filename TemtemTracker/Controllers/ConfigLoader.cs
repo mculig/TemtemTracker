@@ -47,7 +47,6 @@ namespace TemtemTracker.Controllers
             {
                 string userSettingsJson = File.ReadAllText(Paths.USER_SETTINGS_PATH);
                 userSettings = JsonConvert.DeserializeObject<UserSettings>(userSettingsJson);
-                ApplicationStateController.Instance.SetUserSettings(userSettings);
             }
             else
             {
@@ -158,8 +157,6 @@ namespace TemtemTracker.Controllers
                     
                     new ErrorMessage(styleParsingErrorMessage, null);
                 }
-                //Load the styles into the application state
-                ApplicationStateController.Instance.SetStyles(styles);
             }
             else
             {

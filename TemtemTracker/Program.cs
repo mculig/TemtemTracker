@@ -30,7 +30,7 @@ namespace TemtemTracker
                 return;
             }
             //Create the SettingsController
-            SettingsController settingsController = new SettingsController(configLoader.GetSpeciesList());
+            SettingsController settingsController = new SettingsController(configLoader.GetSpeciesList(), configLoader.GetStyles(), configLoader.GetUserSettings());
             //Create the main window and controller
             TemtemTrackerUI trackerUI = new TemtemTrackerUI(settingsController);
             //Create the Luma Calculator
@@ -40,7 +40,7 @@ namespace TemtemTracker
             OCRController ocr = new OCRController(configLoader.GetConfig(), configLoader.GetSpeciesList());
             DetectorLoop loop = new DetectorLoop(configLoader.GetConfig(), tableController, ocr);
             //The timer controller
-            TimerController timerController = new TimerController(trackerUI, tableController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
+            TimerController timerController = new TimerController(tableController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
             timerController.StartTimers();
             //The hotkey controller
             HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, tableController);

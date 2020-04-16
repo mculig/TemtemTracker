@@ -16,7 +16,7 @@ namespace TemtemTracker
     public partial class IndividualTrackerWindow : Form
     {
         private readonly TemtemDataRow temtemRow;
-        private readonly ApplicationStateController stateController;
+        private readonly SettingsController settingsController;
         private Style currentStyle;
         private delegate void TimeUpdateDelegate(long timeMilis);
         private delegate void TemtemHUpdateDelegate(double temtemH);
@@ -25,17 +25,17 @@ namespace TemtemTracker
         private delegate void TimerPauseDelegate(object sender, bool timerEnabled);
         private delegate void WindowUpdateDelegate();
 
-        public IndividualTrackerWindow(TemtemDataRow temtemRow)
+        public IndividualTrackerWindow(TemtemDataRow temtemRow, SettingsController settingsController)
         {
             InitializeComponent();
             this.temtemRow = temtemRow;
             UpdateWindow();
-            stateController = ApplicationStateController.Instance;
-            stateController.StyleChanged += SetWindowStyle;
-            stateController.MainWindowOpacityChanged += OpacityChanged;
-            stateController.TimerPauseChange += TimerToggled;
-            SetWindowStyle(null, stateController.GetWindowStyle());
-            OpacityChanged(null, stateController.GetUserSettings().mainWindowOpacity);
+            this.settingsController = settingsController;
+            settingsController.StyleChanged += SetWindowStyle;
+            settingsController.MainWindowOpacityChanged += OpacityChanged;
+            settingsController.TimerPausedToggled += TimerToggled;
+            SetWindowStyle(null, settingsController.GetWindowStyle());
+            OpacityChanged(null, settingsController.GetUserSettings().mainWindowOpacity);
         }
 
         private void OpacityChanged(object sender, double opacity)
@@ -69,7 +69,7 @@ namespace TemtemTracker
                 this.currentStyle = style;
                 this.BackColor = ColorTranslator.FromHtml(style.trackerBackground);
                 this.ForeColor = ColorTranslator.FromHtml(style.trackerForeground);
-                if (stateController.TimerEnabled())
+                if (settingsController.GetTimeTrackerTimerEnabled())
                 {
                     labelTimer.ForeColor = ColorTranslator.FromHtml(style.timerForeground);
                 }

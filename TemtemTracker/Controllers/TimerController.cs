@@ -23,29 +23,26 @@ namespace TemtemTracker.Controllers
 
         private readonly TemtemTableController tableController;
         private readonly DetectorLoop detectorLoop;
-        private readonly TemtemTrackerUI trackerUI;
-        private readonly ApplicationStateController stateController;
 
         private bool disableDetectionOnTimerPause;
 
-        private UserSettings userSettings;
+        private readonly UserSettings userSettings;
 
         //To prevent reentrancy in the detector loop
         int _TimerLock = 0;
         int _AutosaveLock = 0;
 
-        public TimerController(TemtemTrackerUI trackerUI, TemtemTableController tableController, DetectorLoop detectorLoop, Config config, UserSettings userSettings, SettingsController settingsController)
+        public TimerController(TemtemTableController tableController, DetectorLoop detectorLoop, Config config, UserSettings userSettings, SettingsController settingsController)
         {
             this.tableController = tableController;
             this.detectorLoop = detectorLoop;
             this.detectionLoopInterval = config.detectionLoopInterval;
             this.disableDetectionOnTimerPause = userSettings.disableDetectionWhileTimerPaused;
             this.userSettings = userSettings;
-            this.trackerUI = trackerUI;
-            this.stateController = ApplicationStateController.Instance;
-            stateController.TimerPauseChange += ToggleTimeTrackerTimerPaused;
+            settingsController.TimerPausedToggled += ToggleTimeTrackerTimerPaused;
 
-            settingsController.SetTimerController(this);
+            settingsController.DetectionDisabledChanged += SetDisableDetectionOnTimerPause;
+            settingsController.InactivityTimerEnabledChanged += SetInactivityTimerEnabled;
 
             detectionLoopTimer = new System.Timers.Timer(detectionLoopInterval);
             timeTrackerTimer = new System.Timers.Timer(TIME_TRACKER_INTERVAL);
@@ -54,7 +51,8 @@ namespace TemtemTracker.Controllers
 
             //Set the interval for the autosave timer from the user settings
             //The interval is in minutes, the timer accepts miliseconds, the function converts
-            SetAutosaveTimeInterval(userSettings.autosaveInterval);
+            SetAutosaveTimeInterval(null, userSettings.autosaveInterval);
+            settingsController.AutosaveIntervalChanged += SetAutosaveTimeInterval;
 
 
             detectionLoopTimer.Elapsed += DetectionLoopListener;
@@ -67,8 +65,6 @@ namespace TemtemTracker.Controllers
             autosaveTimer.AutoReset = true;
             inactivityTimer.AutoReset = true;
 
-            //Set this as the timer controller in the UI
-            trackerUI.SetTimerController(this);
         }
 
         public void StartTimers()
@@ -84,9 +80,9 @@ namespace TemtemTracker.Controllers
             
         }
 
-        public void ToggleTimeTrackerTimerPaused(object sender, bool timerPaused)
+        public void ToggleTimeTrackerTimerPaused(object sender, bool timerEnabled)
         {
-            timeTrackerTimer.Enabled = timerPaused;
+            timeTrackerTimer.Enabled = timerEnabled;
             if (disableDetectionOnTimerPause)
             {
                 //If we want to disable detection when the timer is paused
@@ -115,17 +111,17 @@ namespace TemtemTracker.Controllers
             inactivityTimer.Dispose();
         }
 
-        public void SetAutosaveTimeInterval(int intervalMinutes)
+        public void SetAutosaveTimeInterval(object sender, int intervalMinutes)
         {
             autosaveTimer.Interval = intervalMinutes * 60000;
         }
 
-        public void SetInactivityTimerEnabled(bool enabled)
+        public void SetInactivityTimerEnabled(object sender, bool enabled)
         {
             inactivityTimer.Enabled = enabled;
         }
 
-        public void SetDisableDetectionOnTimerPause(bool detectionDisabled)
+        public void SetDisableDetectionOnTimerPause(object sender, bool detectionDisabled)
         {
             disableDetectionOnTimerPause = detectionDisabled;
             if(!detectionDisabled && !detectionLoopTimer.Enabled)
@@ -183,7 +179,7 @@ namespace TemtemTracker.Controllers
             {
                 if (timeTrackerTimer.Enabled)
                 {
-                    stateController.StopTimer();
+                    timeTrackerTimer.Stop();
                 }
             }
         }

@@ -12,6 +12,8 @@ namespace TemtemTracker.Controllers
 {
     public class TemtemTableController
     {
+        //The settings controler
+        private readonly SettingsController settingsController;
 
         //The Luma calculator
         private readonly LumaChanceCalculator lumaCalculator;
@@ -35,6 +37,7 @@ namespace TemtemTracker.Controllers
         {
             this.trackerUI = trackerUI;
             this.lumaCalculator = lumaCalculator;
+            this.settingsController = settingsController;
 
             UIElements = new Dictionary<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>>();
 
@@ -44,7 +47,7 @@ namespace TemtemTracker.Controllers
             trackerUI.SetTableController(this);
 
             //Add event listener(s) for settings updates
-            ApplicationStateController.Instance.UserSettingsChanged += UpdateLumaTimes;
+            settingsController.TimeToLumaProbabilityChanged += UpdateLumaTimes;
 
             SetLastChangeTime();
         }
@@ -76,7 +79,7 @@ namespace TemtemTracker.Controllers
                 foreach (TemtemDataRow row in dataTable.rows)
                 {
                     TemtemTableRowUI rowUI = new TemtemTableRowUI(row, this);
-                    IndividualTrackerWindow window = new IndividualTrackerWindow(row);   
+                    IndividualTrackerWindow window = new IndividualTrackerWindow(row, settingsController);   
                     UIElements[row] = new Tuple<TemtemTableRowUI, IndividualTrackerWindow>(rowUI, window);
                     trackerUI.AddRowToTable(rowUI);
                 }
@@ -145,7 +148,7 @@ namespace TemtemTracker.Controllers
                         encountered = 0
                     };
                     dataTable.rows.Add(targetRow);
-                    UIElements[targetRow] = new Tuple<TemtemTableRowUI, IndividualTrackerWindow>(new TemtemTableRowUI(targetRow, this), new IndividualTrackerWindow(targetRow));
+                    UIElements[targetRow] = new Tuple<TemtemTableRowUI, IndividualTrackerWindow>(new TemtemTableRowUI(targetRow, this), new IndividualTrackerWindow(targetRow, settingsController));
                     trackerUI.AddRowToTable(UIElements[targetRow].Item1);
                 }
                 //Calculate stuff
@@ -196,7 +199,7 @@ namespace TemtemTracker.Controllers
             }
         }
 
-        public void UpdateLumaTimes(object sender, UserSettings userSettings)
+        public void UpdateLumaTimes(object sender, double probability)
         {
             lock (saveLock)
             {

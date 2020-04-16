@@ -22,8 +22,6 @@ namespace TemtemTracker
         private delegate void OpacityChangeDelegate(object sender, double opacity);
         private SettingsController settingsController;
         private TemtemTableController tableController;
-        private TimerController timerController;
-        private ApplicationStateController stateController;
         private readonly AboutWindow aboutWindow;
         private Style style;
 
@@ -31,15 +29,14 @@ namespace TemtemTracker
         {
             InitializeComponent();
             aboutWindow = new AboutWindow();
-            this.stateController = ApplicationStateController.Instance;
-            this.Width = stateController.GetUserSettings().mainWindowWidth;
-            this.Height = stateController.GetUserSettings().mainWindowHeight;
-            this.Opacity = stateController.GetUserSettings().mainWindowOpacity;
-            stateController.TimerPauseChange += TogglePauseTimerUIIndication;
+            this.Width = settingsController.GetUserSettings().mainWindowWidth;
+            this.Height = settingsController.GetUserSettings().mainWindowHeight;
+            this.Opacity = settingsController.GetUserSettings().mainWindowOpacity;
+            settingsController.TimerPausedToggled += TogglePauseTimerUIIndication;
             this.settingsController = settingsController;
-            ApplicationStateController.Instance.StyleChanged += SetWindowStyle;
-            ApplicationStateController.Instance.MainWindowOpacityChanged += SetWindowOpacity;
-            SetWindowStyle(null, ApplicationStateController.Instance.GetWindowStyle());
+            settingsController.StyleChanged += SetWindowStyle;
+            settingsController.MainWindowOpacityChanged += SetWindowOpacity;
+            SetWindowStyle(null, settingsController.GetWindowStyle());
         }
 
         public void SetSettingsController(SettingsController settingsController)
@@ -50,11 +47,6 @@ namespace TemtemTracker
         public void SetTableController(TemtemTableController tableController)
         {
             this.tableController = tableController;
-        }
-
-        public void SetTimerController(TimerController timerController)
-        {
-            this.timerController = timerController;
         }
 
         public void AddRowToTable(TemtemTableRowUI row)
@@ -207,7 +199,7 @@ namespace TemtemTracker
 
         private void PauseTimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            stateController.ToggleTimerPaused();
+            settingsController.ToggleTimerPaused();
         }
 
         private void TemtemTrackerUI_ResizeEnd(object sender, EventArgs e)

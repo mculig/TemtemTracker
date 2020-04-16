@@ -14,7 +14,7 @@ namespace TemtemTracker.Controllers
 
         public LumaChanceCalculator(SettingsController settingsController, Config config)
         {
-            this.userSettings = settingsController.GetSettings();
+            this.userSettings = settingsController.GetUserSettings();
             this.config = config;
         }
 
