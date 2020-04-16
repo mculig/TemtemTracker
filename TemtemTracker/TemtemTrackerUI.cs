@@ -17,12 +17,13 @@ namespace TemtemTracker
     public partial class TemtemTrackerUI : Form
     {
         private delegate void AddRowDelegate(TemtemTableRowUI row);
-        private delegate void TimerPauseDelegate(bool TimerState);
+        private delegate void TimerPauseDelegate(object sender, bool TimerState);
         private delegate void StyleChangeDelegate(object sender, Style windowStyle);
         private delegate void OpacityChangeDelegate(object sender, double opacity);
         private SettingsController settingsController;
         private TemtemTableController tableController;
         private TimerController timerController;
+        private ApplicationStateController stateController;
         private readonly AboutWindow aboutWindow;
         private Style style;
 
@@ -30,9 +31,11 @@ namespace TemtemTracker
         {
             InitializeComponent();
             aboutWindow = new AboutWindow();
-            this.Width = ApplicationStateController.Instance.GetUserSettings().mainWindowWidth;
-            this.Height = ApplicationStateController.Instance.GetUserSettings().mainWindowHeight;
-            this.Opacity = ApplicationStateController.Instance.GetUserSettings().mainWindowOpacity;
+            this.stateController = ApplicationStateController.Instance;
+            this.Width = stateController.GetUserSettings().mainWindowWidth;
+            this.Height = stateController.GetUserSettings().mainWindowHeight;
+            this.Opacity = stateController.GetUserSettings().mainWindowOpacity;
+            stateController.TimerPauseChange += TogglePauseTimerUIIndication;
             this.settingsController = settingsController;
             ApplicationStateController.Instance.StyleChanged += SetWindowStyle;
             ApplicationStateController.Instance.MainWindowOpacityChanged += SetWindowOpacity;
@@ -135,12 +138,12 @@ namespace TemtemTracker
             pauseTimerToolStripMenuItem.ShortcutKeyDisplayString = pauseTimerHotkey;
         }
 
-        public void TogglePauseTimerUIIndication(bool timerState)
+        public void TogglePauseTimerUIIndication(object sender, bool timerState)
         {
             if (this.InvokeRequired)
             {
                 TimerPauseDelegate d = new TimerPauseDelegate(TogglePauseTimerUIIndication);
-                this.Invoke(d, new object[] { timerState });
+                this.Invoke(d, new object[] { sender, timerState });
             }
             else
             {
@@ -204,8 +207,7 @@ namespace TemtemTracker
 
         private void PauseTimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool timerState = timerController.ToggleTimeTrackerTimerPaused();
-            TogglePauseTimerUIIndication(timerState);
+            stateController.ToggleTimerPaused();
         }
 
         private void TemtemTrackerUI_ResizeEnd(object sender, EventArgs e)

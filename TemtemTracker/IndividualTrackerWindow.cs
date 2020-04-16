@@ -16,10 +16,13 @@ namespace TemtemTracker
     public partial class IndividualTrackerWindow : Form
     {
         private readonly TemtemDataRow temtemRow;
+        private readonly ApplicationStateController stateController;
+        private Style currentStyle;
         private delegate void TimeUpdateDelegate(long timeMilis);
         private delegate void TemtemHUpdateDelegate(double temtemH);
         private delegate void StyleChangeDelegate(object sender, Style style);
         private delegate void OpacityChangeDelegate(object sender, double opacity);
+        private delegate void TimerPauseDelegate(object sender, bool timerEnabled);
         private delegate void WindowUpdateDelegate();
 
         public IndividualTrackerWindow(TemtemDataRow temtemRow)
@@ -27,10 +30,12 @@ namespace TemtemTracker
             InitializeComponent();
             this.temtemRow = temtemRow;
             UpdateWindow();
-            ApplicationStateController.Instance.StyleChanged += SetWindowStyle;
-            ApplicationStateController.Instance.MainWindowOpacityChanged += OpacityChanged;
-            SetWindowStyle(null, ApplicationStateController.Instance.GetWindowStyle());
-            OpacityChanged(null, ApplicationStateController.Instance.GetUserSettings().mainWindowOpacity);
+            stateController = ApplicationStateController.Instance;
+            stateController.StyleChanged += SetWindowStyle;
+            stateController.MainWindowOpacityChanged += OpacityChanged;
+            stateController.TimerPauseChange += TimerToggled;
+            SetWindowStyle(null, stateController.GetWindowStyle());
+            OpacityChanged(null, stateController.GetUserSettings().mainWindowOpacity);
         }
 
         private void OpacityChanged(object sender, double opacity)
@@ -56,8 +61,17 @@ namespace TemtemTracker
             else
             {
                 //Set the foreground and background colors
+                this.currentStyle = style;
                 this.BackColor = ColorTranslator.FromHtml(style.trackerBackground);
                 this.ForeColor = ColorTranslator.FromHtml(style.trackerForeground);
+                if (stateController.TimerEnabled())
+                {
+                    labelTimer.ForeColor = ColorTranslator.FromHtml(style.timerForeground);
+                }
+                else
+                {
+                    labelTimer.ForeColor = ColorTranslator.FromHtml(style.timerPausedForeground);
+                }
             }         
         }
 
@@ -102,6 +116,26 @@ namespace TemtemTracker
                 labelEncounteredPercent.Text = HelperMethods.DoubleToPercentage(temtemRow.encounteredPercent);
             }
 
+        }
+
+        private void TimerToggled(object sender, bool timerEnabled)
+        {
+            if (this.InvokeRequired)
+            {
+                TimerPauseDelegate d = new TimerPauseDelegate(TimerToggled);
+                this.Invoke(d, new object[] { sender, timerEnabled });
+            }
+            else
+            {
+                if (timerEnabled)
+                {
+                    labelTimer.ForeColor = ColorTranslator.FromHtml(currentStyle.timerForeground);
+                }
+                else
+                {
+                    labelTimer.ForeColor = ColorTranslator.FromHtml(currentStyle.timerPausedForeground);
+                }
+            }
         }
 
         private void IndividualTrackerWindow_FormClosing(object sender, FormClosingEventArgs e)

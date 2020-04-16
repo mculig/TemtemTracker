@@ -24,6 +24,7 @@ namespace TemtemTracker.Controllers
         private readonly TemtemTableController tableController;
         private readonly DetectorLoop detectorLoop;
         private readonly TemtemTrackerUI trackerUI;
+        private readonly ApplicationStateController stateController;
 
         private bool disableDetectionOnTimerPause;
 
@@ -41,6 +42,8 @@ namespace TemtemTracker.Controllers
             this.disableDetectionOnTimerPause = userSettings.disableDetectionWhileTimerPaused;
             this.userSettings = userSettings;
             this.trackerUI = trackerUI;
+            this.stateController = ApplicationStateController.Instance;
+            stateController.TimerPauseChange += ToggleTimeTrackerTimerPaused;
 
             settingsController.SetTimerController(this);
 
@@ -81,9 +84,9 @@ namespace TemtemTracker.Controllers
             
         }
 
-        public bool ToggleTimeTrackerTimerPaused()
+        public void ToggleTimeTrackerTimerPaused(object sender, bool timerPaused)
         {
-            timeTrackerTimer.Enabled = !timeTrackerTimer.Enabled;
+            timeTrackerTimer.Enabled = timerPaused;
             if (disableDetectionOnTimerPause)
             {
                 //If we want to disable detection when the timer is paused
@@ -98,7 +101,6 @@ namespace TemtemTracker.Controllers
                     detectionLoopTimer.Stop();
                 }
             }
-            return timeTrackerTimer.Enabled;
         }
 
         public void DisposeTimers()
@@ -181,8 +183,7 @@ namespace TemtemTracker.Controllers
             {
                 if (timeTrackerTimer.Enabled)
                 {
-                    timeTrackerTimer.Stop();
-                    trackerUI.TogglePauseTimerUIIndication(timeTrackerTimer.Enabled);
+                    stateController.StopTimer();
                 }
             }
         }

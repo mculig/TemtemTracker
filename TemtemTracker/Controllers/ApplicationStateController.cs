@@ -16,6 +16,7 @@ namespace TemtemTracker.Controllers
         List<Style> loadedStyles=null;
         Style currentWindowStyle=null;
         UserSettings userSettings=null;
+        bool timerEnabled = true;
 
         private ApplicationStateController()
         {
@@ -124,5 +125,31 @@ namespace TemtemTracker.Controllers
         }
 
         public event EventHandler<double> MainWindowOpacityChanged;
+
+        //Method and event for pausing the timer
+
+        public void ToggleTimerPaused()
+        {
+            timerEnabled = !timerEnabled;
+            OnTimerPauseChange(timerEnabled);
+        }
+
+        public void StopTimer()
+        {
+            timerEnabled = false;
+            OnTimerPauseChange(timerEnabled);
+        }
+
+        public bool TimerEnabled()
+        {
+            return timerEnabled;
+        }
+
+        protected virtual void OnTimerPauseChange(bool timerPaused)
+        {
+            TimerPauseChange?.Invoke(this, timerPaused);
+        }
+
+        public event EventHandler<bool> TimerPauseChange;
     }
 }

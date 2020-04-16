@@ -15,8 +15,8 @@ namespace TemtemTracker.Controllers
 
         private readonly SettingsController settingsController;
         private readonly TemtemTrackerUI trackerUI;
-        private readonly TimerController timerController;
         private readonly TemtemTableController tableController;
+        private readonly ApplicationStateController stateController;
         private Keys resetTableHotkey;
         private Keys pauseTimerHotkey;
         private Keys resetTableHotkeyModifiers;
@@ -28,12 +28,12 @@ namespace TemtemTracker.Controllers
         private readonly int RESET_TABLE_HOTKEY_ID = 0;
         private readonly int PAUSE_TIMER_HOTKEY_ID = 1;
 
-        public HotkeyController(SettingsController settingsController, TemtemTrackerUI trackerUI, TimerController timerController, TemtemTableController tableController)
+        public HotkeyController(SettingsController settingsController, TemtemTrackerUI trackerUI, TemtemTableController tableController)
         {
             this.settingsController = settingsController;
             this.trackerUI = trackerUI;
-            this.timerController = timerController;
             this.tableController = tableController;
+            this.stateController = ApplicationStateController.Instance;
             settingsController.SetHotkeyController(this);
 
             //Get the hotkeys from settings
@@ -70,8 +70,8 @@ namespace TemtemTracker.Controllers
                 if ( key== pauseTimerHotkey)
                 {
                     //Toggle the tracker time
-                    bool timerState = timerController.ToggleTimeTrackerTimerPaused();
-                    trackerUI.TogglePauseTimerUIIndication(timerState);
+                    stateController.ToggleTimerPaused();
+                    //The rest of this needs to be removed and replaced with event listeners in the respective places
                     tableController.SetLastChangeTime(); //On unpause we want to reset the inactivity timer
                 }
             }

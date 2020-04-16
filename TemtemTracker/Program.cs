@@ -43,7 +43,7 @@ namespace TemtemTracker
             TimerController timerController = new TimerController(trackerUI, tableController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
             timerController.StartTimers();
             //The hotkey controller
-            HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, timerController, tableController);
+            HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, tableController);
             //Add listeners to application exit
             Application.ApplicationExit += new EventHandler((Object source, EventArgs args) => {
                 //Remove timers after run is over
