@@ -47,7 +47,12 @@ namespace TemtemTracker
             }
             else
             {
-                this.Opacity = opacity;
+                if(!this.Disposing && !this.IsDisposed)
+                {
+                    //Very rarely the control might be disposing or disposed when this triggers
+                    //So for safety reasons here is a check
+                    this.Opacity = opacity;
+                }      
             }
         }
 
