@@ -1,3 +1,29 @@
+### V3.0
+
+Version 3 is a port to C# with optimizations, rewrites and cleanup
+
+#### New features
+
+- Opacity. Make the tracker transparent and get it out of your way.
+- Window Styles. Chose the window design that you like best. Tsukki is my favourite :)
+- Visual indication of paused time. See if your timer is paused.
+- Hotkey remapping. No longer be at the mercy of my poor choice of hotkeys
+- Autosave. PC crashed? No worries! Your tracking data is automatically saved now.
+- Save/Load. Want to track multiple things? Save your current table and refresh the timer. Load it later and continue tracking!
+- Don't want the tracker showing you caught a Temtem when it was paused? There's an option for that in the settings.
+- Sexy icons by Alice (Parou) Peters [alicepeters.de](https://alicepeters.de), [parou.moe](https://parou.moe)
+- Added about window with a little info
+- Pause and Reset now also show up in menu with shortcuts shown, in case you forget.
+- Added error messages for certain problems, you will hopefully never see these :)
+
+#### Bugfixes/optimization
+
+- Severely reduced memory and CPU impact by switching to C#
+- Optimizations in detection loop to reduce CPU usage
+- Fixed other windows sometimes tricking the tracker due to having Temtem in their names
+- Improved detection algorithm now supports low resolutions (tested 720p)
+- Better pre-OCR cleanup to minimize false detections
+
 ### V2.5
 
 #### Bugfixes/optimization

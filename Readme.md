@@ -1,5 +1,7 @@
 # Temtem Tracker
 
+### Scroll to Releases below for download
+
 Temtem Tracker is a tracker for encountered Temtem based on Optical Character Recognition. 
 
 The tracker: 
@@ -33,8 +35,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-- [TemtemTracker V3](https://github.com/mculig/TemtemTracker/releases/download/V3.0/TemtemTracker_v3.0_x64.rar)
-- [TemtemTracker V3 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V3.0/TemtemTracker_v3.0_x86.rar)
+- [TemtemTracker V3.1](https://github.com/mculig/TemtemTracker/releases/download/V3.1/TemtemTracker_v3.1_x64.zip)
+- [TemtemTracker V3.1 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V3.1/TemtemTracker_v3.1_x86.zip)
 
 #### Old releases:
 
@@ -55,31 +57,22 @@ These can be remapped in the settings
 
 ## Update notes
 
-### V3.0
-
-Version 3 is a port to C# with optimizations, rewrites and cleanup
+### V3.1
 
 #### New features
 
-- Opacity. Make the tracker transparent and get it out of your way.
-- Window Styles. Chose the window design that you like best. Tsukki is my favourite :)
-- Visual indication of paused time. See if your timer is paused.
-- Hotkey remapping. No longer be at the mercy of my poor choice of hotkeys
-- Autosave. PC crashed? No worries! Your tracking data is automatically saved now.
-- Save/Load. Want to track multiple things? Save your current table and refresh the timer. Load it later and continue tracking!
-- Don't want the tracker showing you caught a Temtem when it was paused? There's an option for that in the settings.
-- Sexy icons by Alice (Parou) Peters [alicepeters.de](https://alicepeters.de), [parou.moe](https://parou.moe)
-- Added about window with a little info
-- Pause and Reset now also show up in menu with shortcuts shown, in case you forget.
-- Added error messages for certain problems, you will hopefully never see these :)
+- Added 16:3 and 4:3 aspect ratios to config
+- Added support for multiple Temtem windows/clients running simultaneously
+- Added log generation for unhandled crashes
+- Added auto-pause feature to settings
+- Changed style organization from single file to individual style folders/manifests. This should make it easier to share styles
+- Added more robust and informative error handling for styles to support style development
+- Added additional options to styles: tableRowButtonBorderColor and toolStripBackground
+- Added individual tracking windows, minimalist windows that can be used to track a single Temtem while still keeping an eye on time and temtem/h. 
 
 #### Bugfixes/optimization
 
-- Severely reduced memory and CPU impact by switching to C#
-- Optimizations in detection loop to reduce CPU usage
-- Fixed other windows sometimes tricking the tracker due to having Temtem in their names
-- Improved detection algorithm now supports low resolutions (tested 720p)
-- Better pre-OCR cleanup to minimize false detections
+- Fixed detection not working monitors other than main monitor
 
 ### Update history
 
