@@ -23,10 +23,12 @@ namespace TemtemTracker.Controllers
 
         private readonly TemtemTableController tableController;
         private readonly DetectorLoop detectorLoop;
+        private readonly SettingsController settingsController;
 
         private bool disableDetectionOnTimerPause;
 
         private readonly UserSettings userSettings;
+
 
         //To prevent reentrancy in the detector loop
         int _TimerLock = 0;
@@ -39,6 +41,7 @@ namespace TemtemTracker.Controllers
             this.detectionLoopInterval = config.detectionLoopInterval;
             this.disableDetectionOnTimerPause = userSettings.disableDetectionWhileTimerPaused;
             this.userSettings = userSettings;
+            this.settingsController = settingsController;
             settingsController.TimerPausedToggled += ToggleTimeTrackerTimerPaused;
 
             settingsController.DetectionDisabledChanged += SetDisableDetectionOnTimerPause;
@@ -179,7 +182,7 @@ namespace TemtemTracker.Controllers
             {
                 if (timeTrackerTimer.Enabled)
                 {
-                    timeTrackerTimer.Stop();
+                    settingsController.StopTimer();
                 }
             }
         }

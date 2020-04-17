@@ -21,9 +21,9 @@ namespace TemtemTracker.Controllers
 
         public SettingsController(Species species, List<Style> styles, UserSettings userSettings)
         {
-            this.settingsWindow = new SettingsWindow(this);
+            settingsWindow = new SettingsWindow(this);
             this.userSettings = userSettings;
-            this.loadedStyles = styles;
+            loadedStyles = styles;
 
             //Disable settings window events to avoid every change triggering its onChange event
             settingsWindow.DisableEventHandlers();
@@ -156,6 +156,12 @@ namespace TemtemTracker.Controllers
         public bool GetTimeTrackerTimerEnabled()
         {
             return timeTrackerTimerEnabled;
+        }
+
+        public void StopTimer()
+        {
+            timeTrackerTimerEnabled = false;
+            TimerPausedToggled?.Invoke(this, timeTrackerTimerEnabled);
         }
 
         public void ToggleTimerPaused()
