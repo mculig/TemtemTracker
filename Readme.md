@@ -55,6 +55,11 @@ Default:
 
 These can be remapped in the settings
 
+Row buttons:
+
+X - Delete row
+W - Open individual row window
+
 ## Update notes
 
 ### V3.1
