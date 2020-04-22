@@ -75,39 +75,39 @@
             // 
             // labelEncounteredPercent
             // 
-            this.labelEncounteredPercent.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelEncounteredPercent.AutoSize = true;
+            this.labelEncounteredPercent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelEncounteredPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelEncounteredPercent.Location = new System.Drawing.Point(262, 18);
+            this.labelEncounteredPercent.Location = new System.Drawing.Point(256, 0);
             this.labelEncounteredPercent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelEncounteredPercent.Name = "labelEncounteredPercent";
-            this.labelEncounteredPercent.Size = new System.Drawing.Size(106, 29);
+            this.labelEncounteredPercent.Size = new System.Drawing.Size(118, 65);
             this.labelEncounteredPercent.TabIndex = 2;
             this.labelEncounteredPercent.Text = "100.00%";
             this.labelEncounteredPercent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelEncounters
             // 
-            this.labelEncounters.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelEncounters.AutoSize = true;
+            this.labelEncounters.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelEncounters.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelEncounters.Location = new System.Drawing.Point(24, 18);
+            this.labelEncounters.Location = new System.Drawing.Point(4, 0);
             this.labelEncounters.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelEncounters.Name = "labelEncounters";
-            this.labelEncounters.Size = new System.Drawing.Size(78, 29);
+            this.labelEncounters.Size = new System.Drawing.Size(118, 65);
             this.labelEncounters.TabIndex = 0;
             this.labelEncounters.Text = "20000";
             this.labelEncounters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelChanceLuma
             // 
-            this.labelChanceLuma.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelChanceLuma.AutoSize = true;
+            this.labelChanceLuma.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelChanceLuma.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelChanceLuma.Location = new System.Drawing.Point(136, 18);
+            this.labelChanceLuma.Location = new System.Drawing.Point(130, 0);
             this.labelChanceLuma.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelChanceLuma.Name = "labelChanceLuma";
-            this.labelChanceLuma.Size = new System.Drawing.Size(106, 29);
+            this.labelChanceLuma.Size = new System.Drawing.Size(118, 65);
             this.labelChanceLuma.TabIndex = 1;
             this.labelChanceLuma.Text = "100.00%";
             this.labelChanceLuma.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -132,26 +132,26 @@
             // 
             // labelTimer
             // 
-            this.labelTimer.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelTimer.AutoSize = true;
+            this.labelTimer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTimer.Location = new System.Drawing.Point(43, 14);
+            this.labelTimer.Location = new System.Drawing.Point(4, 0);
             this.labelTimer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTimer.Name = "labelTimer";
-            this.labelTimer.Size = new System.Drawing.Size(103, 29);
+            this.labelTimer.Size = new System.Drawing.Size(181, 57);
             this.labelTimer.TabIndex = 1;
             this.labelTimer.Text = "00:00:00";
             this.labelTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelTemtemPerHour
             // 
-            this.labelTemtemPerHour.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelTemtemPerHour.AutoSize = true;
+            this.labelTemtemPerHour.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelTemtemPerHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTemtemPerHour.Location = new System.Drawing.Point(241, 14);
+            this.labelTemtemPerHour.Location = new System.Drawing.Point(193, 0);
             this.labelTemtemPerHour.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTemtemPerHour.Name = "labelTemtemPerHour";
-            this.labelTemtemPerHour.Size = new System.Drawing.Size(84, 29);
+            this.labelTemtemPerHour.Size = new System.Drawing.Size(181, 57);
             this.labelTemtemPerHour.TabIndex = 2;
             this.labelTemtemPerHour.Text = "250.00";
             this.labelTemtemPerHour.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
