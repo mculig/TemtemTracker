@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -45,7 +46,10 @@ namespace TemtemTracker
             //The hotkey controller
             HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, tableController);
             //Add listeners to application exit
-            Application.ApplicationExit += new EventHandler((Object source, EventArgs args) => {
+            trackerUI.FormClosing += new FormClosingEventHandler((object source, FormClosingEventArgs e) =>
+            {
+                //Prevent shutdown during close
+                User32.ShutdownBlockReasonCreate(trackerUI.Handle, "Saving! Please wait!");
                 //Remove timers after run is over
                 timerController.DisposeTimers();
                 //Unregister hotkeys
@@ -53,8 +57,10 @@ namespace TemtemTracker
                 //Save Config and stuff
                 tableController.SaveTable();
                 settingsController.SaveSettings();
-            });
+                //Allow shutdown again
+                User32.ShutdownBlockReasonDestroy(trackerUI.Handle);
 
+            });
             //Run the app
             Application.Run(trackerUI);       
         }

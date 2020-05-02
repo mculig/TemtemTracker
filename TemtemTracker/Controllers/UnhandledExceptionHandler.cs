@@ -18,7 +18,7 @@ namespace TemtemTracker.Controllers
             Exception e = (Exception)args.ExceptionObject;
             using(System.IO.StreamWriter output = new StreamWriter(exceptionOutputFile))
             {
-                output.WriteLine("[EXCEPTION][" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "]: " +e.Message);
+                output.WriteLine("[EXCEPTION][" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "]: " + e.Message + e.StackTrace);
             }
         }
 
@@ -26,7 +26,7 @@ namespace TemtemTracker.Controllers
         {
             using (System.IO.StreamWriter output = new StreamWriter(exceptionOutputFile))
             {
-                output.WriteLine("[EXCEPTION][" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "]: " + e.Exception.Message);
+                output.WriteLine("[EXCEPTION][" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "]: " + e.Exception.Message + e.Exception.StackTrace);
             }
         }
     }

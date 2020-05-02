@@ -33,6 +33,8 @@ namespace TemtemTracker.Controllers
         //The time of the last change used to track activity/inactivity
         private DateTime lastChangeTime;
 
+        //Various error messages
+        private readonly string tableCorruptedErrorString = "The table file appears to be corrupted. Generating new table!";
         public TemtemTableController(TemtemTrackerUI trackerUI, LumaChanceCalculator lumaCalculator, SettingsController settingsController)
         {
             this.trackerUI = trackerUI;
@@ -66,13 +68,18 @@ namespace TemtemTracker.Controllers
                     }
                     catch
                     {
-                        new ErrorMessage("The previous auto-save file is corrupted. Generating new file!", null);
+                        new ErrorMessage(tableCorruptedErrorString, null);
                         CreateNewTable();
                     }
 
                 }
                 else
                 {
+                    CreateNewTable();
+                }
+                if (dataTable == null)
+                {
+                    new ErrorMessage(tableCorruptedErrorString, null);
                     CreateNewTable();
                 }
                 //Set up the UI

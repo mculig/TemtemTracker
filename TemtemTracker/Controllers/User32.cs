@@ -96,6 +96,12 @@ namespace TemtemTracker.Controllers
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
+        [DllImport("user32.dll")]
+        public static extern bool ShutdownBlockReasonCreate(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] string reason);
+
+        [DllImport("user32.dll")]
+        public static extern bool ShutdownBlockReasonDestroy(IntPtr hWnd);
+
         //Helper function to check a Keys enum for Alt, Control or Shift and return
         //a KeyModifiers structure with the appropriate flags set
         public static KeyModifiers KeysToKeyModifiers(Keys keys)
