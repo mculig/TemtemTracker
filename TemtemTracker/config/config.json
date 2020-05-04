@@ -112,5 +112,25 @@
 		"frame2PercentageTop":0.08875,
 		"frameWidthPercentage":0.1237,
 		"frameHeightPercentage":0.025
+	},{
+		"aspectRatio":"21:9",
+		"spot1WidthPercentage":0.3183,
+		"spot1HeightPercentage":0.8375,
+		"spot2WidthPercentage":0.3183,
+		"spot2HeightPercentage":0.925,
+		"spot3WidthPercentage":0.34069,
+		"spot3HeightPercentage":0.8375,
+		"spot4WidthPercentage":0.34069,
+		"spot4HeightPercentage":0.925,
+		"spot5WidthPercentage":0.9372,
+		"spot5HeightPercentage":0.24513,
+		"spot6WidthPercentage":0.9799,
+		"spot6HeightPercentage":0.1430,
+		"frame1PercentageLeft":0.70029,
+		"frame1PercentageTop":0.01875,
+		"frame2PercentageLeft":0.85552,
+		"frame2PercentageTop":0.06944,
+		"frameWidthPercentage":0.09273,
+		"frameHeightPercentage":0.034027
 	}]
 }
