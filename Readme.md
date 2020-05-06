@@ -1,5 +1,3 @@
-# Temtem Tracker
-
 ### Scroll to Releases below for download
 
 Temtem Tracker is a tracker for encountered Temtem based on Optical Character Recognition. 
@@ -12,7 +10,7 @@ The tracker:
 * **DOES NOT** do anything a player couldn't do themselves using pen and paper
 * **WILL NOT** get you banned
 
-![Good to go](https://github.com/mculig/TemtemTracker/blob/master/Images/good2go.PNG)
+![Good to go](Images/good2go.PNG)
 
 ## Requirements
 
