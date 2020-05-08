@@ -200,6 +200,7 @@ namespace TemtemTracker
         private void PauseTimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             settingsController.ToggleTimerPaused();
+            tableController.SetLastChangeTime(); //On unpause we want to reset the inactivity timer
         }
 
         private void TemtemTrackerUI_ResizeEnd(object sender, EventArgs e)

@@ -73,7 +73,6 @@ namespace TemtemTracker.Controllers
                 {
                     //Toggle the tracker time
                     settingsController.ToggleTimerPaused();
-                    //The rest of this needs to be removed and replaced with event listeners in the respective places
                     tableController.SetLastChangeTime(); //On unpause we want to reset the inactivity timer
                 }
             }
