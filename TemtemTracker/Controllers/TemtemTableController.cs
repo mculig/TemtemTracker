@@ -86,7 +86,7 @@ namespace TemtemTracker.Controllers
                 foreach (TemtemDataRow row in dataTable.rows)
                 {
                     TemtemTableRowUI rowUI = new TemtemTableRowUI(row, this);
-                    IndividualTrackerWindow window = new IndividualTrackerWindow(row, settingsController);   
+                    IndividualTrackerWindow window = new IndividualTrackerWindow(row, settingsController, dataTable.timer.durationTime);   
                     UIElements[row] = new Tuple<TemtemTableRowUI, IndividualTrackerWindow>(rowUI, window);
                     trackerUI.AddRowToTable(rowUI);
                 }
@@ -155,7 +155,7 @@ namespace TemtemTracker.Controllers
                         encountered = 0
                     };
                     dataTable.rows.Add(targetRow);
-                    UIElements[targetRow] = new Tuple<TemtemTableRowUI, IndividualTrackerWindow>(new TemtemTableRowUI(targetRow, this), new IndividualTrackerWindow(targetRow, settingsController));
+                    UIElements[targetRow] = new Tuple<TemtemTableRowUI, IndividualTrackerWindow>(new TemtemTableRowUI(targetRow, this), new IndividualTrackerWindow(targetRow, settingsController, dataTable.timer.durationTime));
                     trackerUI.AddRowToTable(UIElements[targetRow].Item1);
                 }
                 //Calculate stuff

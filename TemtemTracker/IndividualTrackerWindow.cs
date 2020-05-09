@@ -25,11 +25,12 @@ namespace TemtemTracker
         private delegate void TimerPauseDelegate(object sender, bool timerEnabled);
         private delegate void WindowUpdateDelegate();
 
-        public IndividualTrackerWindow(TemtemDataRow temtemRow, SettingsController settingsController)
+        public IndividualTrackerWindow(TemtemDataRow temtemRow, SettingsController settingsController, long timeMilis)
         {
             InitializeComponent();
             this.temtemRow = temtemRow;
             UpdateWindow();
+            UpdateTime(timeMilis);
             this.settingsController = settingsController;
             settingsController.StyleChanged += SetWindowStyle;
             settingsController.MainWindowOpacityChanged += OpacityChanged;
