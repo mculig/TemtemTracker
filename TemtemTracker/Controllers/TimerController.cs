@@ -22,6 +22,7 @@ namespace TemtemTracker.Controllers
         private readonly System.Timers.Timer inactivityTimer;
 
         private readonly TemtemTableController tableController;
+        private readonly SessionTimeController sessionTimeController;
         private readonly DetectorLoop detectorLoop;
         private readonly SettingsController settingsController;
 
@@ -34,9 +35,10 @@ namespace TemtemTracker.Controllers
         int _TimerLock = 0;
         int _AutosaveLock = 0;
 
-        public TimerController(TemtemTableController tableController, DetectorLoop detectorLoop, Config config, UserSettings userSettings, SettingsController settingsController)
+        public TimerController(TemtemTableController tableController, SessionTimeController sessionTimeController, DetectorLoop detectorLoop, Config config, UserSettings userSettings, SettingsController settingsController)
         {
             this.tableController = tableController;
+            this.sessionTimeController = sessionTimeController;
             this.detectorLoop = detectorLoop;
             this.detectionLoopInterval = config.detectionLoopInterval;
             this.disableDetectionOnTimerPause = userSettings.disableDetectionWhileTimerPaused;
@@ -158,6 +160,7 @@ namespace TemtemTracker.Controllers
         private void TimeTrackerListener(Object source, System.Timers.ElapsedEventArgs e)
         {
             tableController.IncrementTimer();
+            sessionTimeController.IncrementTimer();
         }
 
         private void AutosaveListener(object source, System.Timers.ElapsedEventArgs e)
@@ -166,6 +169,7 @@ namespace TemtemTracker.Controllers
             try
             {
                 tableController.SaveTable();
+                sessionTimeController.SaveSessionTimers();
             }
             finally
             {

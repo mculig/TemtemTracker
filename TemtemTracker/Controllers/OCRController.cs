@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,7 +37,7 @@ namespace TemtemTracker.Controllers
 
         //Maximum number of pixels that can reasonably be expected in a resized letter
         private readonly int maximumLetterPixelCount;
-
+        
         //Tesseract character whitelist
         private readonly string OCRCharWhitelist;
 
@@ -78,15 +80,13 @@ namespace TemtemTracker.Controllers
                     using (Page result = tesseract.Process(processingTask.Result))
                     {
                         string ocrTextResult = result.GetText();
-                        //Ignore any noise OR empty strings
-                        if (ocrTextResult.Length <= 3)
-                        {
-                            continue;
-                        }
                         //Run the similarity metric and get the closest actual name
                         ocrTextResult = GetClosestActualTemtemName(ocrTextResult, speciesList.species);
-
-                        results.Add(ocrTextResult);
+                        if (ocrTextResult != "") //We're going to return "" for invalid results
+                        {
+                            results.Add(ocrTextResult);
+                        }
+                        
                     }
                 }
             }
@@ -177,6 +177,7 @@ namespace TemtemTracker.Controllers
                 //Run the check on this pixel
                 PixelCheck(pixelI, scanningLine, whiteMask, imageHeight, imageWidth);
             }
+
             //Set red pixels to black and rest to white
             for (int i = 0; i < imageWidth; i++)
             {
@@ -288,13 +289,13 @@ namespace TemtemTracker.Controllers
             }
             if (objectPixelCount > maximumLetterPixelCount)
             {
-                //We've reached critical mass, this is not a letter
+                //We've reached a size that is too large to be a letter
                 //Continue the work of the stack, but now we're marking everything green
                 while(pixelStack.Count != 0)
                 {
                     //Get pixel coordinates from the stack
                     Tuple<int, int> coordinate = pixelStack.Dequeue();
-                    //Set that pixel red
+                    //Set that pixel green
                     whiteMask[coordinate.Item1, coordinate.Item2] = ARGB_GREEN;
                     //Check neighboring pixels
                     foreach (Tuple<int, int> offset in pixelOffsets)
@@ -313,8 +314,6 @@ namespace TemtemTracker.Controllers
                             if (!pixelStack.Contains(newTuple))
                             {
                                 pixelStack.Enqueue(newTuple);
-                                //Increase the count of pixels that are part of this object
-                                objectPixelCount++;
                             }
                         }
                     }
@@ -324,9 +323,25 @@ namespace TemtemTracker.Controllers
 
         private string GetClosestActualTemtemName(string input, List<string> list)
         {
+
+            if (input.IndexOf("\n") != -1)
+            {
+                input = input.Substring(0, input.IndexOf("\n"));
+            }
+            
+            if (input.IndexOf(" ") != -1)
+            {
+                input = input.Substring(0, input.IndexOf(" "));
+            }
+
+            //If our input is an empty string, return an empty string meaning the result is invalid
+            if (input.Length == 0)
+            {
+                return "";
+            }
             //These values here are purely nonsensical high values and serve no other purpose
             int minScore = 20000;
-            int minDistance = 20000;
+            int minIndex = 20000;
 
             Fastenshtein.Levenshtein lev = new Fastenshtein.Levenshtein(input);
 
@@ -336,11 +351,11 @@ namespace TemtemTracker.Controllers
                 if (score < minScore)
                 {
                     minScore = score;
-                    minDistance = list.IndexOf(element);
+                    minIndex = list.IndexOf(element);
                 }
             }
 
-            return list[minDistance];
+            return list[minIndex];
         }
 
     }

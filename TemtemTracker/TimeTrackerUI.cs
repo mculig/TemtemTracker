@@ -17,6 +17,7 @@ namespace TemtemTracker
         private static readonly string TIME_TITLE_RUNNING = "Time"; 
 
         private delegate void SafeTimeUpdateDelegate(long timeMilis);
+        private delegate void SafeSessionTimeUpdateDelegate(long sessionTimeMilis, long dayTimeMilis);
         private delegate void SafeTemtemHUpdateDelegate(double temtemH);
 
         private bool pausedState=true;
@@ -48,7 +49,32 @@ namespace TemtemTracker
             else
             {
                 TimeSpan ts = TimeSpan.FromMilliseconds(timeMilis);
-                timeLabel.Text = ((int)ts.TotalHours).ToString("00") + ts.ToString(@"\:mm\:ss");
+                timeLabel.Text = TimeSpanToString(ts);
+            }
+        }
+
+        public void UpdateSessionTime(long sessionTimeMilis, long dayTimeMilis)
+        {
+            if (this.InvokeRequired)
+            {
+                SafeSessionTimeUpdateDelegate d = new SafeSessionTimeUpdateDelegate(UpdateSessionTime);
+                try
+                {
+                    this.Invoke(d, new object[] { sessionTimeMilis, dayTimeMilis });
+                }
+                catch
+                {
+                    //An exception here will only happen if the object no longer exists. This will rarely happen on application close.
+                    //No action necessary. This is just to prevent issues
+                }
+            }
+            else
+            {
+                TimeSpan sessionTS = TimeSpan.FromMilliseconds(sessionTimeMilis);
+                TimeSpan dayTS = TimeSpan.FromMilliseconds(dayTimeMilis);
+
+                sessionTimeLabel.Text = TimeSpanToString(sessionTS);
+                dayTimeLabel.Text = TimeSpanToString(dayTS);
             }
         }
 
@@ -97,5 +123,9 @@ namespace TemtemTracker
             }
         }
 
+        private string TimeSpanToString(TimeSpan ts)
+        {
+            return ((int)ts.TotalHours).ToString("00") + ts.ToString(@"\:mm\:ss");
+        }
     }
 }

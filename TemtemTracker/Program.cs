@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -38,10 +39,17 @@ namespace TemtemTracker
             LumaChanceCalculator lumaCalculator = new LumaChanceCalculator(settingsController, configLoader.GetConfig());
             //Create the TemtemTableController
             TemtemTableController tableController = new TemtemTableController(trackerUI, lumaCalculator, settingsController);
+            //Create the SessionTimeController
+            SessionTimeController sessionTimeController = new SessionTimeController(trackerUI);
+
             OCRController ocr = new OCRController(configLoader.GetConfig(), configLoader.GetSpeciesList());
+
+            //Database controller
+            DatabaseController dbcon = DatabaseController.Instance;
+
             DetectorLoop loop = new DetectorLoop(configLoader.GetConfig(), tableController, ocr);
             //The timer controller
-            TimerController timerController = new TimerController(tableController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
+            TimerController timerController = new TimerController(tableController, sessionTimeController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
             timerController.StartTimers();
             //The hotkey controller
             HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, tableController);
@@ -57,12 +65,15 @@ namespace TemtemTracker
                 //Save Config and stuff
                 tableController.SaveTable();
                 settingsController.SaveSettings();
+                sessionTimeController.SaveSessionTimers();
                 //Allow shutdown again
                 User32.ShutdownBlockReasonDestroy(trackerUI.Handle);
 
             });
             //Run the app
-            Application.Run(trackerUI);       
+            Application.Run(trackerUI);      
+            
+
         }
     }
 }

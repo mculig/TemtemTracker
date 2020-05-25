@@ -23,12 +23,14 @@ namespace TemtemTracker
         private SettingsController settingsController;
         private TemtemTableController tableController;
         private readonly AboutWindow aboutWindow;
+        private readonly StatisticsWindow statisticsWindow;
         private Style style;
 
         public TemtemTrackerUI(SettingsController settingsController)
         {
             InitializeComponent();
             aboutWindow = new AboutWindow();
+            statisticsWindow = new StatisticsWindow();
             this.Width = settingsController.GetUserSettings().mainWindowWidth;
             this.Height = settingsController.GetUserSettings().mainWindowHeight;
             this.Opacity = settingsController.GetUserSettings().mainWindowOpacity;
@@ -117,6 +119,11 @@ namespace TemtemTracker
         public void UpdateTime(long timeMilis)
         {
             timeTrackerUI1.UpdateTime(timeMilis);
+        }
+
+        public void UpdateSessionTime(long sessionTimeMilis, long dayTimeMilis)
+        {
+            timeTrackerUI1.UpdateSessionTime(sessionTimeMilis, dayTimeMilis);
         }
 
         public void UpdateTemtemH(double temtemH)
@@ -259,5 +266,9 @@ namespace TemtemTracker
             aboutWindow.Show();
         }
 
+        private void StatisticsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            statisticsWindow.Show();
+        }
     }
 }

@@ -20,6 +20,8 @@ namespace TemtemTracker.Data
         public String spot4RGB;
         public String spot5RGB;
         public String spot6RGB;
+        public String spot7RGB;
+        public String spot8RGB;
 
         //Maximum distance between the color I'm expecting and color from the screen
         public int maxAllowedColorDistance;

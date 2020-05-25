@@ -40,6 +40,14 @@ namespace TemtemTracker.Data
         public double spot6WidthPercentage;
         public double spot6HeightPercentage;
 
+        // Detection spot 7
+        public double spot7WidthPercentage;
+        public double spot7HeightPercentage;
+
+        // Detection spot 8
+        public double spot8WidthPercentage;
+        public double spot8HeightPercentage;
+
         // Frame locations for OCR
         public double frame1PercentageLeft;
         public double frame1PercentageTop;

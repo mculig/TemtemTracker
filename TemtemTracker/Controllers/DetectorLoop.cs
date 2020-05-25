@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -47,6 +49,12 @@ namespace TemtemTracker.Controllers
         //Detection spot 6
         private readonly int spot6RGB;
 
+        //Detection spot 7
+        private readonly int spot7RGB;
+
+        //Detection spot 8
+        private readonly int spot8RGB;
+
         //The name of the window in question
         private static readonly string WINDOW_NAME = "Temtem";
 
@@ -70,6 +78,8 @@ namespace TemtemTracker.Controllers
             spot4RGB = ColorTranslator.FromHtml(config.spot4RGB).ToArgb();
             spot5RGB = ColorTranslator.FromHtml(config.spot5RGB).ToArgb();
             spot6RGB = ColorTranslator.FromHtml(config.spot6RGB).ToArgb();
+            spot7RGB = ColorTranslator.FromHtml(config.spot7RGB).ToArgb();
+            spot8RGB = ColorTranslator.FromHtml(config.spot8RGB).ToArgb();
 
             this.maxAllowedColorDistance = config.maxAllowedColorDistance;
 
@@ -156,6 +166,9 @@ namespace TemtemTracker.Controllers
                     temtemWindows[focusedWindowProcessID].detectedBattle = true;
                     //Do OCR operation. The OCR controller will dispose of the images so we're ok
                     List<string> results = ocrController.DoOCR(viewportImages);
+                    //Log the encounter in the database
+                    DatabaseController.Instance.LogEncounter(results);
+                    //Add the encounters to the UI
                     results.ForEach(result => {
                         //Here we add the detected Temtem to the UI
                         tableController.AddTemtem(result);
@@ -169,7 +182,9 @@ namespace TemtemTracker.Controllers
                 List<Color> pixelColors = GetOutOfBattleDetectionColors(temtemWindows[focusedWindowProcessID], lpPoint);
 
                 if(ColorDistance(pixelColors[0], spot5RGB) < maxAllowedColorDistance &&
-                    ColorDistance(pixelColors[1], spot6RGB) < maxAllowedColorDistance)
+                    ColorDistance(pixelColors[1], spot6RGB) < maxAllowedColorDistance &&
+                    ColorDistance(pixelColors[2], spot7RGB) < maxAllowedColorDistance &&
+                    ColorDistance(pixelColors[3], spot8RGB) < maxAllowedColorDistance)
                 {
                     //Set battle to false
                     temtemWindows[focusedWindowProcessID].detectedBattle = false;
@@ -207,7 +222,7 @@ namespace TemtemTracker.Controllers
             {
                 using (Graphics g = Graphics.FromImage(pixel))
                 {
-                    for(int i = 0; i < 4; i++)
+                    for(int i = 0; i < 4; i++) //In-battle spots are spots 1,2,3,4 so loop goes from =0 to <4
                     {
                         g.CopyFromScreen(new Point(lpPoint.X + windowData.detectionSpots[i].X, lpPoint.Y + windowData.detectionSpots[i].Y), new Point(0,0), pixel.Size);
                         detectionSpotColors.Add(pixel.GetPixel(0, 0));
@@ -224,7 +239,7 @@ namespace TemtemTracker.Controllers
             {
                 using (Graphics g = Graphics.FromImage(pixel))
                 {
-                    for(int i = 4; i < 6; i++)
+                    for(int i = 4; i < 8; i++) //Out of battle spots are spots 5,6,7,8 so loop goes from =4 to <8
                     {
                         g.CopyFromScreen(new Point(lpPoint.X + windowData.detectionSpots[i].X, lpPoint.Y + windowData.detectionSpots[i].Y), new Point(0, 0), pixel.Size);
                         detectionSpotColors.Add(pixel.GetPixel(0, 0));
@@ -273,6 +288,12 @@ namespace TemtemTracker.Controllers
             double spot6WidthPercentage = screenConfig.spot6WidthPercentage;
             double spot6HeightPercentage = screenConfig.spot6HeightPercentage;
 
+            double spot7WidthPercentage = screenConfig.spot7WidthPercentage;
+            double spot7HeightPercentage = screenConfig.spot7HeightPercentage;
+
+            double spot8WidthPercentage = screenConfig.spot8WidthPercentage;
+            double spot8HeightPercentage = screenConfig.spot8HeightPercentage;
+
             //Create points for the spots
             windowData.detectionSpots = new List<Point>
             {
@@ -281,7 +302,9 @@ namespace TemtemTracker.Controllers
                 new Point((int)Math.Ceiling(spot3WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot3HeightPercentage * gameWindowRect.Height)),
                 new Point((int)Math.Ceiling(spot4WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot4HeightPercentage * gameWindowRect.Height)),
                 new Point((int)Math.Ceiling(spot5WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot5HeightPercentage * gameWindowRect.Height)),
-                new Point((int)Math.Ceiling(spot6WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot6HeightPercentage * gameWindowRect.Height))
+                new Point((int)Math.Ceiling(spot6WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot6HeightPercentage * gameWindowRect.Height)),
+                new Point((int)Math.Ceiling(spot7WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot7HeightPercentage * gameWindowRect.Height)),
+                new Point((int)Math.Ceiling(spot8WidthPercentage * gameWindowRect.Width), (int)Math.Ceiling(spot8HeightPercentage * gameWindowRect.Height))
             };
 
             //Calculate frame locations and widths for the new size/aspect ratio
