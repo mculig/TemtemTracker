@@ -11,7 +11,6 @@ namespace TemtemTracker.Data
     {
         public DateTime dayPlaying; //The day when the day duration field way valid. A new day means starting from 0
         public long dayDuration; //Time played during this day
-        public DateTime sessionStartDay; //Day when the session started, for database purposes
         public long sessionDuration; //Time played during the last play session
     }
 }

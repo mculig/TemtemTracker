@@ -74,7 +74,7 @@ namespace TemtemTracker
                 chartWeeklyPlaytime.ResetAutoValues();
                 Series totalPlaytime = new Series();
                 totalPlaytime.ChartType = SeriesChartType.Column;
-                totalPlaytime.Name = "Playtime";
+                totalPlaytime.Name = "Playtime(minutes)";
                 for (int i = 0; i < 7; i++)
                 {
                     totalPlaytime.Points.AddXY(stats.dailyPlaytime[i].date, stats.dailyPlaytime[i].totalPlaytimeMinutes);

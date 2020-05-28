@@ -41,17 +41,17 @@
             this.chartWeeklyEncounters = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartWeeklyPlaytime = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.chartSingleDoubleBattles = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.buttonPreviousWeek = new System.Windows.Forms.Button();
             this.buttonCurrentWeek = new System.Windows.Forms.Button();
             this.buttonNextWeek = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.chartSingleDoubleBattles = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyEncounters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyPlaytime)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartSingleDoubleBattles)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // chartWeeklyEncounters
@@ -62,13 +62,13 @@
             this.chartWeeklyEncounters.Dock = System.Windows.Forms.DockStyle.Fill;
             legend3.Name = "Legend1";
             this.chartWeeklyEncounters.Legends.Add(legend3);
-            this.chartWeeklyEncounters.Location = new System.Drawing.Point(337, 3);
+            this.chartWeeklyEncounters.Location = new System.Drawing.Point(295, 3);
             this.chartWeeklyEncounters.Name = "chartWeeklyEncounters";
             series3.ChartArea = "ChartArea1";
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.chartWeeklyEncounters.Series.Add(series3);
-            this.chartWeeklyEncounters.Size = new System.Drawing.Size(662, 324);
+            this.chartWeeklyEncounters.Size = new System.Drawing.Size(580, 275);
             this.chartWeeklyEncounters.TabIndex = 4;
             this.chartWeeklyEncounters.Text = "chartWeeklyEncounters";
             // 
@@ -80,13 +80,13 @@
             this.chartWeeklyPlaytime.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Name = "Legend1";
             this.chartWeeklyPlaytime.Legends.Add(legend1);
-            this.chartWeeklyPlaytime.Location = new System.Drawing.Point(3, 333);
+            this.chartWeeklyPlaytime.Location = new System.Drawing.Point(3, 284);
             this.chartWeeklyPlaytime.Name = "chartWeeklyPlaytime";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chartWeeklyPlaytime.Series.Add(series1);
-            this.chartWeeklyPlaytime.Size = new System.Drawing.Size(996, 324);
+            this.chartWeeklyPlaytime.Size = new System.Drawing.Size(872, 275);
             this.chartWeeklyPlaytime.TabIndex = 5;
             this.chartWeeklyPlaytime.Text = "chartWeeklyEncounters";
             // 
@@ -108,8 +108,25 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1002, 660);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(878, 562);
             this.tableLayoutPanel1.TabIndex = 6;
+            // 
+            // chartSingleDoubleBattles
+            // 
+            chartArea3.Name = "ChartArea1";
+            this.chartSingleDoubleBattles.ChartAreas.Add(chartArea3);
+            this.chartSingleDoubleBattles.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            this.chartSingleDoubleBattles.Legends.Add(legend2);
+            this.chartSingleDoubleBattles.Location = new System.Drawing.Point(3, 3);
+            this.chartSingleDoubleBattles.Name = "chartSingleDoubleBattles";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartSingleDoubleBattles.Series.Add(series2);
+            this.chartSingleDoubleBattles.Size = new System.Drawing.Size(286, 275);
+            this.chartSingleDoubleBattles.TabIndex = 6;
+            this.chartSingleDoubleBattles.Text = "chart1";
             // 
             // buttonPreviousWeek
             // 
@@ -158,33 +175,16 @@
             this.panel1.Controls.Add(this.buttonRefresh);
             this.panel1.Controls.Add(this.buttonCurrentWeek);
             this.panel1.Controls.Add(this.buttonNextWeek);
-            this.panel1.Location = new System.Drawing.Point(328, 666);
+            this.panel1.Location = new System.Drawing.Point(266, 568);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(350, 67);
             this.panel1.TabIndex = 11;
-            // 
-            // chartSingleDoubleBattles
-            // 
-            chartArea3.Name = "ChartArea1";
-            this.chartSingleDoubleBattles.ChartAreas.Add(chartArea3);
-            this.chartSingleDoubleBattles.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chartSingleDoubleBattles.Legends.Add(legend2);
-            this.chartSingleDoubleBattles.Location = new System.Drawing.Point(3, 3);
-            this.chartSingleDoubleBattles.Name = "chartSingleDoubleBattles";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartSingleDoubleBattles.Series.Add(series2);
-            this.chartSingleDoubleBattles.Size = new System.Drawing.Size(328, 324);
-            this.chartSingleDoubleBattles.TabIndex = 6;
-            this.chartSingleDoubleBattles.Text = "chart1";
             // 
             // StatisticsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1002, 742);
+            this.ClientSize = new System.Drawing.Size(878, 644);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -195,8 +195,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyEncounters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyPlaytime)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartSingleDoubleBattles)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

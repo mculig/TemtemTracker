@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.IO;
-using System.Linq;
-using System.Net.Security;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,15 +13,14 @@ namespace TemtemTracker.Controllers
 
         private static DatabaseController instance = null;
         private static readonly string dbPath;
+        //When updating the days database we want to check if the current date here
+        //Matches the date of the playtime being provided
+        //If it does not we either haven't inserted this day already
+        //Or the day ticked over at midnight and we're inserting a new day
+        private static DateTime currentPlaytimeDate=DateTime.MinValue;
+        
 
         //Strings used for database work
-
-        private static readonly string CREATE_SESSION_TABLE = @"CREATE TABLE IF NOT EXISTS 
-                                                        sessions(
-                                                                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                                                date TEXT,
-                                                                length INTEGER
-                                                        )"; //Date as text is ISO8601
 
         private static readonly string CREATE_ENCOUNTER_TABLE = @"CREATE TABLE IF NOT EXISTS
                                                                   encounters(
@@ -35,7 +30,20 @@ namespace TemtemTracker.Controllers
                                                                               temtem2 TEXT
                                                                   )"; //Date as text is ISO8601
 
-        private static readonly string INSERT_SESSION = @"INSERT INTO sessions (date, length) VALUES (@date, @length)";
+        private static readonly string CREATE_DAY_TABLE = @"CREATE TABLE IF NOT EXISTS
+                                                            days(
+                                                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                                                date TEXT,
+                                                                time INTEGER
+                                                            )"; //Date as text is ISO8601
+
+        private static readonly string CHECK_DAY = @"SELECT id FROM days WHERE date=@date";
+
+        private static readonly string GET_PLAYTIME_DAY = @"SELECT time FROM days WHERE date=@date";
+
+        private static readonly string INSERT_DAY = @"INSERT INTO days (date, time) VALUES (@date, @time)";
+
+        private static readonly string UPDATE_DAY = @"UPDATE days SET time=@time WHERE date==@date";
 
         private static readonly string INSERT_ENCOUNTER = @"INSERT INTO encounters (date, temtem1, temtem2) VALUES (@date, @temtem1, @temtem2)";
 
@@ -53,11 +61,10 @@ namespace TemtemTracker.Controllers
                                                                  AND date <=@weekEnd
                                                                  GROUP BY strftime('%w', date)";
 
-        private static readonly string GET_DAILY_SESSION_TOTALS = @"SELECT strftime('%w', date), SUM(length)
-                                                                 FROM sessions
+        private static readonly string GET_DAILY_TOTALS = @"SELECT strftime('%w', date), time
+                                                                 FROM days
                                                                  WHERE date >=@weekStart
-                                                                 AND date <=@weekEnd
-                                                                 GROUP BY strftime('%w', date)";
+                                                                 AND date <=@weekEnd";
 
         //Lock for thread-safety
         private static readonly object padlock = new object();
@@ -90,15 +97,27 @@ namespace TemtemTracker.Controllers
                     {
                         con.Open();
 
-                        using (SQLiteCommand cmd = new SQLiteCommand(CREATE_SESSION_TABLE, con))
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
-
                         using(SQLiteCommand cmd = new SQLiteCommand(CREATE_ENCOUNTER_TABLE, con))
                         {
                             cmd.ExecuteNonQuery();
+                        }                    
+                        using(SQLiteCommand cmd = new SQLiteCommand(CREATE_DAY_TABLE, con))
+                        {
+                            cmd.ExecuteNonQuery();
                         }
+                        //Temporary
+
+                        using (SQLiteCommand cmd = new SQLiteCommand(@"SELECT * FROM days", con))
+                        {
+                            using (SQLiteDataReader rdr = cmd.ExecuteReader())
+                            {
+                                while (rdr.Read())
+                                {
+                                    Console.WriteLine(rdr.GetInt32(0) + " " + rdr.GetString(1) + " " + rdr.GetInt32(2));
+                                }
+                            }
+                        }
+                        
                     }
                 }      
             });
@@ -136,15 +155,47 @@ namespace TemtemTracker.Controllers
             dbThread.Start();
         }
 
+        public Task<long> GetPlaytimeDay(DateTime day)
+        {
+            Task<long> dbTask = Task.Factory.StartNew<long>(() => {
+                lock (dblock)
+                {
+                    using(SQLiteConnection con = new SQLiteConnection(dbPath))
+                    {
+                        con.Open();
+
+                        using(SQLiteCommand cmd = new SQLiteCommand(GET_PLAYTIME_DAY, con))
+                        {
+                            cmd.Parameters.AddWithValue("@date", GetTimeISO8601(day));
+                            object result = cmd.ExecuteScalar();
+                            result = (result == DBNull.Value) ? null : result;
+                            if(result == null)
+                            {
+                                return 0;
+                            }
+                            else
+                            {
+                                return (long) result;
+                            }
+                        }
+                    }
+                } 
+            });
+
+            return dbTask;
+        }
+
         public Task<TrackingStatistics> GetEncounterStatistics(Tuple<DateTime, DateTime> week)
         {
             Task<TrackingStatistics> dbTask = Task.Factory.StartNew<TrackingStatistics>(() => {
                 lock (dblock)
                 {
-                    TrackingStatistics ts = new TrackingStatistics();
-                    ts.dailyEncounters = new List<DailyEncounterStatistics>();
-                    ts.dailyPlaytime = new List<DailyPlaytimeStatistics>();
-                    for(int i = 0; i < 7; i++)
+                    TrackingStatistics ts = new TrackingStatistics
+                    {
+                        dailyEncounters = new List<DailyEncounterStatistics>(),
+                        dailyPlaytime = new List<DailyPlaytimeStatistics>()
+                    };
+                    for (int i = 0; i < 7; i++)
                     {
                         ts.dailyEncounters.Add(new DailyEncounterStatistics() {
                             date = week.Item1.AddDays(i),
@@ -195,7 +246,7 @@ namespace TemtemTracker.Controllers
                         }
 
                         //Get session totaly
-                        using(SQLiteCommand cmd = new SQLiteCommand(GET_DAILY_SESSION_TOTALS, con))
+                        using(SQLiteCommand cmd = new SQLiteCommand(GET_DAILY_TOTALS, con))
                         {
                             cmd.Parameters.AddWithValue("@weekStart", GetTimeISO8601(week.Item1));
                             cmd.Parameters.AddWithValue("@weekEnd", GetTimeISO8601(week.Item2));
@@ -217,7 +268,7 @@ namespace TemtemTracker.Controllers
             return dbTask;
         }
 
-        public void LogSession(DateTime sessionBegin, long length)
+        public void UpdatePlaytimeLog(DateTime date, long timePlayed)
         {
             Thread dbThread = new Thread(() => {
                 lock (dblock)
@@ -226,17 +277,58 @@ namespace TemtemTracker.Controllers
                     {
                         con.Open();
 
-                        using (SQLiteCommand cmd = new SQLiteCommand(INSERT_SESSION, con))
+                        if (currentPlaytimeDate != date)
                         {
-                            cmd.Parameters.AddWithValue("@date", GetTimeISO8601(sessionBegin));
-                            cmd.Parameters.AddWithValue("@length", length);
-                            cmd.ExecuteNonQuery();
+                            //Check if the current date is in the database
+                            using(SQLiteCommand cmd = new SQLiteCommand(CHECK_DAY, con))
+                            {
+                                cmd.Parameters.AddWithValue("@date", GetTimeISO8601(date));
+                                object result = cmd.ExecuteScalar();
+                                result = (result == DBNull.Value) ? null : result;
+                                if (result == null)
+                                {
+                                    //If the result is null this day isn't in the database, insert it
+                                    InsertNewDay(con, date, timePlayed);
+                                }
+                                else
+                                {
+                                    //Otherwise the day is in the database, set up our variables
+                                    currentPlaytimeDate = date;
+                                    UpdateCurrentDay(con, date, timePlayed);
+                                }
+                            }
                         }
+                        else
+                        {
+                            UpdateCurrentDay(con, date, timePlayed);
+                        }
+                        
                     }
                 }
             });
 
             dbThread.Start();
+        }
+
+        private void InsertNewDay(SQLiteConnection con, DateTime date, long timePlayed)
+        {
+            using (SQLiteCommand cmd = new SQLiteCommand(INSERT_DAY, con))
+            {
+                cmd.Parameters.AddWithValue("@date", GetTimeISO8601(date));
+                cmd.Parameters.AddWithValue("@time", timePlayed);
+                cmd.ExecuteNonQuery();
+                currentPlaytimeDate = date;
+            }
+        }
+
+        private void UpdateCurrentDay(SQLiteConnection con, DateTime date, long timePlayed)
+        {
+            using (SQLiteCommand cmd = new SQLiteCommand(UPDATE_DAY, con))
+            {
+                cmd.Parameters.AddWithValue("@time", timePlayed);
+                cmd.Parameters.AddWithValue("@date", GetTimeISO8601(date));
+                cmd.ExecuteNonQuery();
+            }
         }
 
         private string GetCurrentTimeISO8601()

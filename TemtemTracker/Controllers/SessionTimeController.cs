@@ -20,43 +20,31 @@ namespace TemtemTracker.Controllers
 
         private readonly TemtemTrackerUI trackerUI;
 
+        private readonly DatabaseController dbcon;
+
         public SessionTimeController(TemtemTrackerUI trackerUI)
         {
             this.trackerUI = trackerUI;
 
-            LoadSessionTimeFromFile(Paths.SESSION_TIME_FILE);
+            this.dbcon = DatabaseController.Instance;
+
+            //Get the current playtime from the database
+            LoadSessionTimeFromDatabase();
+
+            //Set the timers in the tracker
+            trackerUI.UpdateSessionTime(sessionTime.sessionDuration, sessionTime.dayDuration);
         }
 
-        public void LoadSessionTimeFromFile(string filename)
+        private void LoadSessionTimeFromDatabase()
         {
-            lock (saveLock)
+            Task<long> getPlaytimeToday = dbcon.GetPlaytimeDay(DateTime.Today.Date);
+            Task.WaitAll(getPlaytimeToday);
+            sessionTime = new PlayingSessionTime()
             {
-                if (File.Exists(filename))
-                {
-                    string json = File.ReadAllText(filename);
-                    try
-                    {
-                        sessionTime = JsonConvert.DeserializeObject<PlayingSessionTime>(json);
-                        //If it's a new day, set the new datetime
-                        if(sessionTime.dayPlaying.Date != DateTime.Today.Date)
-                        {
-                            sessionTime.dayDuration = 0;
-                            sessionTime.dayPlaying = DateTime.Today;
-                        }
-                        //Session duration is always 0 and it always starts on the running day
-                        sessionTime.sessionDuration = 0;
-                        sessionTime.sessionStartDay = DateTime.Today; 
-                    }
-                    catch
-                    {
-                        CreateNewSession();
-                    }
-                }
-                else
-                {
-                    CreateNewSession();
-                }
-            }
+                dayDuration = getPlaytimeToday.Result, //Returns 0 if day isn't find, allowing this to double as initialization
+                dayPlaying = DateTime.Today.Date,
+                sessionDuration = 0
+            };
         }
 
         public void IncrementTimer()
@@ -78,25 +66,9 @@ namespace TemtemTracker.Controllers
         }
 
         public void SaveSessionTimers()
-        {
-            lock (saveLock)
-            {
-                //Save table to a provided location
-                String jsonSessionTimers = JsonConvert.SerializeObject(sessionTime);
-                File.WriteAllText(Paths.SESSION_TIME_FILE, jsonSessionTimers);
-                DatabaseController.Instance.LogSession(sessionTime.sessionStartDay, sessionTime.sessionDuration);
-            }
+        {        
+              dbcon.UpdatePlaytimeLog(sessionTime.dayPlaying, sessionTime.dayDuration);
         }
 
-        private void CreateNewSession()
-        {
-            sessionTime = new PlayingSessionTime()
-            {
-                dayPlaying = DateTime.Today,
-                dayDuration = 0,
-                sessionStartDay = DateTime.Today,
-                sessionDuration = 0
-            };
-        }
     }
 }
