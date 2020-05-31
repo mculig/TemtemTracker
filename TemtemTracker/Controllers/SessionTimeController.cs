@@ -13,9 +13,6 @@ namespace TemtemTracker.Controllers
     public class SessionTimeController
     {
 
-        //An object to be used as a lock for the auto-save feature
-        private static readonly object saveLock = new object();
-
         private PlayingSessionTime sessionTime;
 
         private readonly TemtemTrackerUI trackerUI;
@@ -49,25 +46,22 @@ namespace TemtemTracker.Controllers
 
         public void IncrementTimer()
         {
-            lock (saveLock)
+            //Check if it's still the same day
+            if(sessionTime.dayPlaying.Date != DateTime.Today.Date)
             {
-                //Check if it's still the same day
-                if(sessionTime.dayPlaying.Date != DateTime.Today.Date)
-                {
-                    sessionTime.dayDuration = 0;
-                    sessionTime.dayPlaying = DateTime.Today;
-                }
-                //Increment timers
-                sessionTime.dayDuration+=1000;
-                sessionTime.sessionDuration+=1000;
-
-                trackerUI.UpdateSessionTime(sessionTime.sessionDuration, sessionTime.dayDuration);
+                sessionTime.dayDuration = 0;
+                sessionTime.dayPlaying = DateTime.Today;
             }
+            //Increment timers
+            sessionTime.dayDuration+=1000;
+            sessionTime.sessionDuration+=1000;
+
+            trackerUI.UpdateSessionTime(sessionTime.sessionDuration, sessionTime.dayDuration);
         }
 
         public void SaveSessionTimers()
-        {        
-              dbcon.UpdatePlaytimeLog(sessionTime.dayPlaying, sessionTime.dayDuration);
+        {
+                dbcon.UpdatePlaytimeLog(sessionTime.dayPlaying, sessionTime.dayDuration);
         }
 
     }

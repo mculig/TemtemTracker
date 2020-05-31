@@ -60,9 +60,11 @@ namespace TemtemTracker
                 //Encounter chart
                 chartWeeklyEncounters.Series.Clear();
                 chartWeeklyEncounters.ResetAutoValues();
-                Series totalEncounters = new Series();
-                totalEncounters.ChartType = SeriesChartType.Column;
-                totalEncounters.Name = "Temtem encountered";
+                Series totalEncounters = new Series
+                {
+                    ChartType = SeriesChartType.Column,
+                    Name = "Temtem encountered"
+                };
                 for (int i = 0; i < 7; i++)
                 {
                     totalEncounters.Points.AddXY(stats.dailyEncounters[i].date, stats.dailyEncounters[i].totalTemtemEncountered);
@@ -72,9 +74,11 @@ namespace TemtemTracker
                 //Playtime chart
                 chartWeeklyPlaytime.Series.Clear();
                 chartWeeklyPlaytime.ResetAutoValues();
-                Series totalPlaytime = new Series();
-                totalPlaytime.ChartType = SeriesChartType.Column;
-                totalPlaytime.Name = "Playtime(minutes)";
+                Series totalPlaytime = new Series
+                {
+                    ChartType = SeriesChartType.Column,
+                    Name = "Playtime(minutes)"
+                };
                 for (int i = 0; i < 7; i++)
                 {
                     totalPlaytime.Points.AddXY(stats.dailyPlaytime[i].date, stats.dailyPlaytime[i].totalPlaytimeMinutes);
@@ -84,9 +88,11 @@ namespace TemtemTracker
                 //Encounter averages chart
                 chartSingleDoubleBattles.Series.Clear();
                 chartSingleDoubleBattles.ResetAutoValues();
-                Series doubleSingleBattles = new Series();
-                doubleSingleBattles.ChartType = SeriesChartType.Pie;
-                doubleSingleBattles.Name = "Double/Single battles";
+                Series doubleSingleBattles = new Series
+                {
+                    ChartType = SeriesChartType.Pie,
+                    Name = "Double/Single battles"
+                };
                 doubleSingleBattles.Points.AddXY("Double battles", stats.doubleBattlesTotal);
                 doubleSingleBattles.Points.AddXY("Single battles", stats.singleBattlesTotal);
                 chartSingleDoubleBattles.Series.Add(doubleSingleBattles);

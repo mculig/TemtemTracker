@@ -14,6 +14,7 @@ namespace TemtemTracker.Data
         public int mainWindowHeight;
         public int autosaveInterval;
         public bool disableDetectionWhileTimerPaused;
+        public bool resumeAutopausedTimerOnDetection;
         public double timeToLumaProbability;
         public bool saiparkMode;
         public string saiparkTemtem1;

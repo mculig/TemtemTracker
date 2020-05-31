@@ -121,6 +121,7 @@
             this.chartSingleDoubleBattles.Location = new System.Drawing.Point(3, 3);
             this.chartSingleDoubleBattles.Name = "chartSingleDoubleBattles";
             series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.chartSingleDoubleBattles.Series.Add(series2);

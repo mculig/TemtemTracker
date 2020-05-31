@@ -65,12 +65,20 @@ namespace TemtemTracker.Controllers
 
         private readonly TemtemTableController tableController;
         private readonly OCRController ocrController;
+        private readonly SettingsController settingsController;
 
-        public DetectorLoop(Config config, TemtemTableController tableController, OCRController ocrController)
+        //Used to determine if detection should run or not
+        private bool timerEnabled = true; //Timer enabled is always true since the app starts with the timer enabled
+        private bool pauseWasAutopause = false; //Was the pause an autopause, meaning it should be resumed
+        private bool detectionDisabledWhileTimerPaused; //This is fetched from settings and set in the constructor
+        private bool autoresumeEnabled; //This is fetched from settings and set in the constructor
+
+        public DetectorLoop(Config config, TemtemTableController tableController, OCRController ocrController, SettingsController settingsController)
         {
             this.config = config;
             this.tableController = tableController;
             this.ocrController = ocrController;
+            this.settingsController = settingsController;
 
             spot1RGB = ColorTranslator.FromHtml(config.spot1RGB).ToArgb();
             spot2RGB = ColorTranslator.FromHtml(config.spot2RGB).ToArgb();
@@ -85,6 +93,15 @@ namespace TemtemTracker.Controllers
 
             temtemWindows = new Dictionary<uint, TemtemWindowData>();
 
+            //Get relevant settings from the settings controller
+            detectionDisabledWhileTimerPaused = settingsController.GetUserSettings().disableDetectionWhileTimerPaused;
+            autoresumeEnabled = settingsController.GetUserSettings().resumeAutopausedTimerOnDetection;
+
+            //Add listeners for relevant setting changes
+            settingsController.TimerPausedToggled += TimerPausedListener;
+            settingsController.TimerAutopaused += TimerAutopauseListener;
+            settingsController.DetectionDisabledChanged += DetectionDisabledListener;
+            settingsController.AutoresumeEnabledChanged += AutoresumeEnabledListener;
         }
 
         public void Detect()
@@ -164,15 +181,26 @@ namespace TemtemTracker.Controllers
                ColorDistance(pixelColors[3], spot4RGB) < maxAllowedColorDistance)))
                 {
                     temtemWindows[focusedWindowProcessID].detectedBattle = true;
-                    //Do OCR operation. The OCR controller will dispose of the images so we're ok
-                    List<string> results = ocrController.DoOCR(viewportImages);
-                    //Log the encounter in the database
-                    DatabaseController.Instance.LogEncounter(results);
-                    //Add the encounters to the UI
-                    results.ForEach(result => {
-                        //Here we add the detected Temtem to the UI
-                        tableController.AddTemtem(result);
-                    });
+                    //TODO: Add criteria for not detecting due to inactivity
+                    if(timerEnabled ||
+                        (pauseWasAutopause && autoresumeEnabled) ||
+                        !detectionDisabledWhileTimerPaused)
+                    {
+                        //Do OCR operation. The OCR controller will dispose of the images so we're ok
+                        List<string> results = ocrController.DoOCR(viewportImages);
+                        //Log the encounter in the database
+                        DatabaseController.Instance.LogEncounter(results);
+                        //Add the encounters to the UI
+                        results.ForEach(result => {
+                            //Here we add the detected Temtem to the UI
+                            tableController.AddTemtem(result);
+                        });
+                        if(autoresumeEnabled && pauseWasAutopause)
+                        {
+                            settingsController.ToggleTimerPaused();
+                        }
+                    }
+                    
                 }
                 
             }
@@ -332,5 +360,30 @@ namespace TemtemTracker.Controllers
             };
         }
 
+        private void TimerPausedListener(object sender, bool timerEnabled)
+        {
+            this.timerEnabled = timerEnabled;
+            if (timerEnabled)
+            {
+                //When the timer is being enabled we need to set the pauseWasAutopause to false 
+                //This way it is ready for the next pause
+                pauseWasAutopause = false;
+            }
+        }
+
+        private void DetectionDisabledListener(object sender, bool detectionDisabled)
+        {
+            this.detectionDisabledWhileTimerPaused = detectionDisabled;
+        }
+
+        private void AutoresumeEnabledListener(object sender, bool autoresumeEnabled)
+        {
+            this.autoresumeEnabled = autoresumeEnabled;
+        }
+
+        private void TimerAutopauseListener(object sender, bool timerEnabled)
+        {
+            this.pauseWasAutopause = true;
+        }
     }
 }

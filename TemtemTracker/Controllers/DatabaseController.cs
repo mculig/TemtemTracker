@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -89,7 +90,7 @@ namespace TemtemTracker.Controllers
         {
             dbPath = @"URI=file:" + Application.StartupPath + @"\" + Paths.DATABASE_PATH;
 
-            Thread dbThread = new Thread(()=> {
+            Task dbTask = Task.Factory.StartNew(()=> {
                 //Create the table
                 lock (dblock)
                 {
@@ -121,13 +122,11 @@ namespace TemtemTracker.Controllers
                     }
                 }      
             });
-
-            dbThread.Start();
         }
 
         public void LogEncounter(List<string> TemtemNames)
         {
-            Thread dbThread = new Thread(() => {
+            Task dbTask = Task.Factory.StartNew(() => {
                 lock (dblock)
                 {
                     using (SQLiteConnection con = new SQLiteConnection(dbPath))
@@ -151,8 +150,6 @@ namespace TemtemTracker.Controllers
                     }
                 }
             });
-
-            dbThread.Start();
         }
 
         public Task<long> GetPlaytimeDay(DateTime day)
@@ -270,7 +267,7 @@ namespace TemtemTracker.Controllers
 
         public void UpdatePlaytimeLog(DateTime date, long timePlayed)
         {
-            Thread dbThread = new Thread(() => {
+            Task dbTask = Task.Factory.StartNew(() => {
                 lock (dblock)
                 {
                     using (SQLiteConnection con = new SQLiteConnection(dbPath))
@@ -306,8 +303,6 @@ namespace TemtemTracker.Controllers
                     }
                 }
             });
-
-            dbThread.Start();
         }
 
         private void InsertNewDay(SQLiteConnection con, DateTime date, long timePlayed)

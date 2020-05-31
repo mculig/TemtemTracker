@@ -43,6 +43,8 @@ namespace TemtemTracker.Controllers
             settingsWindow.PopulateStyleComboBox(loadedStyles, userSettings.windowStyle);
             //Populate settings window disabled detection while timer paused checkbox
             settingsWindow.SetDisableDetectionCheckboxChecked(userSettings.disableDetectionWhileTimerPaused);
+            //Populate settings window resume timer on detection checkbox
+            settingsWindow.SetAutoresumeEnabledCheckboxChecked(userSettings.resumeAutopausedTimerOnDetection);
             //Populate settings window autosave interval
             settingsWindow.SetAutosaveInterval(userSettings.autosaveInterval);
             //Enable events again
@@ -158,10 +160,11 @@ namespace TemtemTracker.Controllers
             return timeTrackerTimerEnabled;
         }
 
-        public void StopTimer()
+        public void TimerAutopause()
         {
             timeTrackerTimerEnabled = false;
             TimerPausedToggled?.Invoke(this, timeTrackerTimerEnabled);
+            TimerAutopaused?.Invoke(this, timeTrackerTimerEnabled);
         }
 
         public void ToggleTimerPaused()
@@ -171,6 +174,7 @@ namespace TemtemTracker.Controllers
         }
 
         public event EventHandler<bool> TimerPausedToggled;
+        public event EventHandler<bool> TimerAutopaused; //Triggers only on autopause
 
         public void DisableHotkeys()
         {
@@ -219,6 +223,14 @@ namespace TemtemTracker.Controllers
         }
 
         public event EventHandler<bool> InactivityTimerEnabledChanged;
+
+        public void SetAutoresumeOnDetection(bool checkboxValue)
+        {
+            userSettings.resumeAutopausedTimerOnDetection = checkboxValue;
+            AutoresumeEnabledChanged?.Invoke(this, checkboxValue);
+        }
+
+        public event EventHandler<bool> AutoresumeEnabledChanged;
 
         public void SetPauseWhenInactiveInterval(int intervalMinutes)
         {

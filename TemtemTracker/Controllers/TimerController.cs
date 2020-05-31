@@ -26,8 +26,6 @@ namespace TemtemTracker.Controllers
         private readonly DetectorLoop detectorLoop;
         private readonly SettingsController settingsController;
 
-        private bool disableDetectionOnTimerPause;
-
         private readonly UserSettings userSettings;
 
 
@@ -41,12 +39,10 @@ namespace TemtemTracker.Controllers
             this.sessionTimeController = sessionTimeController;
             this.detectorLoop = detectorLoop;
             this.detectionLoopInterval = config.detectionLoopInterval;
-            this.disableDetectionOnTimerPause = userSettings.disableDetectionWhileTimerPaused;
             this.userSettings = userSettings;
             this.settingsController = settingsController;
             settingsController.TimerPausedToggled += ToggleTimeTrackerTimerPaused;
 
-            settingsController.DetectionDisabledChanged += SetDisableDetectionOnTimerPause;
             settingsController.InactivityTimerEnabledChanged += SetInactivityTimerEnabled;
 
             detectionLoopTimer = new System.Timers.Timer(detectionLoopInterval);
@@ -88,20 +84,6 @@ namespace TemtemTracker.Controllers
         public void ToggleTimeTrackerTimerPaused(object sender, bool timerEnabled)
         {
             timeTrackerTimer.Enabled = timerEnabled;
-            if (disableDetectionOnTimerPause)
-            {
-                //If we want to disable detection when the timer is paused
-                if (timeTrackerTimer.Enabled)
-                {
-                    //If the timer was unpaused
-                    detectionLoopTimer.Start();
-                }
-                else
-                {
-                    //The timer was paused
-                    detectionLoopTimer.Stop();
-                }
-            }
         }
 
         public void DisposeTimers()
@@ -124,22 +106,6 @@ namespace TemtemTracker.Controllers
         public void SetInactivityTimerEnabled(object sender, bool enabled)
         {
             inactivityTimer.Enabled = enabled;
-        }
-
-        public void SetDisableDetectionOnTimerPause(object sender, bool detectionDisabled)
-        {
-            disableDetectionOnTimerPause = detectionDisabled;
-            if(!detectionDisabled && !detectionLoopTimer.Enabled)
-            {
-                //Detection isn't disabled anymore, but the timer is still stopped. Restart it
-                detectionLoopTimer.Start();
-            }
-            if(detectionDisabled && !timeTrackerTimer.Enabled)
-            {
-                //We've disabled detection while the timer is stopped
-                //and the timer IS stopped. Stop the detection loop
-                detectionLoopTimer.Stop();
-            }
         }
 
         private void DetectionLoopListener(Object source, System.Timers.ElapsedEventArgs e)
@@ -179,14 +145,13 @@ namespace TemtemTracker.Controllers
 
         private void InactivityListener(object sender, ElapsedEventArgs e)
         {
-            //TO-DO: Figure out how to evaluate inactivity
             DateTime currentTime = DateTime.Now;
             DateTime lastChange = tableController.GetLastChangeTime();
             if (currentTime.Subtract(lastChange).TotalMinutes > userSettings.inactivityTreshold)
             {
                 if (timeTrackerTimer.Enabled)
                 {
-                    settingsController.StopTimer();
+                    settingsController.TimerAutopause();
                 }
             }
         }

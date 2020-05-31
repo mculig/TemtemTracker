@@ -32,12 +32,13 @@
             this.settingsTabControl = new System.Windows.Forms.TabControl();
             this.windowTabPage = new System.Windows.Forms.TabPage();
             this.inactivitySettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxResumeOnDetection = new System.Windows.Forms.CheckBox();
             this.labelInactivityPauseAfter = new System.Windows.Forms.Label();
             this.inactivityTreshold = new System.Windows.Forms.NumericUpDown();
             this.checkboxInactivity = new System.Windows.Forms.CheckBox();
+            this.checkBoxDisableWhileTimer = new System.Windows.Forms.CheckBox();
             this.labelAutosaveInterval = new System.Windows.Forms.Label();
             this.autosaveInterval = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxDisableWhileTimer = new System.Windows.Forms.CheckBox();
             this.labelWindowStyle = new System.Windows.Forms.Label();
             this.comboBoxStyleSelect = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -103,7 +104,6 @@
             this.windowTabPage.Controls.Add(this.inactivitySettings);
             this.windowTabPage.Controls.Add(this.labelAutosaveInterval);
             this.windowTabPage.Controls.Add(this.autosaveInterval);
-            this.windowTabPage.Controls.Add(this.checkBoxDisableWhileTimer);
             this.windowTabPage.Controls.Add(this.labelWindowStyle);
             this.windowTabPage.Controls.Add(this.comboBoxStyleSelect);
             this.windowTabPage.Controls.Add(this.groupBox3);
@@ -119,15 +119,28 @@
             // 
             this.inactivitySettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.inactivitySettings.Controls.Add(this.checkBoxResumeOnDetection);
             this.inactivitySettings.Controls.Add(this.labelInactivityPauseAfter);
             this.inactivitySettings.Controls.Add(this.inactivityTreshold);
             this.inactivitySettings.Controls.Add(this.checkboxInactivity);
-            this.inactivitySettings.Location = new System.Drawing.Point(3, 218);
+            this.inactivitySettings.Controls.Add(this.checkBoxDisableWhileTimer);
+            this.inactivitySettings.Location = new System.Drawing.Point(6, 181);
             this.inactivitySettings.Name = "inactivitySettings";
-            this.inactivitySettings.Size = new System.Drawing.Size(323, 94);
+            this.inactivitySettings.Size = new System.Drawing.Size(323, 158);
             this.inactivitySettings.TabIndex = 11;
             this.inactivitySettings.TabStop = false;
-            this.inactivitySettings.Text = "Inactivity";
+            this.inactivitySettings.Text = "Inactivity Timer";
+            // 
+            // checkBoxResumeOnDetection
+            // 
+            this.checkBoxResumeOnDetection.AutoSize = true;
+            this.checkBoxResumeOnDetection.Location = new System.Drawing.Point(6, 117);
+            this.checkBoxResumeOnDetection.Name = "checkBoxResumeOnDetection";
+            this.checkBoxResumeOnDetection.Size = new System.Drawing.Size(304, 24);
+            this.checkBoxResumeOnDetection.TabIndex = 14;
+            this.checkBoxResumeOnDetection.Text = "Resume on detection after autopause";
+            this.checkBoxResumeOnDetection.UseVisualStyleBackColor = true;
+            this.checkBoxResumeOnDetection.CheckedChanged += new System.EventHandler(this.checkBoxResumeOnDetection_CheckedChanged);
             // 
             // labelInactivityPauseAfter
             // 
@@ -177,10 +190,21 @@
             this.checkboxInactivity.UseVisualStyleBackColor = true;
             this.checkboxInactivity.CheckedChanged += new System.EventHandler(this.CheckboxInactivity_CheckedChanged);
             // 
+            // checkBoxDisableWhileTimer
+            // 
+            this.checkBoxDisableWhileTimer.AutoSize = true;
+            this.checkBoxDisableWhileTimer.Location = new System.Drawing.Point(6, 87);
+            this.checkBoxDisableWhileTimer.Name = "checkBoxDisableWhileTimer";
+            this.checkBoxDisableWhileTimer.Size = new System.Drawing.Size(284, 24);
+            this.checkBoxDisableWhileTimer.TabIndex = 8;
+            this.checkBoxDisableWhileTimer.Text = "Disable detection on manual pause";
+            this.checkBoxDisableWhileTimer.UseVisualStyleBackColor = true;
+            this.checkBoxDisableWhileTimer.CheckedChanged += new System.EventHandler(this.CheckBoxDisableWhileTimer_CheckedChanged);
+            // 
             // labelAutosaveInterval
             // 
             this.labelAutosaveInterval.AutoSize = true;
-            this.labelAutosaveInterval.Location = new System.Drawing.Point(8, 188);
+            this.labelAutosaveInterval.Location = new System.Drawing.Point(9, 155);
             this.labelAutosaveInterval.Name = "labelAutosaveInterval";
             this.labelAutosaveInterval.Size = new System.Drawing.Size(150, 20);
             this.labelAutosaveInterval.TabIndex = 10;
@@ -188,7 +212,7 @@
             // 
             // autosaveInterval
             // 
-            this.autosaveInterval.Location = new System.Drawing.Point(160, 186);
+            this.autosaveInterval.Location = new System.Drawing.Point(165, 149);
             this.autosaveInterval.Maximum = new decimal(new int[] {
             10,
             0,
@@ -209,17 +233,6 @@
             0});
             this.autosaveInterval.ValueChanged += new System.EventHandler(this.AutosaveInterval_ValueChanged);
             // 
-            // checkBoxDisableWhileTimer
-            // 
-            this.checkBoxDisableWhileTimer.AutoSize = true;
-            this.checkBoxDisableWhileTimer.Location = new System.Drawing.Point(6, 149);
-            this.checkBoxDisableWhileTimer.Name = "checkBoxDisableWhileTimer";
-            this.checkBoxDisableWhileTimer.Size = new System.Drawing.Size(293, 24);
-            this.checkBoxDisableWhileTimer.TabIndex = 8;
-            this.checkBoxDisableWhileTimer.Text = "Disable detection while timer paused";
-            this.checkBoxDisableWhileTimer.UseVisualStyleBackColor = true;
-            this.checkBoxDisableWhileTimer.CheckedChanged += new System.EventHandler(this.CheckBoxDisableWhileTimer_CheckedChanged);
-            // 
             // labelWindowStyle
             // 
             this.labelWindowStyle.AutoSize = true;
@@ -234,7 +247,7 @@
             this.comboBoxStyleSelect.FormattingEnabled = true;
             this.comboBoxStyleSelect.Location = new System.Drawing.Point(122, 115);
             this.comboBoxStyleSelect.Name = "comboBoxStyleSelect";
-            this.comboBoxStyleSelect.Size = new System.Drawing.Size(121, 28);
+            this.comboBoxStyleSelect.Size = new System.Drawing.Size(126, 28);
             this.comboBoxStyleSelect.TabIndex = 6;
             this.comboBoxStyleSelect.SelectedIndexChanged += new System.EventHandler(this.ComboBoxStyleSelect_SelectedIndexChanged);
             // 
@@ -608,5 +621,6 @@
         private System.Windows.Forms.NumericUpDown inactivityTreshold;
         private System.Windows.Forms.CheckBox checkboxInactivity;
         private System.Windows.Forms.Label labelInactivityPauseAfter;
+        private System.Windows.Forms.CheckBox checkBoxResumeOnDetection;
     }
 }

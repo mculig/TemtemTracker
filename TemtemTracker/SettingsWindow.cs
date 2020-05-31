@@ -100,6 +100,11 @@ namespace TemtemTracker
             checkBoxDisableWhileTimer.Checked = isChecked;
         }
 
+        public void SetAutoresumeEnabledCheckboxChecked(bool isChecked)
+        {
+            checkBoxResumeOnDetection.Checked = isChecked;
+        }
+
         public void SetAutosaveInterval(int intervalMinutes)
         {
             autosaveInterval.Value = intervalMinutes;
@@ -312,6 +317,14 @@ namespace TemtemTracker
             if (!disableEventHandlers)
             {
                 settingsController.SetPauseWhenInactive(checkboxInactivity.Checked);
+            }
+        }
+
+        private void checkBoxResumeOnDetection_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!disableEventHandlers)
+            {
+                settingsController.SetAutoresumeOnDetection(checkBoxResumeOnDetection.Checked);
             }
         }
 

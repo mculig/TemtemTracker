@@ -5,6 +5,7 @@
   "mainWindowHeight": 429,
   "autosaveInterval": 10,
   "disableDetectionWhileTimerPaused": false,
+  "resumeAutopausedTimerOnDetection": true,
   "timeToLumaProbability": 0.5,
   "saiparkMode": true,
   "saiparkTemtem1": "Mushi",

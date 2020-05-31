@@ -47,7 +47,7 @@ namespace TemtemTracker
             //Database controller
             DatabaseController dbcon = DatabaseController.Instance;
 
-            DetectorLoop loop = new DetectorLoop(configLoader.GetConfig(), tableController, ocr);
+            DetectorLoop loop = new DetectorLoop(configLoader.GetConfig(), tableController, ocr, settingsController);
             //The timer controller
             TimerController timerController = new TimerController(tableController, sessionTimeController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
             timerController.StartTimers();
