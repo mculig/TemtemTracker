@@ -16,7 +16,7 @@ namespace TemtemTracker.Controllers
         public static void HandleUnhandledException(object source, UnhandledExceptionEventArgs args)
         {
             Exception e = (Exception)args.ExceptionObject;
-            using(System.IO.StreamWriter output = new StreamWriter(exceptionOutputFile))
+            using(System.IO.StreamWriter output = new StreamWriter(exceptionOutputFile, true))
             {
                 output.WriteLine("[EXCEPTION][" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "]: " + e.Message + e.StackTrace);
             }
@@ -24,7 +24,7 @@ namespace TemtemTracker.Controllers
 
         public static void HandleUnhandledThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            using (System.IO.StreamWriter output = new StreamWriter(exceptionOutputFile))
+            using (System.IO.StreamWriter output = new StreamWriter(exceptionOutputFile, true))
             {
                 output.WriteLine("[EXCEPTION][" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "]: " + e.Exception.Message + e.Exception.StackTrace);
             }
