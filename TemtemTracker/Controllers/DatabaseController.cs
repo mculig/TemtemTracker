@@ -90,7 +90,8 @@ namespace TemtemTracker.Controllers
         {
             dbPath = @"URI=file:" + Application.StartupPath + @"\" + Paths.DATABASE_PATH;
 
-            Task dbTask = Task.Factory.StartNew(()=> {
+            Task dbTask = Task.Factory.StartNew(() =>
+            {
                 //Create the table
                 lock (dblock)
                 {
@@ -98,29 +99,17 @@ namespace TemtemTracker.Controllers
                     {
                         con.Open();
 
-                        using(SQLiteCommand cmd = new SQLiteCommand(CREATE_ENCOUNTER_TABLE, con))
-                        {
-                            cmd.ExecuteNonQuery();
-                        }                    
-                        using(SQLiteCommand cmd = new SQLiteCommand(CREATE_DAY_TABLE, con))
+                        using (SQLiteCommand cmd = new SQLiteCommand(CREATE_ENCOUNTER_TABLE, con))
                         {
                             cmd.ExecuteNonQuery();
                         }
-                        //Temporary
+                        using (SQLiteCommand cmd = new SQLiteCommand(CREATE_DAY_TABLE, con))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
 
-                        using (SQLiteCommand cmd = new SQLiteCommand(@"SELECT * FROM days", con))
-                        {
-                            using (SQLiteDataReader rdr = cmd.ExecuteReader())
-                            {
-                                while (rdr.Read())
-                                {
-                                    Console.WriteLine(rdr.GetInt32(0) + " " + rdr.GetString(1) + " " + rdr.GetInt32(2));
-                                }
-                            }
-                        }
-                        
                     }
-                }      
+                }
             });
         }
 
@@ -164,15 +153,25 @@ namespace TemtemTracker.Controllers
                         using(SQLiteCommand cmd = new SQLiteCommand(GET_PLAYTIME_DAY, con))
                         {
                             cmd.Parameters.AddWithValue("@date", GetTimeISO8601(day));
-                            object result = cmd.ExecuteScalar();
-                            result = (result == DBNull.Value) ? null : result;
-                            if(result == null)
+                            try
                             {
-                                return 0;
+                                object result = cmd.ExecuteScalar();
+                                result = (result == DBNull.Value) ? null : result;
+                                if (result == null)
+                                {
+                                    return 0;
+                                }
+                                else
+                                {
+                                    return (long)result;
+                                }
                             }
-                            else
+                            catch
                             {
-                                return (long) result;
+                                //This happens if the table doesn't exist yet
+                                //Should only happen here because this is called on initialization
+                                //Everything else should already be executed by the time it is called
+                                return 0;
                             }
                         }
                     }
