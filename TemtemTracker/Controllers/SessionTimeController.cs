@@ -64,5 +64,11 @@ namespace TemtemTracker.Controllers
                 dbcon.UpdatePlaytimeLog(sessionTime.dayPlaying, sessionTime.dayDuration);
         }
 
+        public void SaveOnAppClose()
+        {
+            //Here we need to wait for the task to complete before closing to avoide races
+            dbcon.UpdatePlaytimeLog(sessionTime.dayPlaying, sessionTime.dayDuration).Wait();
+        }
+
     }
 }

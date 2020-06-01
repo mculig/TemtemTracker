@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -89,6 +90,13 @@ namespace TemtemTracker.Controllers
         static DatabaseController()
         {
             dbPath = @"URI=file:" + Application.StartupPath + @"\" + Paths.DATABASE_PATH;
+
+            if (!Directory.Exists(Paths.SAVE_FOLDER_PATH))
+            {
+                //Create the folder if it doesn't exist so we can save the database without everything crashing and burning
+                //Why the hell sqlite can't create a folder if it doesn't exist is beyond me...
+                Directory.CreateDirectory(Paths.SAVE_FOLDER_PATH);
+            }
 
             Task dbTask = Task.Factory.StartNew(() =>
             {
@@ -264,7 +272,7 @@ namespace TemtemTracker.Controllers
             return dbTask;
         }
 
-        public void UpdatePlaytimeLog(DateTime date, long timePlayed)
+        public Task UpdatePlaytimeLog(DateTime date, long timePlayed)
         {
             Task dbTask = Task.Factory.StartNew(() => {
                 lock (dblock)
@@ -302,6 +310,8 @@ namespace TemtemTracker.Controllers
                     }
                 }
             });
+
+            return dbTask;
         }
 
         private void InsertNewDay(SQLiteConnection con, DateTime date, long timePlayed)

@@ -65,7 +65,7 @@ namespace TemtemTracker
                 //Save Config and stuff
                 tableController.SaveTable();
                 settingsController.SaveSettings();
-                sessionTimeController.SaveSessionTimers();
+                sessionTimeController.SaveOnAppClose();
                 //Allow shutdown again
                 User32.ShutdownBlockReasonDestroy(trackerUI.Handle);
 
