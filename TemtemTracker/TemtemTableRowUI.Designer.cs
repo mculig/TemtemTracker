@@ -150,6 +150,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Name = "TemtemTableRowUI";
             this.Size = new System.Drawing.Size(830, 45);
             this.tableLayoutPanel1.ResumeLayout(false);

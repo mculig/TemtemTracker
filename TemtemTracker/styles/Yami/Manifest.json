@@ -1,0 +1,20 @@
+﻿{
+        "styleVersion": 2,
+		"styleName":"Yami",
+        "menuStripBackground": "#31e697",
+        "menuStripForeground": "#424242",
+        "toolStripBackground": "#39edc3",
+        "menuItemSelected": "#fffb05",
+        "trackerBackground": "#424242",
+        "trackerForeground": "#a3ff03",
+        "timerForeground": "#39edc3",
+        "timerPausedForeground": "#fffb05",
+        "tableRowBackground1": "#03ff92",
+        "tableRowBackground2": "#39edc3",
+        "tableRowForeground1": "#424242",
+        "tableRowForeground2": "#424242",
+        "tableRowButtonHoverColor": "#fffb05",
+        "tableRowButtonBackground": "#31e697",
+        "tableRowButtonForeground": "#424242",
+        "tableRowButtonBorderColor": "#424242" 
+	}
