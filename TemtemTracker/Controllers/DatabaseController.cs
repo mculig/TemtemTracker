@@ -123,6 +123,12 @@ namespace TemtemTracker.Controllers
 
         public void LogEncounter(List<string> TemtemNames)
         {
+            if (TemtemNames.Count == 0)
+            {
+                //This shouldn't happen, but if something obstructed detection it might
+                //If both names are empty, there is nothing here and this will avoid a crash
+                return;
+            }
             Task dbTask = Task.Factory.StartNew(() => {
                 lock (dblock)
                 {
