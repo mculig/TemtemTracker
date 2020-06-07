@@ -57,6 +57,7 @@ namespace TemtemTracker.Controllers
 
         //The name of the window in question
         private static readonly string WINDOW_NAME = "Temtem";
+        private static readonly string WINDOW_NAME_SANDBOX = "[#] Temtem [#]";
 
         //Maximum distance between the color I'm expecting and color from the screen
         private readonly int maxAllowedColorDistance;
@@ -122,7 +123,8 @@ namespace TemtemTracker.Controllers
             User32.GetWindowText(focused, windowName, 100);
             User32.GetWindowThreadProcessId(focused, out uint focusedWindowProcessID); //Inline variable declaration
             string focusedWindowProcessName = Process.GetProcessById((int)focusedWindowProcessID).ProcessName;
-            if (windowName.ToString().Equals(WINDOW_NAME) && focusedWindowProcessName.Equals(WINDOW_NAME))
+            if ((windowName.ToString().Equals(WINDOW_NAME) || windowName.ToString().Equals(WINDOW_NAME_SANDBOX)) 
+                && focusedWindowProcessName.Equals(WINDOW_NAME))
             {
                 temtemWindow = focused;
                 //Here we check if this is one of our already detected windows and if not we add it

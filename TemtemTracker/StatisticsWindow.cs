@@ -63,7 +63,9 @@ namespace TemtemTracker
                 Series totalEncounters = new Series
                 {
                     ChartType = SeriesChartType.Column,
-                    Name = "Temtem encountered"
+                    Name = "Temtem encountered",
+                    IsValueShownAsLabel = true,
+                    LabelBackColor = Color.White
                 };
                 for (int i = 0; i < 7; i++)
                 {
@@ -77,7 +79,9 @@ namespace TemtemTracker
                 Series totalPlaytime = new Series
                 {
                     ChartType = SeriesChartType.Column,
-                    Name = "Playtime(minutes)"
+                    Name = "Playtime(minutes)",
+                    IsValueShownAsLabel = true,
+                    LabelBackColor = Color.White
                 };
                 for (int i = 0; i < 7; i++)
                 {
@@ -85,17 +89,6 @@ namespace TemtemTracker
                 }
                 chartWeeklyPlaytime.Series.Add(totalPlaytime);
 
-                //Encounter averages chart
-                chartSingleDoubleBattles.Series.Clear();
-                chartSingleDoubleBattles.ResetAutoValues();
-                Series doubleSingleBattles = new Series
-                {
-                    ChartType = SeriesChartType.Pie,
-                    Name = "Double/Single battles"
-                };
-                doubleSingleBattles.Points.AddXY("Double battles", stats.doubleBattlesTotal);
-                doubleSingleBattles.Points.AddXY("Single battles", stats.singleBattlesTotal);
-                chartSingleDoubleBattles.Series.Add(doubleSingleBattles);
             }
             
         }

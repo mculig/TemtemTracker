@@ -29,19 +29,15 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticsWindow));
             this.chartWeeklyEncounters = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartWeeklyPlaytime = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.chartSingleDoubleBattles = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.buttonPreviousWeek = new System.Windows.Forms.Button();
             this.buttonCurrentWeek = new System.Windows.Forms.Button();
             this.buttonNextWeek = new System.Windows.Forms.Button();
@@ -50,30 +46,31 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyEncounters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyPlaytime)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartSingleDoubleBattles)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // chartWeeklyEncounters
             // 
+            chartArea1.AxisX.MajorGrid.Enabled = false;
             chartArea1.Name = "ChartArea1";
             this.chartWeeklyEncounters.ChartAreas.Add(chartArea1);
-            this.tableLayoutPanel1.SetColumnSpan(this.chartWeeklyEncounters, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.chartWeeklyEncounters, 3);
             this.chartWeeklyEncounters.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.chartWeeklyEncounters.Legends.Add(legend3);
-            this.chartWeeklyEncounters.Location = new System.Drawing.Point(295, 3);
+            legend2.Name = "Legend1";
+            this.chartWeeklyEncounters.Legends.Add(legend2);
+            this.chartWeeklyEncounters.Location = new System.Drawing.Point(3, 3);
             this.chartWeeklyEncounters.Name = "chartWeeklyEncounters";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chartWeeklyEncounters.Series.Add(series3);
-            this.chartWeeklyEncounters.Size = new System.Drawing.Size(580, 275);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartWeeklyEncounters.Series.Add(series2);
+            this.chartWeeklyEncounters.Size = new System.Drawing.Size(872, 275);
             this.chartWeeklyEncounters.TabIndex = 4;
             this.chartWeeklyEncounters.Text = "chartWeeklyEncounters";
             // 
             // chartWeeklyPlaytime
             // 
+            chartArea2.AxisX.MajorGrid.Enabled = false;
             chartArea2.Name = "ChartArea1";
             this.chartWeeklyPlaytime.ChartAreas.Add(chartArea2);
             this.tableLayoutPanel1.SetColumnSpan(this.chartWeeklyPlaytime, 3);
@@ -99,9 +96,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Controls.Add(this.chartWeeklyEncounters, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.chartWeeklyEncounters, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.chartWeeklyPlaytime, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.chartSingleDoubleBattles, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -110,24 +106,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(878, 562);
             this.tableLayoutPanel1.TabIndex = 6;
-            // 
-            // chartSingleDoubleBattles
-            // 
-            chartArea3.Name = "ChartArea1";
-            this.chartSingleDoubleBattles.ChartAreas.Add(chartArea3);
-            this.chartSingleDoubleBattles.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chartSingleDoubleBattles.Legends.Add(legend2);
-            this.chartSingleDoubleBattles.Location = new System.Drawing.Point(3, 3);
-            this.chartSingleDoubleBattles.Name = "chartSingleDoubleBattles";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartSingleDoubleBattles.Series.Add(series2);
-            this.chartSingleDoubleBattles.Size = new System.Drawing.Size(286, 275);
-            this.chartSingleDoubleBattles.TabIndex = 6;
-            this.chartSingleDoubleBattles.Text = "chart1";
             // 
             // buttonPreviousWeek
             // 
@@ -196,7 +174,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyEncounters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyPlaytime)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chartSingleDoubleBattles)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -211,6 +188,5 @@
         private System.Windows.Forms.Button buttonNextWeek;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartSingleDoubleBattles;
     }
 }
