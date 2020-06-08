@@ -7,7 +7,7 @@ Each style needs to have its own folder and a Manifest.json file within the fold
 ``` JSON
 {
         "styleVersion": 2,
-		"styleName":"GracefulKlutz",
+	"styleName":"GracefulKlutz",
         "menuStripBackground": "#55B51A",
         "menuStripForeground": "#000000",
         "toolStripBackground": "#55B51A",
