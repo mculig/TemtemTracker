@@ -6,24 +6,24 @@ Each style needs to have its own folder and a Manifest.json file within the fold
 
 ``` JSON
 {
-        "styleVersion": 2,
+	"styleVersion": 2,
 	"styleName":"GracefulKlutz",
-        "menuStripBackground": "#55B51A",
-        "menuStripForeground": "#000000",
-        "toolStripBackground": "#55B51A",
-        "menuItemSelected": "#19CC12",
-        "trackerBackground": "#F57E00",
-        "trackerForeground": "#000000",
-        "timerForeground": "#000000",
-        "timerPausedForeground": "#0000FF",
-        "tableRowBackground1": "#F57E00",
-        "tableRowBackground2": "#F5710F",
-        "tableRowForeground1": "#000000",
-        "tableRowForeground2": "#000000",
-        "tableRowButtonHoverColor": "#F59517",
-        "tableRowButtonBackground": "#F5710F",
-        "tableRowButtonForeground": "#000000",
-        "tableRowButtonBorderColor": "#000000" 
+	"menuStripBackground": "#55B51A",
+	"menuStripForeground": "#000000",
+	"toolStripBackground": "#55B51A",
+	"menuItemSelected": "#19CC12",
+	"trackerBackground": "#F57E00",
+	"trackerForeground": "#000000",
+	"timerForeground": "#000000",
+	"timerPausedForeground": "#0000FF",
+	"tableRowBackground1": "#F57E00",
+	"tableRowBackground2": "#F5710F",
+	"tableRowForeground1": "#000000",
+	"tableRowForeground2": "#000000",
+	"tableRowButtonHoverColor": "#F59517",
+	"tableRowButtonBackground": "#F5710F",
+	"tableRowButtonForeground": "#000000",
+	"tableRowButtonBorderColor": "#000000" 
 }
 ```
 In JSON files strings (groups) of characters (letters) need to be surrounded by quotation marks, while numbers do not. As long as more lines follow each line needs to end in a comma.
