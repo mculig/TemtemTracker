@@ -1,6 +1,20 @@
 # TemtemTracker Settings
 
-There are multiple settings available to tailor your TemtemTracker experience to your needs and wants. The tracker settings are divided into four groups:
+There are multiple settings available to tailor your TemtemTracker experience to your needs and wants. The tracker settings are divided into four groups described in detail in the text below.
+
+## Table of Contents
+
+[Other Documents of Interest](#Other-Documents-of-Interest)
+[General](#General)\
+[Luma Chance](#Luma-Chance)\
+[Saipark](#Saipark)\
+[Hotkeys](#Hotkeys)
+
+## Other Documents of Interest
+
+[Index](Readme.md)\
+[TemtemTracker features](TemtemTrackerFeatures.md)\
+[How to: Styles](HowToStyles.md)
 
 ## General 
 

@@ -1,6 +1,24 @@
-# TemtemTracker Themes How To
+# TemtemTracker Styles How To
 
 TemtemTracker supports themes or styles. These are located each within their own subfolder in the styles folder.
+
+## Table of Contents
+
+[Other Documents of Interest](#Other-Documents-of-Interest)
+[Style Overview](#Style-Overview)\
+[Style Version and Name](#Style-Version-and-Name)\
+[Main Tracker Body and Individual Windows](#Main-Tracker-Body-and-Individual-Windows)\
+[The Timer](#The-Timer)\
+[The Table](#The-Table)\
+[The Buttons](#The-Buttons)
+
+## Other Documents of Interest
+
+[Index](Readme.md)\
+[TemtemTracker features](TemtemTrackerFeatures.md)\
+[How to: Settings](HowToSettings.md)
+
+## Style Overview
 
 Each style needs to have its own folder and a Manifest.json file within the folder, the contents of which are as follows:
 
@@ -28,7 +46,9 @@ Each style needs to have its own folder and a Manifest.json file within the fold
 ```
 In JSON files strings (groups) of characters (letters) need to be surrounded by quotation marks, while numbers do not. As long as more lines follow each line needs to end in a comma.
 
-## Style version and name
+The colors of elements in TemtemTracker styles are hex triplets as used by HTML, CSS and SVG.
+
+## Style Version and Name
 
 The following 2 lines are very important for your style:
 
@@ -39,7 +59,7 @@ The following 2 lines are very important for your style:
 In the current version of TemtemTracker the styleVersion is 2. Other versions will result in the tracker reporting errors due to outdated styles and they will not be usable. This is to avoid outdated styles causing issues if styles are updated in the future.
 The style name is the name that will show up in the Settings Window when selecting the style. These MUST BE unique.
 
-## Menu strip
+## Menu Strip
 
 The following four properties determine the background color of the menu strip, the text in the menu strip and dropdowns, the dropdown background color and the color of elements in the menu and dropdown that are hovered:
 
@@ -55,7 +75,7 @@ The effect of these properties can be seen in the following image:
 
 menuStripBackground and toolStripBackground are the green background color visible in the menu at the top of the tracker window. The menuStripForeground color is the black color of the text in the menu and dropdown. The menuItemSelected color is the bright green color visible on the Save As menu item that currently has the mouse pointer hovering above it.
 
-## Main tracker body and individual windows
+## Main Tracker Body and Individual Windows
 
 The following two properties determine the background color of the main tracker body and the text in the table header, totals and the Temtem/h, Session and Today titles and values:
 
@@ -76,7 +96,7 @@ These two properties also determine the background and text color in the individ
 
 ![Individual Tracking Window Colors](Images/individualWindow.png)
 
-## The timer
+## The Timer
 
 The following two properties determine the text color of a running timer and the text color of a paused timer, both in the main tracker window and in the individual tracking windows:
 
@@ -88,7 +108,7 @@ The blue timerPausedForeground color can be seen in the individual tracking wind
 
 ![Individual Tracking Window Colors](Images/timerPausedForeground.png)
 
-## The table
+## The Table
 
 The following properties determine the background and text colors of the individual rows in the table in the main window:
 
@@ -110,7 +130,7 @@ In the second image the tableRowBackground2 and tableRowForeground2 properties h
 
 Differentiating these rows with nuances of color allows for easier visual distinguishing between table rows and counting.
 
-## The buttons
+## The Buttons
 
 The following properties determine the colors of the X and W buttons in each row of the table in the tracker:
 

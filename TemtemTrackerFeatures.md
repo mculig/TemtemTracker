@@ -2,6 +2,20 @@
 
 In this document the features of the TemtemTracker will be shown and explained.
 
+## Table of Contents
+
+[Other Documents of Interest](#Other-Documents-of-Interest)
+[The Main Window](#The-Main-Window)\
+[The Menu Strip](#The-Menu-Strip)\
+[The Statistics Window](#The-Statistics-Window)\
+[Individual Tracking Windows](#Individual-Tracking-Windows)
+
+## Other Documents of Interest
+
+[Index](Readme.md)\
+[How to: Settings](HowToSettings.md)\
+[How to: Styles](HowToStyles.md)
+
 ## The Main Window
 
 The main TemtemTracker window is the starting point for all interactions with the tracker and displays all the tracked information.
