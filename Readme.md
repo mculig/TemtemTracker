@@ -3,7 +3,7 @@
 # TemtemTracker
 Temtem Tracker is a tracker for encountered Temtem based on Optical Character Recognition. 
 
-The tracker: 
+The tracker:\
 **DOES NOT** read Temtem memory\
 **DOES NOT** intercept any Client-Server communication\
 **DOES NOT** send any requests of its own to any server\
@@ -28,15 +28,15 @@ For the application to work you must not obstruct any of the interface elements 
 
 #### Supported aspect ratios:
 
-16:9
-16:10
-4:3
-43:18 (One of 3 aspect ratios marketed as 21:9)
-16:3 (still vulnerable to a detection error in omninesia)
+- 16:9
+- 16:10
+- 4:3
+- 43:18 (One of 3 aspect ratios marketed as 21:9)
+- 16:3 (still vulnerable to a detection error in omninesia)
 
 #### Minimum supported resolution:
 
-The tracker requires a minimum resolution of 720p or equivalent level of detail to be able to detect Temtem reliably.
+The tracker requires a minimum resolution of 720p or equivalent level of detail at your aspect ratio of choice to be able to detect Temtem reliably.
 
 #### Required software packages:
 TemtemTracker V3 requires .NET 4.5.2  and Visual C++ Redistributable 2017 in order to work. 
@@ -47,8 +47,8 @@ Windows 10 users most likely already have .NET, as it is part of the Windows 10 
 
 Visual C++ Redistributable 2017 can be downloaded here: 
 
-[vc_redist.x86.exe (32-bit)](https://aka.ms/vs/16/release/vc_redist.x86.exe)\
-[vc_redist.x64.exe (64-bit)](https://aka.ms/vs/16/release/vc_redist.x64.exe) 
+- [vc_redist.x86.exe (32-bit)](https://aka.ms/vs/16/release/vc_redist.x86.exe)
+- [vc_redist.x64.exe (64-bit)](https://aka.ms/vs/16/release/vc_redist.x64.exe) 
 
 OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 
@@ -82,11 +82,11 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 - Fixed detection not working monitors other than main monitor
 
-### Update history
+#### Update history
 
 [UpdateHistory](UpdateHistory.md)
 
-### Help
+## Help
 
 Details about the interface, settings and how to make your own styles can be found in the following documents:
 
