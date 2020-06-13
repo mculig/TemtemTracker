@@ -1,28 +1,24 @@
 ### Scroll to Releases below for download
 
 # TemtemTracker
-
-## Table of contents
-
-[About](#About)
-[Requirements](#Requirements)
-[Releases](#Releases)
-[Update Notes](#Update-notes)
-[Help](#Help)
-
-## About
-
 Temtem Tracker is a tracker for encountered Temtem based on Optical Character Recognition. 
 
 The tracker: 
-* **DOES NOT** read Temtem memory. 
-* **DOES NOT** intercept any Client-Server communication. 
-* **DOES NOT** send any requests of its own to any server.
-* **DOES NOT** automate any part of gameplay
-* **DOES NOT** do anything a player couldn't do themselves using pen and paper
-* **WILL NOT** get you banned
+**DOES NOT** read Temtem memory\
+**DOES NOT** intercept any Client-Server communication\
+**DOES NOT** send any requests of its own to any server\
+**DOES NOT** automate any part of gameplay\
+**DOES NOT** do anything a player couldn't do themselves using pen and paper\
+**WILL NOT** get you banned
 
 ![Good to go](Images/good2go.PNG)
+
+## Table of contents
+
+[Requirements](#Requirements)\
+[Releases](#Releases)\
+[Update Notes](#Update-notes)\
+[Help](#Help)
 
 ## Requirements
 
@@ -51,8 +47,8 @@ Windows 10 users most likely already have .NET, as it is part of the Windows 10 
 
 Visual C++ Redistributable 2017 can be downloaded here: 
 
-- [vc_redist.x86.exe (32-bit)](https://aka.ms/vs/16/release/vc_redist.x86.exe)
-- [vc_redist.x64.exe (64-bit)](https://aka.ms/vs/16/release/vc_redist.x64.exe) 
+[vc_redist.x86.exe (32-bit)](https://aka.ms/vs/16/release/vc_redist.x86.exe)\
+[vc_redist.x64.exe (64-bit)](https://aka.ms/vs/16/release/vc_redist.x64.exe) 
 
 OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 
@@ -94,6 +90,6 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 Details about the interface, settings and how to make your own styles can be found in the following documents:
 
-[TemtemTracker features](TemtemTrackerFeatures.md)
-[How to: Settings](HowToSettings.md)
+[TemtemTracker features](TemtemTrackerFeatures.md)\
+[How to: Settings](HowToSettings.md)\
 [How to: Styles](HowToStyles.md)
