@@ -4,7 +4,7 @@ TemtemTracker supports themes or styles. These are located each within their own
 
 ## Table of Contents
 
-[Other Documents of Interest](#Other-Documents-of-Interest)
+[Other Documents of Interest](#Other-Documents-of-Interest)\
 [Style Overview](#Style-Overview)\
 [Style Version and Name](#Style-Version-and-Name)\
 [Main Tracker Body and Individual Windows](#Main-Tracker-Body-and-Individual-Windows)\

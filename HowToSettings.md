@@ -4,7 +4,7 @@ There are multiple settings available to tailor your TemtemTracker experience to
 
 ## Table of Contents
 
-[Other Documents of Interest](#Other-Documents-of-Interest)
+[Other Documents of Interest](#Other-Documents-of-Interest)\
 [General](#General)\
 [Luma Chance](#Luma-Chance)\
 [Saipark](#Saipark)\
