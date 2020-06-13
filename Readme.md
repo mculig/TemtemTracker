@@ -1,5 +1,17 @@
 ### Scroll to Releases below for download
 
+# TemtemTracker
+
+## Table of contents
+
+[About](#About)
+[Requirements](#Requirements)
+[Releases](#Releases)
+[Update Notes](#Update-notes)
+[Help](#Help)
+
+## About
+
 Temtem Tracker is a tracker for encountered Temtem based on Optical Character Recognition. 
 
 The tracker: 
@@ -14,9 +26,24 @@ The tracker:
 
 ## Requirements
 
-If your tracker isn't working at all, it may be due to you lacking the required software packages.
+#### Window visibility
 
-**TemtemTracker V3 requires .NET 4.5.2  and Visual C++ Redistributable 2017 in order to work.** 
+For the application to work you must not obstruct any of the interface elements used for detection. These are the Temtem names, minimap and buttons in the bottom row of the game interface that appears during battles.
+
+#### Supported aspect ratios:
+
+16:9
+16:10
+4:3
+43:18 (One of 3 aspect ratios marketed as 21:9)
+16:3 (still vulnerable to a detection error in omninesia)
+
+#### Minimum supported resolution:
+
+The tracker requires a minimum resolution of 720p or equivalent level of detail to be able to detect Temtem reliably.
+
+#### Required software packages:
+TemtemTracker V3 requires .NET 4.5.2  and Visual C++ Redistributable 2017 in order to work. 
 
 Windows 10 users most likely already have .NET, as it is part of the Windows 10 Creators Update.
 
@@ -39,24 +66,6 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 #### Old releases:
 
 [Releases](https://github.com/mculig/TemtemTracker/releases)
-
-## Important notes
-
-For the application to work you **MUST NOT** obstruct any of the interface elements used for detection (Spots 1-6 in images below) OR OCR (Frames 1 and 2 in images below)
-
-## Controls
-
-Default:
-
-* Reset table and timer: ALT+F5
-* Pause/restart timer: ALT+F8
-
-These can be remapped in the settings
-
-Row buttons:
-
-* X: Delete row
-* W: Open individual row window
 
 ## Update notes
 
@@ -81,42 +90,10 @@ Row buttons:
 
 [UpdateHistory](UpdateHistory.md)
 
-## How it works
+### Help
 
-The application relies on several dots to identify in-combat and out-of-combat situations, and 2 Frames to identify Temtem names using OCR. These dots and frames can be seen on the following 2 images:
+Details about the interface, settings and how to make your own styles can be found in the following documents:
 
-![OCR Frames and Sampling dots](Images/OCR%20Frames%20and%20Sampling%20Dots.png)
-
-![Sampling dots #2](Images/Sampling%20Dots.png)
-
-The dots are marked 1-6 and are positioned at a location on the screen determined by the values:
-
-* spotXWidthPercentage
-* spotXHeightPercentage
-
-In TemtemTracker/config/config.json
-
-The ARGB values the application tests for can also be found in the config file:
-
-* spotXRGB
-
-The application has been tested to work at common 16:9 and 16:10 resolutions in windowed, borderless and fullscreen mode without the need to modify the spot locations in the config file.
-
-The OCR Frames location and dimensions are determined by the values:
-
-* frameXPercentageLeft
-* frameXPercentageTop
-* frameWidthPercentage
-* frameHeightPercentage
-
-The application interface (Tsukki theme) can be seen on the following image: 
-
-![Application Interface](Images/Window.png)
-
-The application tracks Temtem encountered, the number of encounters, the chance of having encountered a Luma of that species and the % that species represents in the total number of Temtem encountered, as well as totals for these values.
-
-The Luma chance is based on the lumaChance value in TemtemTracker/config/config.json
-
-The Window dimensions are saved upon exiting the application and can be found in TemtemTracker/config/userSettings.json
-
-Finally, in order to clean up any artifacts in the OCR output, a string comparison operation is executed using the Temtem names found in TemtemTracker/config/temtemSpecies.json. This will need to be updated with new species when their names are released in order to keep the application reliable.
+[TemtemTracker features](TemtemTrackerFeatures.md)
+[How to: Settings](HowToSettings.md)
+[How to: Styles](HowToStyles.md)
