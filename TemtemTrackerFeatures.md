@@ -4,11 +4,11 @@ In this document the features of the TemtemTracker will be shown and explained.
 
 ## Table of Contents
 
-[Other Documents of Interest](#-Other-Documents-of-Interest)  
-[The Main Window](#-The-Main-Window)  
-[The Menu Strip](#-The-Menu-Strip)  
-[The Statistics Window](#-The-Statistics-Window)  
-[Individual Tracking Windows](#-Individual-Tracking-Windows)
+[Other Documents of Interest](#Other-Documents-of-Interest)  
+[The Main Window](#The-Main-Window)  
+[The Menu Strip](#The-Menu-Strip)  
+[The Statistics Window](#The-Statistics-Window)  
+[Individual Tracking Windows](#Individual-Tracking-Windows)
 
 ## Other Documents of Interest
 
