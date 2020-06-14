@@ -1,5 +1,22 @@
 [Back to Index](Readme.md)
 
+### V3.1
+
+#### New features
+
+- Added 16:3 and 4:3 aspect ratios to config
+- Added support for multiple Temtem windows/clients running simultaneously
+- Added log generation for unhandled crashes
+- Added auto-pause feature to settings
+- Changed style organization from single file to individual style folders/manifests. This should make it easier to share styles
+- Added more robust and informative error handling for styles to support style development
+- Added additional options to styles: tableRowButtonBorderColor and toolStripBackground
+- Added individual tracking windows, minimalist windows that can be used to track a single Temtem while still keeping an eye on time and temtem/h. 
+
+#### Bugfixes/optimization
+
+- Fixed detection not working monitors other than main monitor
+
 ### V3.0
 
 Version 3 is a port to C# with optimizations, rewrites and cleanup

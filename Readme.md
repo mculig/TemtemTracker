@@ -56,8 +56,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-- [TemtemTracker V3.1](https://github.com/mculig/TemtemTracker/releases/download/V3.1/TemtemTracker_v3.1_x64.zip)
-- [TemtemTracker V3.1 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V3.1/TemtemTracker_v3.1_x86.zip)
+- [TemtemTracker V4.0](https://github.com/mculig/TemtemTracker/releases/download/V4.0/TemtemTracker_v4.0_x64.zip)
+- [TemtemTracker V4.0 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.0/TemtemTracker_v4.0_x86.zip)
 
 #### Old releases:
 
@@ -65,22 +65,30 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 ## Update notes
 
-### V3.1
+### V4.0
 
 #### New features
 
-- Added 16:3 and 4:3 aspect ratios to config
-- Added support for multiple Temtem windows/clients running simultaneously
-- Added log generation for unhandled crashes
-- Added auto-pause feature to settings
-- Changed style organization from single file to individual style folders/manifests. This should make it easier to share styles
-- Added more robust and informative error handling for styles to support style development
-- Added additional options to styles: tableRowButtonBorderColor and toolStripBackground
-- Added individual tracking windows, minimalist windows that can be used to track a single Temtem while still keeping an eye on time and temtem/h. 
+- Support for Temtem windows in Sandboxie (only default window names with [#] appended and prepended, no sandbox names)
+- Statistics Window
+- Added Yami (made by Yami) and GracefulKlutz styles
 
 #### Bugfixes/optimization
 
-- Fixed detection not working monitors other than main monitor
+- Improved error logging level of detail. Now your logs will make it easier for me to help you get the tracker running
+- Decreased number of pixels necessary for objects to no longer be recognized as letters, speeding up detection
+- Added additional checks to post-OCR, eliminating some sources of false and missed detections
+- Fixed coding error that would make Myx undetectable due to the name being too short
+- Added shutdown prevention to prevent table.json file corruption due to shutdown happening before the table can be written
+- Fixed menu Unpause button not starting Timer back up after autopause
+- Fixed 4:3 Aspect Ratio detection spots being wrong
+- Fixed detection issues on lake in Citerior Omninesia (still missing spots in 16:3 aspect ratio)
+- Fixed Individual Window timer showing 00:00:00 if timer is paused right after tracker is started
+
+#### Known issues
+
+- Font size scaling from primary monitor causes font to be tiny on secondary monitor with higher resolution/different scaling. This is an issue with the underlying framework and can not yet be addressed at this time. 
+- False detections/Missed detections are still possible on water encounters with clouds in the background
 
 #### Update history
 
