@@ -78,8 +78,6 @@ namespace TemtemTracker.Controllers
                 day.DayOfWeek == 0 ? -6 : -(int)day.DayOfWeek + 1);
             DateTime weekEnd = weekStart.AddDays(7).AddSeconds(-1);
 
-            Console.WriteLine("Start date: " + weekStart + " End date: " + weekEnd);
-
             return new Tuple<DateTime, DateTime>(weekStart, weekEnd);
         }
 
