@@ -3,21 +3,21 @@
 # TemtemTracker
 Temtem Tracker is a tracker for encountered Temtem based on Optical Character Recognition. 
 
-The tracker:\
-**DOES NOT** read Temtem memory\
-**DOES NOT** intercept any Client-Server communication\
-**DOES NOT** send any requests of its own to any server\
-**DOES NOT** automate any part of gameplay\
-**DOES NOT** do anything a player couldn't do themselves using pen and paper\
+The tracker:  
+**DOES NOT** read Temtem memory  
+**DOES NOT** intercept any Client-Server communication  
+**DOES NOT** send any requests of its own to any server  
+**DOES NOT** automate any part of gameplay  
+**DOES NOT** do anything a player couldn't do themselves using pen and paper  
 **WILL NOT** get you banned
 
 ![Good to go](Images/good2go.PNG)
 
 ## Table of contents
 
-[Requirements](#Requirements)\
-[Releases](#Releases)\
-[Update Notes](#Update-notes)\
+[Requirements](#Requirements)  
+[Releases](#Releases)  
+[Update Notes](#Update-notes)  
 [Help](#Help)
 
 ## Requirements
@@ -98,6 +98,6 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 Details about the interface, settings and how to make your own styles can be found in the following documents:
 
-[TemtemTracker features](TemtemTrackerFeatures.md)\
-[How to: Settings](HowToSettings.md)\
+[TemtemTracker features](TemtemTrackerFeatures.md)  
+[How to: Settings](HowToSettings.md)  
 [How to: Styles](HowToStyles.md)
