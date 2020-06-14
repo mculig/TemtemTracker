@@ -15,10 +15,10 @@ The tracker:
 
 ## Table of contents
 
-[Requirements](#Requirements)  
-[Releases](#Releases)  
-[Update Notes](#Update-notes)  
-[Help](#Help)
+[Requirements](#requirements)  
+[Releases](#releases)  
+[Update Notes](#update-notes)  
+[Help](#help)
 
 ## Requirements
 
