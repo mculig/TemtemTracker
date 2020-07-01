@@ -226,12 +226,12 @@ namespace TemtemTracker.Controllers
             lock (saveLock)
             {
                 dataTable.timer.durationTime += 1000;
-                trackerUI.UpdateTime(dataTable.timer.durationTime);
                 foreach (KeyValuePair<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>> entry in UIElements)
                 {
                     entry.Value.Item2.UpdateTime(dataTable.timer.durationTime);
                 }
             }
+            trackerUI.UpdateTime(dataTable.timer.durationTime);
         }
 
         public DateTime GetLastChangeTime()
