@@ -4,16 +4,16 @@ There are multiple settings available to tailor your TemtemTracker experience to
 
 ## Table of Contents
 
-[Other Documents of Interest](#Other-Documents-of-Interest)\
-[General](#General)\
-[Luma Chance](#Luma-Chance)\
-[Saipark](#Saipark)\
-[Hotkeys](#Hotkeys)
+[Other Documents of Interest](#other-documents-of-interest)  
+[General](#general)  
+[Luma Chance](#luma-chance)  
+[Saipark](#saipark)  
+[Hotkeys](#hotkeys)
 
 ## Other Documents of Interest
 
-[Index](Readme.md)\
-[TemtemTracker features](TemtemTrackerFeatures.md)\
+[Index](Readme.md)  
+[TemtemTracker features](TemtemTrackerFeatures.md)  
 [How to: Styles](HowToStyles.md)
 
 ## General 
