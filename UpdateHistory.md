@@ -1,5 +1,30 @@
 [Back to Index](Readme.md)
 
+### V4.0
+
+#### New features
+
+- Support for Temtem windows in Sandboxie (only default window names with [#] appended and prepended, no sandbox names)
+- Statistics Window
+- Added Yami (made by Yami) and GracefulKlutz styles
+
+#### Bugfixes/optimization
+
+- Improved error logging level of detail. Now your logs will make it easier for me to help you get the tracker running
+- Decreased number of pixels necessary for objects to no longer be recognized as letters, speeding up detection
+- Added additional checks to post-OCR, eliminating some sources of false and missed detections
+- Fixed coding error that would make Myx undetectable due to the name being too short
+- Added shutdown prevention to prevent table.json file corruption due to shutdown happening before the table can be written
+- Fixed menu Unpause button not starting Timer back up after autopause
+- Fixed 4:3 Aspect Ratio detection spots being wrong
+- Fixed detection issues on lake in Citerior Omninesia (still missing spots in 16:3 aspect ratio)
+- Fixed Individual Window timer showing 00:00:00 if timer is paused right after tracker is started
+
+#### Known issues
+
+- Font size scaling from primary monitor causes font to be tiny on secondary monitor with higher resolution/different scaling. This is an issue with the underlying framework and can not yet be addressed at this time. 
+- False detections/Missed detections are still possible on water encounters with clouds in the background
+
 ### V3.1
 
 #### New features
