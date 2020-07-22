@@ -57,8 +57,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-- [TemtemTracker V4.0](https://github.com/mculig/TemtemTracker/releases/download/V4.1/TemtemTracker_v4.1_x64.zip)
-- [TemtemTracker V4.0 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.1/TemtemTracker_v4.1_x86.zip)
+- [TemtemTracker V4.1](https://github.com/mculig/TemtemTracker/releases/download/V4.1/TemtemTracker_v4.1_x64.zip)
+- [TemtemTracker V4.1 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.1/TemtemTracker_v4.1_x86.zip)
 
 #### Old releases:
 
