@@ -14,6 +14,20 @@
   "minimumOCRResizeWidth": 1300,
   "maximumLetterPixelCount": 4500,
   "OCRCharWhitelist":  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  "windowAndProcessNames":[
+		{
+			"processName": "Temtem",
+			"windowName":"Temtem"
+		},
+		{
+			"processName": "Temtem",
+			"windowName":"[#] Temtem [#]"
+		},
+		{
+			"processName": "NVIDIA GeForce NOW",
+			"windowName":"Temtem on GeForce NOW"
+		}
+	],
 	"aspectRatios":[{
 		"aspectRatio":"16:9",
 		"spot1WidthPercentage":0.42,

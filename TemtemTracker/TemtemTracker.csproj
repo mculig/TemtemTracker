@@ -146,6 +146,7 @@
     <Compile Include="Data\PlayingSessionTime.cs" />
     <Compile Include="Data\TimerData.cs" />
     <Compile Include="Data\UserSettings.cs" />
+    <Compile Include="Data\WindowAndProcessNames.cs" />
     <Compile Include="IndividualTrackerWindow.cs">
       <SubType>Form</SubType>
     </Compile>

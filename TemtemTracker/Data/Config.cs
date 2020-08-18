@@ -35,6 +35,10 @@ namespace TemtemTracker.Data
         //Tesseract character whitelist
         public string OCRCharWhitelist;
 
+        //An array of window and process names to check for when detecting if a window is Temtem
+        public List<WindowAndProcessNames> windowAndProcessNames;
+
+        //Settings for supported aspect ratios
         public List<ScreenConfig> aspectRatios;
     }
 }

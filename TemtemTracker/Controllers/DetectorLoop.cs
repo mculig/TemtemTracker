@@ -56,8 +56,7 @@ namespace TemtemTracker.Controllers
         private readonly int spot8RGB;
 
         //The name of the window in question
-        private static readonly string WINDOW_NAME = "Temtem";
-        private static readonly string WINDOW_NAME_SANDBOX = "[#] Temtem [#]";
+        private readonly List<WindowAndProcessNames> windowAndProcessNames;
 
         //Maximum distance between the color I'm expecting and color from the screen
         private readonly int maxAllowedColorDistance;
@@ -92,6 +91,8 @@ namespace TemtemTracker.Controllers
 
             this.maxAllowedColorDistance = config.maxAllowedColorDistance;
 
+            this.windowAndProcessNames = config.windowAndProcessNames;
+
             temtemWindows = new Dictionary<uint, TemtemWindowData>();
 
             //Get relevant settings from the settings controller
@@ -123,8 +124,21 @@ namespace TemtemTracker.Controllers
             User32.GetWindowText(focused, windowName, 100);
             User32.GetWindowThreadProcessId(focused, out uint focusedWindowProcessID); //Inline variable declaration
             string focusedWindowProcessName = Process.GetProcessById((int)focusedWindowProcessID).ProcessName;
-            if ((windowName.ToString().Equals(WINDOW_NAME) || windowName.ToString().Equals(WINDOW_NAME_SANDBOX)) 
-                && focusedWindowProcessName.Equals(WINDOW_NAME))
+
+            //Is the window in question a Temtem window? Assume not
+            Boolean isTemtemWindow = false;
+
+            //Check if The window matches any of the window and process names in the config
+            foreach(WindowAndProcessNames windowAndProcess in windowAndProcessNames)
+            {
+                if(windowName.ToString().Equals(windowAndProcess.windowName) && focusedWindowProcessName.Equals(windowAndProcess.processName))
+                {
+                    isTemtemWindow = true;
+                    break;
+                }
+            }
+            //If the window is a Temtem window, run detection on it
+            if (isTemtemWindow)
             {
                 temtemWindow = focused;
                 //Here we check if this is one of our already detected windows and if not we add it
