@@ -48,6 +48,5 @@ namespace TemtemTracker
             System.Diagnostics.Process.Start(ALICE_URL_2);
             linkAlice2.LinkVisited = true;
         }
-
     }
 }
