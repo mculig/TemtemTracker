@@ -57,8 +57,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-- [TemtemTracker V4.1](https://github.com/mculig/TemtemTracker/releases/download/V4.1/TemtemTracker_v4.1_x64.zip)
-- [TemtemTracker V4.1 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.1/TemtemTracker_v4.1_x86.zip)
+- [TemtemTracker V4.2](https://github.com/mculig/TemtemTracker/releases/download/V4.2/TemtemTracker_v4.2_x64.zip)
+- [TemtemTracker V4.2 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.2/TemtemTracker_v4.2_x86.zip)
 
 #### Old releases:
 
@@ -66,15 +66,17 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 ## Update notes
 
-### V4.1
+### V4.2
 
 #### New features
 
-- Added Kisiwan Temtem species
+- Added Momo
+- Added Temtem Window/Process names for GeForce NOW.
 
 #### Bugfixes/optimization
 
-- Fixed deadlock that would sometimes cause the tracker to become unresponsive
+- Fixed version in about window showing V4.0, set to V4.2
+- Replaced hardcoded Window/Process names pairs with retieval from config file. This enables savvy users to add new names for Temtem processes and Windows should other services they use somehow modify these. 
 
 #### Known issues
 

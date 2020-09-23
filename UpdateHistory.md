@@ -1,5 +1,21 @@
 [Back to Index](Readme.md)
 
+### V4.1
+
+#### New features
+
+- Added Kisiwan Temtem species
+
+#### Bugfixes/optimization
+
+- Fixed deadlock that would sometimes cause the tracker to become unresponsive
+
+#### Known issues
+
+- Font size scaling from primary monitor causes font to be tiny on secondary monitor with higher resolution/different scaling. This is an issue with the underlying framework and can not yet be addressed at this time. 
+- False detections/Missed detections are still possible on water encounters with clouds in the background
+- On some systems an issue with the VC++ will cause the tracker to crash when detecting Temtem in combat. The root cause seems to lie in the VC++ instalation on on the user's PC, but the exact source is still unknown
+
 ### V4.0
 
 #### New features
