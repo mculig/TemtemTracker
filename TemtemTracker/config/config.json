@@ -1,5 +1,5 @@
 {
-	"lumaChance":0.000125,
+	"lumaChance":0.0001,
 	"detectionLoopInterval": 10,
 	"spot1RGB":"#FFA732",
 	"spot2RGB":"#1BD1D4",
