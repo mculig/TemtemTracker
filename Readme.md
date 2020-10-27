@@ -57,8 +57,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-- [TemtemTracker V4.2](https://github.com/mculig/TemtemTracker/releases/download/V4.2/TemtemTracker_v4.2_x64.zip)
-- [TemtemTracker V4.2 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.2/TemtemTracker_v4.2_x86.zip)
+- [TemtemTracker V4.3](https://github.com/mculig/TemtemTracker/releases/download/V4.3/TemtemTracker_v4.3_x64.zip)
+- [TemtemTracker V4.3 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.3/TemtemTracker_v4.3_x86.zip)
 
 #### Old releases:
 
@@ -66,23 +66,23 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 ## Update notes
 
-### V4.2
+### V4.3
 
 #### New features
 
-- Added Momo
-- Added Temtem Window/Process names for GeForce NOW.
+- Added Koish
+- Updated the base luma chance to 1/10000
 
 #### Bugfixes/optimization
 
-- Fixed version in about window showing V4.0, set to V4.2
-- Replaced hardcoded Window/Process names pairs with retieval from config file. This enables savvy users to add new names for Temtem processes and Windows should other services they use somehow modify these. 
+- Nothing new here, sorry folks
 
 #### Known issues
 
+- TemtemTracker currently does not detect the chaining method and adjust odds for it. A closer look at this will be taken at a later time, but no promises since the chaining method displays numbers anyway.
 - Font size scaling from primary monitor causes font to be tiny on secondary monitor with higher resolution/different scaling. This is an issue with the underlying framework and can not yet be addressed at this time. 
 - False detections/Missed detections are still possible on water encounters with clouds in the background
-- On some systems an issue with the VC++ will cause the tracker to crash when detecting Temtem in combat. The root cause seems to lie in the VC++ instalation on on the user's PC, but the exact source is still unknown
+- Issue in optical character recognition library causes crash on systems with processors that do not support vector operations. This will be fixed when the fixes are accepted and merged into the library and make it downstream.
 
 #### Update history
 
