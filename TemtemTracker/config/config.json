@@ -13,7 +13,7 @@
   "maxOCRSubpixelFFDistance": 15,
   "minimumOCRResizeWidth": 1300,
   "maximumLetterPixelCount": 4500,
-  "OCRCharWhitelist":  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  "OCRCharWhitelist":  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01",
   "windowAndProcessNames":[
 		{
 			"processName": "Temtem",

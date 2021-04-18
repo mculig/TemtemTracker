@@ -1,0 +1,21 @@
+﻿
+{
+        "styleVersion": 2,
+		"styleName":"WiplumpLovers",
+        "menuStripBackground": "#90ECF4",
+        "menuStripForeground": "#FE4E80",
+        "toolStripBackground": "#90ECF4",
+        "menuItemSelected": "#000000",
+        "trackerBackground": "#90ECF4",
+        "trackerForeground": "#FE4E80",
+        "timerForeground": "#FE4E80",
+        "timerPausedForeground": "#FFFFFF",
+        "tableRowBackground1": "#90ECF4",
+        "tableRowBackground2": "#2B2B2E",
+        "tableRowForeground1": "#FE4E80",
+        "tableRowForeground2": "#FE4E80",
+        "tableRowButtonHoverColor": "#000000",
+        "tableRowButtonBackground": "#90ECF4",
+        "tableRowButtonForeground": "#FE4E80",
+        "tableRowButtonBorderColor": "#FE4E80"
+	}

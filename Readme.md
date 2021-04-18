@@ -40,7 +40,7 @@ For the application to work you must not obstruct any of the interface elements 
 The tracker requires a minimum resolution of 720p or equivalent level of detail at your aspect ratio of choice to be able to detect Temtem reliably.
 
 #### Required software packages:
-TemtemTracker V3 requires .NET 4.5.2  and Visual C++ Redistributable 2017 in order to work. 
+TemtemTracker requires .NET 4.5.2  and Visual C++ Redistributable 2017 in order to work. 
 
 Windows 10 users most likely already have .NET, as it is part of the Windows 10 Creators Update.
 
@@ -57,8 +57,8 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 #### Current release:
 
-- [TemtemTracker V4.3](https://github.com/mculig/TemtemTracker/releases/download/V4.3/TemtemTracker_v4.3_x64.zip)
-- [TemtemTracker V4.3 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.3/TemtemTracker_v4.3_x86.zip)
+- [TemtemTracker V4.4](https://github.com/mculig/TemtemTracker/releases/download/V4.4/TemtemTracker_v4.4_x64.zip)
+- [TemtemTracker V4.4 (32-bit)](https://github.com/mculig/TemtemTracker/releases/download/V4.4/TemtemTracker_v4.4_x86.zip)
 
 #### Old releases:
 
@@ -66,20 +66,22 @@ OR found here: [Latest supported Visual C++ Downloads](https://support.microsoft
 
 ## Update notes
 
-### V4.3
+### V4.4
 
 #### New features
 
-- Added Koish
-- Updated the base luma chance to 1/10000
+- Added Cipanku Temtem
+- This includes an update to the OCR whitelist to include characters 0 and 1 for 0b1 detection. This may potentially reduce accuracy at low resolutions.
+- Added 3 pixels of top and bottom padding to table rows. This should hopefully prevent buttons from being cut off at the top
+- Added Wiplump Lovers theme
 
 #### Bugfixes/optimization
 
-- Nothing new here, sorry folks
+- Updated Tesseract version to 4.1.1
 
 #### Known issues
 
-- TemtemTracker currently does not detect the chaining method and adjust odds for it. A closer look at this will be taken at a later time, but no promises since the chaining method displays numbers anyway.
+- TemtemTracker does not track the changes in odds when chaining encounters using a radar
 - Font size scaling from primary monitor causes font to be tiny on secondary monitor with higher resolution/different scaling. This is an issue with the underlying framework and can not yet be addressed at this time. 
 - False detections/Missed detections are still possible on water encounters with clouds in the background
 - Issue in optical character recognition library causes crash on systems with processors that do not support vector operations. This will be fixed when the fixes are accepted and merged into the library and make it downstream.

@@ -59,6 +59,7 @@
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(830, 45);
@@ -69,9 +70,9 @@
             this.buttonShowIndividualWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonShowIndividualWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonShowIndividualWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonShowIndividualWindow.Location = new System.Drawing.Point(762, 3);
+            this.buttonShowIndividualWindow.Location = new System.Drawing.Point(762, 6);
             this.buttonShowIndividualWindow.Name = "buttonShowIndividualWindow";
-            this.buttonShowIndividualWindow.Size = new System.Drawing.Size(65, 39);
+            this.buttonShowIndividualWindow.Size = new System.Drawing.Size(65, 33);
             this.buttonShowIndividualWindow.TabIndex = 6;
             this.buttonShowIndividualWindow.Text = "W";
             this.buttonShowIndividualWindow.UseVisualStyleBackColor = true;
@@ -81,9 +82,9 @@
             // 
             this.labelEncounteredPercent.AutoSize = true;
             this.labelEncounteredPercent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelEncounteredPercent.Location = new System.Drawing.Point(417, 0);
+            this.labelEncounteredPercent.Location = new System.Drawing.Point(417, 3);
             this.labelEncounteredPercent.Name = "labelEncounteredPercent";
-            this.labelEncounteredPercent.Size = new System.Drawing.Size(132, 45);
+            this.labelEncounteredPercent.Size = new System.Drawing.Size(132, 39);
             this.labelEncounteredPercent.TabIndex = 5;
             this.labelEncounteredPercent.Text = "Encountered %";
             this.labelEncounteredPercent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -92,9 +93,9 @@
             // 
             this.labelChanceLuma.AutoSize = true;
             this.labelChanceLuma.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelChanceLuma.Location = new System.Drawing.Point(279, 0);
+            this.labelChanceLuma.Location = new System.Drawing.Point(279, 3);
             this.labelChanceLuma.Name = "labelChanceLuma";
-            this.labelChanceLuma.Size = new System.Drawing.Size(132, 45);
+            this.labelChanceLuma.Size = new System.Drawing.Size(132, 39);
             this.labelChanceLuma.TabIndex = 4;
             this.labelChanceLuma.Text = "Chance Luma";
             this.labelChanceLuma.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -103,9 +104,9 @@
             // 
             this.labelEncounters.AutoSize = true;
             this.labelEncounters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelEncounters.Location = new System.Drawing.Point(141, 0);
+            this.labelEncounters.Location = new System.Drawing.Point(141, 3);
             this.labelEncounters.Name = "labelEncounters";
-            this.labelEncounters.Size = new System.Drawing.Size(132, 45);
+            this.labelEncounters.Size = new System.Drawing.Size(132, 39);
             this.labelEncounters.TabIndex = 3;
             this.labelEncounters.Text = "Encounters";
             this.labelEncounters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -114,9 +115,9 @@
             // 
             this.labelTemtemName.AutoSize = true;
             this.labelTemtemName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelTemtemName.Location = new System.Drawing.Point(3, 0);
+            this.labelTemtemName.Location = new System.Drawing.Point(3, 3);
             this.labelTemtemName.Name = "labelTemtemName";
-            this.labelTemtemName.Size = new System.Drawing.Size(132, 45);
+            this.labelTemtemName.Size = new System.Drawing.Size(132, 39);
             this.labelTemtemName.TabIndex = 2;
             this.labelTemtemName.Text = "Temtem";
             this.labelTemtemName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -125,9 +126,9 @@
             // 
             this.labelTimeToLuma.AutoSize = true;
             this.labelTimeToLuma.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelTimeToLuma.Location = new System.Drawing.Point(555, 0);
+            this.labelTimeToLuma.Location = new System.Drawing.Point(555, 3);
             this.labelTimeToLuma.Name = "labelTimeToLuma";
-            this.labelTimeToLuma.Size = new System.Drawing.Size(132, 45);
+            this.labelTimeToLuma.Size = new System.Drawing.Size(132, 39);
             this.labelTimeToLuma.TabIndex = 1;
             this.labelTimeToLuma.Text = "Time to Luma";
             this.labelTimeToLuma.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -137,9 +138,9 @@
             this.deleteButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.deleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deleteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteButton.Location = new System.Drawing.Point(693, 3);
+            this.deleteButton.Location = new System.Drawing.Point(693, 6);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(63, 39);
+            this.deleteButton.Size = new System.Drawing.Size(63, 33);
             this.deleteButton.TabIndex = 0;
             this.deleteButton.Text = "X";
             this.deleteButton.UseVisualStyleBackColor = true;
