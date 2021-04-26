@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using TemtemTracker.Controllers;
 using TemtemTracker.Data;
 
-namespace TemtemTracker
-{
-    public partial class StatisticsWindow : Form
+namespace TemtemTracker {
+    public partial class StatisticsWindow : UserControl
     {
         private delegate void populateStatisticsDelegate(TrackingStatistics stats);
 
@@ -91,15 +84,6 @@ namespace TemtemTracker
 
             }
             
-        }
-
-        private void StatisticsWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                e.Cancel = true;
-                Hide();
-            }
         }
 
         private void ButtonRefresh_Click(object sender, EventArgs e)

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TemtemTracker.Controllers;
 using TemtemTracker.Data;
@@ -20,7 +14,6 @@ namespace TemtemTracker {
         private readonly AboutWindow aboutWindow;
         private readonly StatisticsWindow statisticsWindow;
         private readonly SettingsController settingsController;
-
         private readonly TemtemTrackerUI trackerUI;
 
         private Style style;
@@ -39,6 +32,7 @@ namespace TemtemTracker {
             settingsController.StyleChanged += SetWindowStyle;
 
             CreateTrackerTab();
+            CreateStatisticsTab();
         }
 
         private void CreateTrackerTab() {
@@ -46,6 +40,14 @@ namespace TemtemTracker {
             var tab = new TabPage();
             tab.Text = "Tracker";
             tab.Controls.Add(trackerUI);
+            tabControl.TabPages.Add(tab);
+        }
+
+        private void CreateStatisticsTab() {
+            statisticsWindow.Dock = DockStyle.Fill;
+            var tab = new TabPage();
+            tab.Text = "Statistics";
+            tab.Controls.Add(statisticsWindow);
             tabControl.TabPages.Add(tab);
         }
 
@@ -129,10 +131,6 @@ namespace TemtemTracker {
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e) {
             aboutWindow.Show();
-        }
-
-        private void StatisticsToolStripMenuItem_Click(object sender, EventArgs e) {
-            statisticsWindow.Show();
         }
     }
 }

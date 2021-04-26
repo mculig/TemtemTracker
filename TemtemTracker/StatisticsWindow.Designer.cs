@@ -166,10 +166,8 @@
             this.ClientSize = new System.Drawing.Size(878, 644);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StatisticsWindow";
             this.Text = "Statistics";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StatisticsWindow_FormClosing);
             this.VisibleChanged += new System.EventHandler(this.StatisticsWindow_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyEncounters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWeeklyPlaytime)).EndInit();
