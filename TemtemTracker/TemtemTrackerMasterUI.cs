@@ -36,6 +36,7 @@ namespace TemtemTracker {
 
             settingsController.MainWindowOpacityChanged += SetWindowOpacity;
             settingsController.TimerPausedToggled += TogglePauseTimerUIIndication;
+            settingsController.StyleChanged += SetWindowStyle;
 
             CreateTrackerTab();
         }
