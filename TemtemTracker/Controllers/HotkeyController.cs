@@ -14,7 +14,7 @@ namespace TemtemTracker.Controllers
         //so it can override WndProc and get the hotkeys it registered
 
         private readonly SettingsController settingsController;
-        private readonly TemtemTrackerUI trackerUI;
+        private readonly TemtemTrackerMasterUI masterUI;
         private readonly TemtemTableController tableController;
         private Keys resetTableHotkey;
         private Keys pauseTimerHotkey;
@@ -27,10 +27,10 @@ namespace TemtemTracker.Controllers
         private readonly int RESET_TABLE_HOTKEY_ID = 0;
         private readonly int PAUSE_TIMER_HOTKEY_ID = 1;
 
-        public HotkeyController(SettingsController settingsController, TemtemTrackerUI trackerUI, TemtemTableController tableController)
+        public HotkeyController(SettingsController settingsController, TemtemTrackerMasterUI trackerUI, TemtemTableController tableController)
         {
             this.settingsController = settingsController;
-            this.trackerUI = trackerUI;
+            this.masterUI = trackerUI;
             this.tableController = tableController;
 
             //Get the hotkeys from settings
@@ -124,7 +124,7 @@ namespace TemtemTracker.Controllers
             KeysConverter kc = new KeysConverter();
             string resetTableHotkeyModifiersString = HelperMethods.ModifierKeysToString(resetTableHotkeyModifiers);
             string pauseTimerHotkeyModifiersString = HelperMethods.ModifierKeysToString(pauseTimerHotkeyModifiers);
-            trackerUI.SetMenuStripHotkeyStrings(resetTableHotkeyModifiersString + kc.ConvertToString(resetTableHotkey),
+            masterUI.SetMenuStripHotkeyStrings(resetTableHotkeyModifiersString + kc.ConvertToString(resetTableHotkey),
                 pauseTimerHotkeyModifiersString + kc.ConvertToString(pauseTimerHotkey));
             
         }

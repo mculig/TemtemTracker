@@ -35,6 +35,7 @@ namespace TemtemTracker
             SettingsController settingsController = new SettingsController(configLoader.GetSpeciesList(), configLoader.GetStyles(), configLoader.GetUserSettings());
             //Create the main window and controller
             TemtemTrackerUI trackerUI = new TemtemTrackerUI(settingsController);
+            TemtemTrackerMasterUI masterUI = new TemtemTrackerMasterUI(settingsController, trackerUI);
             //Create the Luma Calculator
             LumaChanceCalculator lumaCalculator = new LumaChanceCalculator(settingsController, configLoader.GetConfig());
             //Create the TemtemTableController
@@ -52,9 +53,9 @@ namespace TemtemTracker
             TimerController timerController = new TimerController(tableController, sessionTimeController, loop, configLoader.GetConfig(), configLoader.GetUserSettings(), settingsController);
             timerController.StartTimers();
             //The hotkey controller
-            HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, tableController);
+            HotkeyController hotkeyController = new HotkeyController(settingsController, masterUI, tableController);
             //Add listeners to application exit
-            trackerUI.FormClosing += new FormClosingEventHandler((object source, FormClosingEventArgs e) =>
+            masterUI.FormClosing += new FormClosingEventHandler((object source, FormClosingEventArgs e) =>
             {
                 //Prevent shutdown during close
                 User32.ShutdownBlockReasonCreate(trackerUI.Handle, "Saving! Please wait!");
@@ -71,7 +72,7 @@ namespace TemtemTracker
 
             });
             //Run the app
-            Application.Run(trackerUI);      
+            Application.Run(masterUI);      
             
 
         }

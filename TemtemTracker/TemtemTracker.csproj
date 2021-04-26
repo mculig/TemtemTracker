@@ -162,6 +162,12 @@
     <Compile Include="StatisticsWindow.Designer.cs">
       <DependentUpon>StatisticsWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="TemtemTrackerUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TemtemTrackerUI.Designer.cs">
+      <DependentUpon>TemtemTrackerUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="TemtemTableRowHeaderUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -174,11 +180,11 @@
     <Compile Include="TemtemTableTotalUI.Designer.cs">
       <DependentUpon>TemtemTableTotalUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="TemtemTrackerUI.cs">
+    <Compile Include="TemtemTrackerMasterUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TemtemTrackerUI.Designer.cs">
-      <DependentUpon>TemtemTrackerUI.cs</DependentUpon>
+    <Compile Include="TemtemTrackerMasterUI.Designer.cs">
+      <DependentUpon>TemtemTrackerMasterUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -212,8 +218,8 @@
     <EmbeddedResource Include="TemtemTableTotalUI.resx">
       <DependentUpon>TemtemTableTotalUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TemtemTrackerUI.resx">
-      <DependentUpon>TemtemTrackerUI.cs</DependentUpon>
+    <EmbeddedResource Include="TemtemTrackerMasterUI.resx">
+      <DependentUpon>TemtemTrackerMasterUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -228,6 +234,10 @@
     </Compile>
     <EmbeddedResource Include="TemtemTableRowUI.resx">
       <DependentUpon>TemtemTableRowUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TemtemTrackerUI.resx">
+      <DependentUpon>TemtemTrackerUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TimeTrackerUI.resx">
       <DependentUpon>TimeTrackerUI.cs</DependentUpon>
