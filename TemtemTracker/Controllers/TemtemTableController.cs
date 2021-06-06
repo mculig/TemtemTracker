@@ -22,7 +22,7 @@ namespace TemtemTracker.Controllers
         private readonly TemtemTrackerUI trackerUI;
 
         //The data table we load from JSON or set up
-        TemtemDataTable dataTable;
+        public TemtemDataTable dataTable;
 
         //A hash map between UI elements and data elements used when inserting or deleting elements
         private readonly Dictionary<TemtemDataRow, Tuple<TemtemTableRowUI, IndividualTrackerWindow>> UIElements;

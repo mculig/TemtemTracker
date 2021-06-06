@@ -127,6 +127,7 @@
     <Compile Include="Controllers\TimerController.cs" />
     <Compile Include="Controllers\UnhandledExceptionHandler.cs" />
     <Compile Include="Controllers\User32.cs" />
+    <Compile Include="Controllers\WebserverController.cs" />
     <Compile Include="Controllers\WindowFinder.cs" />
     <Compile Include="Data\Statistics\DailyEncounterStatistics.cs" />
     <Compile Include="Data\Statistics\DailyPlaytimeStatistics.cs" />
