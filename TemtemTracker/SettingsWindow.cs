@@ -116,6 +116,12 @@ namespace TemtemTracker
             inactivityTreshold.Value = intervalMinutes;
         }
 
+        public void PopulateWebserverSettings(bool enabled, int port) 
+        {
+            checkboxWebserverEnabled.Checked = enabled;
+            numericWebserverPort.Value = port;
+        }
+
         private void CheckBoxSaiparkMode_CheckedChanged(object sender, EventArgs e)
         {
             if(!disableEventHandlers)
@@ -333,6 +339,22 @@ namespace TemtemTracker
             if (!disableEventHandlers)
             {
                 settingsController.SetPauseWhenInactiveInterval((int)inactivityTreshold.Value);
+            }
+        }
+
+        private void CheckboxWebserverEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!disableEventHandlers)
+            {
+                settingsController.SetWebserverEnabled(checkboxWebserverEnabled.Checked);
+            }
+        }
+
+        private void NumericWebserverPort_ValueChanged(object sender, EventArgs e)
+        {
+            if (!disableEventHandlers)
+            {
+                settingsController.SetWebserverPort((int)numericWebserverPort.Value);
             }
         }
     }

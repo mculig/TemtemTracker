@@ -47,6 +47,8 @@ namespace TemtemTracker.Controllers
             settingsWindow.SetAutoresumeEnabledCheckboxChecked(userSettings.resumeAutopausedTimerOnDetection);
             //Populate settings window autosave interval
             settingsWindow.SetAutosaveInterval(userSettings.autosaveInterval);
+            //Populate webserver settings
+            settingsWindow.PopulateWebserverSettings(userSettings.webserverEnabled, userSettings.webserverPort);
             //Enable events again
             settingsWindow.EnableEventHandlers();
             //Initialize styles
@@ -237,6 +239,22 @@ namespace TemtemTracker.Controllers
             userSettings.inactivityTreshold = intervalMinutes;
         }
 
+        public void SetWebserverEnabled(bool enabled)
+        {
+            userSettings.webserverEnabled = true;
+            WebserverEnabled?.Invoke(this, enabled);
+        }
+
+        public event EventHandler<bool> WebserverEnabled;
+
+        public void SetWebserverPort(int value)
+        {
+            userSettings.webserverPort = value;
+            WebserverPortChanged?.Invoke(this, value);
+        }
+
+        public event EventHandler<int> WebserverPortChanged; 
+
         public void SaveSettings()
         {
             String settingsJson = JsonConvert.SerializeObject(userSettings);
@@ -251,7 +269,6 @@ namespace TemtemTracker.Controllers
             settingsWindow.PopulateHotkeySettings(resetTableHotkeyModifiersString + kc.ConvertToString(userSettings.resetTableHotkey),
                 pauseTimerHotkeyModifiersString + kc.ConvertToString(userSettings.pauseTimerHotkey));
         }
-
 
     }
 }

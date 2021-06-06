@@ -27,5 +27,7 @@ namespace TemtemTracker.Data
         public int pauseTimerHotkey;
         public bool pauseWhenInactive;
         public int inactivityTreshold;
+        public bool webserverEnabled;
+        public int webserverPort;
     }
 }

@@ -53,6 +53,8 @@ namespace TemtemTracker
             timerController.StartTimers();
             //The hotkey controller
             HotkeyController hotkeyController = new HotkeyController(settingsController, trackerUI, tableController);
+            //Webserver controller
+            WebserverController webserverController = new WebserverController(settingsController, configLoader.GetUserSettings(), tableController.dataTable);
             //Add listeners to application exit
             trackerUI.FormClosing += new FormClosingEventHandler((object source, FormClosingEventArgs e) =>
             {
@@ -66,6 +68,8 @@ namespace TemtemTracker
                 tableController.SaveTable();
                 settingsController.SaveSettings();
                 sessionTimeController.SaveOnAppClose();
+                // Close webserver
+                webserverController.Dispose();
                 //Allow shutdown again
                 User32.ShutdownBlockReasonDestroy(trackerUI.Handle);
 
