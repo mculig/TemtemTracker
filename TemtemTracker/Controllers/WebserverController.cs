@@ -25,7 +25,7 @@ namespace TemtemTracker.Controllers {
                 this.table = table;
             }
 
-            public string Identifier => "/status";
+            public string Identifier => "/";
             public JObject Handle() {
                 JObject obj = new JObject();
                 long durationTime = table.timer.durationTime;

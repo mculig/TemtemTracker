@@ -67,7 +67,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.buttonRemapResetTableHotkey = new System.Windows.Forms.Button();
             this.labelResetTableHotkey = new System.Windows.Forms.Label();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.webserverTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.numericWebserverPort = new System.Windows.Forms.NumericUpDown();
             this.checkboxWebserverEnabled = new System.Windows.Forms.CheckBox();
@@ -88,7 +88,7 @@
             this.hotkeysTabPage.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.webserverTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericWebserverPort)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,7 +98,7 @@
             this.settingsTabControl.Controls.Add(this.lumaChanceTabPage);
             this.settingsTabControl.Controls.Add(this.saiparkTabPage);
             this.settingsTabControl.Controls.Add(this.hotkeysTabPage);
-            this.settingsTabControl.Controls.Add(this.tabPage1);
+            this.settingsTabControl.Controls.Add(this.webserverTabPage);
             this.settingsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.settingsTabControl.Location = new System.Drawing.Point(0, 0);
             this.settingsTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -183,7 +183,7 @@
             0,
             0});
             this.inactivityTreshold.Name = "inactivityTreshold";
-            this.inactivityTreshold.Size = new System.Drawing.Size(74, 22);
+            this.inactivityTreshold.Size = new System.Drawing.Size(75, 22);
             this.inactivityTreshold.TabIndex = 12;
             this.inactivityTreshold.Value = new decimal(new int[] {
             5,
@@ -240,7 +240,7 @@
             0,
             0});
             this.autosaveInterval.Name = "autosaveInterval";
-            this.autosaveInterval.Size = new System.Drawing.Size(74, 22);
+            this.autosaveInterval.Size = new System.Drawing.Size(75, 22);
             this.autosaveInterval.TabIndex = 9;
             this.autosaveInterval.Value = new decimal(new int[] {
             1,
@@ -287,7 +287,7 @@
             this.opacityTrackBar.Maximum = 100;
             this.opacityTrackBar.Minimum = 20;
             this.opacityTrackBar.Name = "opacityTrackBar";
-            this.opacityTrackBar.Size = new System.Drawing.Size(274, 56);
+            this.opacityTrackBar.Size = new System.Drawing.Size(275, 56);
             this.opacityTrackBar.TabIndex = 4;
             this.opacityTrackBar.Value = 100;
             this.opacityTrackBar.Scroll += new System.EventHandler(this.OpacityTrackBar_Scroll);
@@ -377,7 +377,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.temtem2NameSelect);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Location = new System.Drawing.Point(7, 109);
+            this.groupBox2.Location = new System.Drawing.Point(7, 110);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -435,7 +435,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.temtem1NameSelect);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(7, 29);
+            this.groupBox1.Location = new System.Drawing.Point(7, 30);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -532,10 +532,10 @@
             // 
             // buttonRemapPauseTimerHotkey
             // 
-            this.buttonRemapPauseTimerHotkey.Location = new System.Drawing.Point(186, 23);
+            this.buttonRemapPauseTimerHotkey.Location = new System.Drawing.Point(187, 23);
             this.buttonRemapPauseTimerHotkey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonRemapPauseTimerHotkey.Name = "buttonRemapPauseTimerHotkey";
-            this.buttonRemapPauseTimerHotkey.Size = new System.Drawing.Size(92, 29);
+            this.buttonRemapPauseTimerHotkey.Size = new System.Drawing.Size(92, 30);
             this.buttonRemapPauseTimerHotkey.TabIndex = 1;
             this.buttonRemapPauseTimerHotkey.Text = "Remap";
             this.buttonRemapPauseTimerHotkey.UseVisualStyleBackColor = true;
@@ -566,10 +566,10 @@
             // 
             // buttonRemapResetTableHotkey
             // 
-            this.buttonRemapResetTableHotkey.Location = new System.Drawing.Point(186, 23);
+            this.buttonRemapResetTableHotkey.Location = new System.Drawing.Point(187, 23);
             this.buttonRemapResetTableHotkey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonRemapResetTableHotkey.Name = "buttonRemapResetTableHotkey";
-            this.buttonRemapResetTableHotkey.Size = new System.Drawing.Size(92, 29);
+            this.buttonRemapResetTableHotkey.Size = new System.Drawing.Size(92, 30);
             this.buttonRemapResetTableHotkey.TabIndex = 1;
             this.buttonRemapResetTableHotkey.Text = "Remap";
             this.buttonRemapResetTableHotkey.UseVisualStyleBackColor = true;
@@ -585,18 +585,19 @@
             this.labelResetTableHotkey.Text = "Modifier + Key";
             this.labelResetTableHotkey.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tabPage1
+            // webserverTabPage
             // 
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.numericWebserverPort);
-            this.tabPage1.Controls.Add(this.checkboxWebserverEnabled);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(296, 319);
-            this.tabPage1.TabIndex = 6;
-            this.tabPage1.Text = "Web Server";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.webserverTabPage.Controls.Add(this.label1);
+            this.webserverTabPage.Controls.Add(this.numericWebserverPort);
+            this.webserverTabPage.Controls.Add(this.checkboxWebserverEnabled);
+            this.webserverTabPage.Location = new System.Drawing.Point(4, 25);
+            this.webserverTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.webserverTabPage.Name = "webserverTabPage";
+            this.webserverTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.webserverTabPage.Size = new System.Drawing.Size(296, 319);
+            this.webserverTabPage.TabIndex = 6;
+            this.webserverTabPage.Text = "Web Server";
+            this.webserverTabPage.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -610,6 +611,7 @@
             // numericWebserverPort
             // 
             this.numericWebserverPort.Location = new System.Drawing.Point(53, 33);
+            this.numericWebserverPort.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericWebserverPort.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -623,7 +625,8 @@
             // checkboxWebserverEnabled
             // 
             this.checkboxWebserverEnabled.AutoSize = true;
-            this.checkboxWebserverEnabled.Location = new System.Drawing.Point(9, 7);
+            this.checkboxWebserverEnabled.Location = new System.Drawing.Point(9, 8);
+            this.checkboxWebserverEnabled.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkboxWebserverEnabled.Name = "checkboxWebserverEnabled";
             this.checkboxWebserverEnabled.Size = new System.Drawing.Size(147, 21);
             this.checkboxWebserverEnabled.TabIndex = 0;
@@ -668,8 +671,8 @@
             this.hotkeysTabPage.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.webserverTabPage.ResumeLayout(false);
+            this.webserverTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericWebserverPort)).EndInit();
             this.ResumeLayout(false);
 
@@ -715,7 +718,7 @@
         private System.Windows.Forms.CheckBox checkboxInactivity;
         private System.Windows.Forms.Label labelInactivityPauseAfter;
         private System.Windows.Forms.CheckBox checkBoxResumeOnDetection;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage webserverTabPage;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numericWebserverPort;
         private System.Windows.Forms.CheckBox checkboxWebserverEnabled;
