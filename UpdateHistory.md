@@ -1,5 +1,26 @@
 [Back to Index](Readme.md)
 
+
+### V4.4
+
+#### New features
+
+- Added Cipanku Temtem
+- This includes an update to the OCR whitelist to include characters 0 and 1 for 0b1 detection. This may potentially reduce accuracy at low resolutions.
+- Added 3 pixels of top and bottom padding to table rows. This should hopefully prevent buttons from being cut off at the top
+- Added Wiplump Lovers theme
+
+#### Bugfixes/optimization
+
+- Updated Tesseract version to 4.1.1
+
+#### Known issues
+
+- TemtemTracker does not track the changes in odds when chaining encounters using a radar
+- Font size scaling from primary monitor causes font to be tiny on secondary monitor with higher resolution/different scaling. This is an issue with the underlying framework and can not yet be addressed at this time. 
+- False detections/Missed detections are still possible on water encounters with clouds in the background
+- Issue in optical character recognition library causes crash on systems with processors that do not support vector operations. This will be fixed when the fixes are accepted and merged into the library and make it downstream.
+
 ### V4.3
 
 #### New features
