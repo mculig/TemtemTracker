@@ -1,3 +1,5 @@
+# TemtemTracker
+
 ### Scroll to Releases below for download
 ### Update V4.5 with Arbury species can be found down below
 
@@ -16,7 +18,7 @@ It is my hope that TemtemTracker will be able to continue operating long into th
 Farewell,
 Silber
 
-# TemtemTracker
+## TemtemTracker
 Temtem Tracker is a tracker for encountered Temtem based on Optical Character Recognition. 
 
 The tracker:  
