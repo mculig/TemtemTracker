@@ -29,8 +29,6 @@ The tracker:
 **DOES NOT** do anything a player couldn't do themselves using pen and paper  
 **WILL NOT** get you banned
 
-![Good to go](Images/good2go.PNG)
-
 ## Table of contents
 
 [Requirements](#requirements)  
